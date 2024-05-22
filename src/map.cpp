@@ -73,14 +73,39 @@ void Map::checkTileHover(Camera camera) {
     }
 }
 
-void Map::drawBoundingBox() {
+void Map::drawBoundingBox(float thickness) {
     if (isTileHovered) {
         float step = 3.0f;
         float boxHeight = 2.0f; // Change this value to adjust the height of the bounding box
-        BoundingBox box = {
-            (Vector3){ hoveredTilePosition.x - step / 2, 0, hoveredTilePosition.z - step / 2 },
-            (Vector3){ hoveredTilePosition.x + step / 2, boxHeight, hoveredTilePosition.z + step / 2 }
+        Vector3 min = (Vector3){ hoveredTilePosition.x - step / 2, 0, hoveredTilePosition.z - step / 2 };
+        Vector3 max = (Vector3){ hoveredTilePosition.x + step / 2, boxHeight, hoveredTilePosition.z + step / 2 };
+
+        // Define the 8 corners of the bounding box
+        Vector3 vertices[8] = {
+            { min.x, min.y, min.z }, { max.x, min.y, min.z },
+            { min.x, max.y, min.z }, { max.x, max.y, min.z },
+            { min.x, min.y, max.z }, { max.x, min.y, max.z },
+            { min.x, max.y, max.z }, { max.x, max.y, max.z }
         };
-        DrawBoundingBox(box, RED);
+
+        // Define the 12 edges of the bounding box
+        int edges[12][2] = {
+            {0, 1}, {1, 3}, {3, 2}, {2, 0},
+            {4, 5}, {5, 7}, {7, 6}, {6, 4},
+            {0, 4}, {1, 5}, {2, 6}, {3, 7}
+        };
+
+        // Draw the edges with simulated thickness by drawing parallel lines
+        for (int i = 0; i < 12; i++) {
+            Vector3 start = vertices[edges[i][0]];
+            Vector3 end = vertices[edges[i][1]];
+
+            // Simulate thickness by drawing multiple parallel lines
+            for (float t = -thickness / 2; t <= thickness / 2; t += thickness / 10) {
+                DrawLine3D((Vector3){ start.x + t, start.y, start.z }, (Vector3){ end.x + t, end.y, end.z }, RED);
+                DrawLine3D((Vector3){ start.x, start.y + t, start.z }, (Vector3){ end.x, end.y + t, end.z }, RED);
+                DrawLine3D((Vector3){ start.x, start.y, start.z + t }, (Vector3){ end.x, end.y, end.z + t }, RED);
+            }
+        }
     }
 }

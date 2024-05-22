@@ -26,7 +26,7 @@ public:
     void update();
     void drawRoad(vector<Vector2> path);
     void checkTileHover(Camera camera); // New method to check for hover
-    void drawBoundingBox();             // New method to draw bounding box
+    void drawBoundingBox(float thickness);             // New method to draw bounding box
 };
 
 #endif // MAP_HPP
