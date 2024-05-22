@@ -73,12 +73,24 @@ void Map::checkTileHover(Camera camera) {
     }
 }
 
-void Map::drawBoundingBox(float thickness) {
+void Map::drawBoundingBox(float thickness, vector<Vector2> path) {
     if (isTileHovered) {
         float step = 3.0f;
         float boxHeight = 2.0f; // Change this value to adjust the height of the bounding box
         Vector3 min = (Vector3){ hoveredTilePosition.x - step / 2, 0, hoveredTilePosition.z - step / 2 };
         Vector3 max = (Vector3){ hoveredTilePosition.x + step / 2, boxHeight, hoveredTilePosition.z + step / 2 };
+
+        // Check if the hovered tile is a road tile
+        buildable = true;
+        for (auto& point : path) {
+            if (point.x == hoveredTilePosition.x && point.y == hoveredTilePosition.z) {
+                buildable = false;
+                break;
+            }
+        }
+
+        // Define the color based on whether the tile is a road tile or not
+        Color color = buildable ? GREEN : RED;
 
         // Define the 8 corners of the bounding box
         Vector3 vertices[8] = {
@@ -102,9 +114,9 @@ void Map::drawBoundingBox(float thickness) {
 
             // Simulate thickness by drawing multiple parallel lines
             for (float t = -thickness / 2; t <= thickness / 2; t += thickness / 10) {
-                DrawLine3D((Vector3){ start.x + t, start.y, start.z }, (Vector3){ end.x + t, end.y, end.z }, GREEN);
-                DrawLine3D((Vector3){ start.x, start.y + t, start.z }, (Vector3){ end.x, end.y + t, end.z }, GREEN);
-                DrawLine3D((Vector3){ start.x, start.y, start.z + t }, (Vector3){ end.x, end.y, end.z + t }, GREEN);
+                DrawLine3D((Vector3){ start.x + t, start.y, start.z }, (Vector3){ end.x + t, end.y, end.z }, color);
+                DrawLine3D((Vector3){ start.x, start.y + t, start.z }, (Vector3){ end.x, end.y + t, end.z }, color);
+                DrawLine3D((Vector3){ start.x, start.y, start.z + t }, (Vector3){ end.x, end.y, end.z + t }, color);
             }
         }
     }

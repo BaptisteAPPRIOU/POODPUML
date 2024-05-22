@@ -16,6 +16,7 @@ private:
     Vector3 roadPosition;
     Vector3 hoveredTilePosition; // New member to store hovered tile position
     bool isTileHovered;          // New member to track if a tile is hovered
+    bool buildable;              // New member to track if a tile is buildable
 
 public:
     Map();
@@ -26,7 +27,7 @@ public:
     void update();
     void drawRoad(vector<Vector2> path);
     void checkTileHover(Camera camera); // New method to check for hover
-    void drawBoundingBox(float thickness);             // New method to draw bounding box
+    void drawBoundingBox(float thickness, vector<Vector2> path);             // New method to draw bounding box
 };
 
 #endif // MAP_HPP

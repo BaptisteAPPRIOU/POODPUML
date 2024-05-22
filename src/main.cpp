@@ -52,7 +52,7 @@ int main() {
                 BeginMode3D(camera);
                     map.drawTiles();
                     map.drawRoad(path);
-                    map.drawBoundingBox(1.0f);
+                    map.drawBoundingBox(1.0f, path);
                     DrawGrid(100, 1.0f);
                 EndMode3D();
             EndScissorMode();
