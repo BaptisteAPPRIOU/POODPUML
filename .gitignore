@@ -62,7 +62,11 @@ CPack.yml
 .yml
 
 # Json files
+settings.json
+tasks.json
 query.json
+launch.json
+c_cpp_properties.json
 .gitkeep
 .gitattributes
 
