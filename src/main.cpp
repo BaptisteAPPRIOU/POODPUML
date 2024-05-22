@@ -1,7 +1,63 @@
 #include <raylib.h>
 #include "map.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+
 using namespace std;
+
+// Function to parse a JSON file manually
+std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
+    std::vector<Vector2> path;
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Could not open the file!" << endl;
+        return path;
+    }
+
+    std::string line;
+    std::string fileContent;
+    while (std::getline(file, line)) {
+        fileContent += line;
+    }
+    file.close();
+
+    cout << "File content: " << fileContent << endl;
+
+    // Simple JSON parsing (not robust, assumes correct format)
+    size_t pos = fileContent.find("\"path\"");
+    if (pos != std::string::npos) {
+        pos = fileContent.find('[', pos);
+        size_t end = fileContent.find(']', pos);
+        std::string pathData = fileContent.substr(pos + 1, end - pos - 1);
+
+        std::istringstream stream(pathData);
+        std::string point;
+        while (std::getline(stream, point, '{')) {
+            if (point.find("x") != std::string::npos && point.find("y") != std::string::npos) {
+                size_t xPos = point.find("x");
+                size_t yPos = point.find("y");
+
+                size_t xStart = point.find(":", xPos) + 1;
+                size_t xEnd = point.find(",", xStart);
+                float x = std::stof(point.substr(xStart, xEnd - xStart));
+
+                size_t yStart = point.find(":", yPos) + 1;
+                size_t yEnd = point.find('}', yStart);
+                float y = std::stof(point.substr(yStart, yEnd - yStart));
+
+                path.push_back({ x, y });
+                cout << "Loaded point: x = " << x << ", y = " << y << endl;
+            }
+        }
+    } else {
+        cerr << "Path not found in JSON" << endl;
+    }
+
+    return path;
+}
 
 int main() {
     const int screenWidth = 1920;
@@ -13,19 +69,13 @@ int main() {
     const int regionWidth = 1200;
     const int regionHeight = 800;
 
-    std::vector<Vector2> path = {
-        { -25.0f, -10.0f }, { -22.0f, -10.0f }, { -19.0f, -10.0f }, { -16.0f, -10.0f }, { -13.0f, -10.0f },             // right
-        { -10.0f, -10.0f }, { -10.0f, -7.0f }, { -10.0f, -4.0f }, { -10.0f, -1.0f },                                    // down
-        { -13.0f, -1.0f }, { -16.0f, -1.0f }, { -19.0f, -1.0f },                                                        // left
-        { -19.0f, 2.0f }, { -19.0, 5.0f }, { -19.0f, 8.0f }, { -19.0f, 11.0f }, { -19.0f, 14.0f },                      // down
-        { -16.0f, 14.0f }, { -13.0f, 14.0f }, { -10.0f, 14.0f }, { -7.0f, 14.0f }, { -4.0f, 14.0f }, { -1.0f, 14.0f },  // right
-        { -1.0f, 11.0f }, { -1.0f, 8.0f }, { -1.0f, 5.0f }, { -1.0f, 2.0f }, { -1.0f, -1.0f }, { -1.0f, -4.0f },        // up x2
-        { -1.0f, -7.0f }, { -1.0f, -10.0f }, { -1.0f, -13.0f }, { -1.0f, -16.0f }, { -1.0f, -19.0f },
-        { 2.0f, -19.0f }, { 5.0f, -19.0f }, { 8.0f, -19.0f }, { 11.0f, -19.0f }, { 14.0f, -19.0f },                     // right
-        { 14.0f, -16.0f }, { 14.0f, -13.0f }, { 14.0f, -10.0f }, { 14.0f, -7.0f }, { 14.0f, -4.0f }, { 14.0f, -1.0f },  // down x2
-        { 14.0f, 2.0f }, { 14.0f, 5.0f }, { 14.0f, 8.0f }, { 14.0f, 11.0f }, { 14.0f, 14.0f }, { 14.0f, 17.0f },
-        { 17.0f, 17.0f }, { 20.0f, 17.0f }, { 23.0f, 17.0f },                                                           // right
-    };
+    std::vector<Vector2> path = loadPathFromJSON("src/path.json");
+
+    if (path.empty()) {
+        cerr << "Path is empty!" << endl;
+        CloseWindow();
+        return -1;
+    }
 
     Map map;
     Camera camera = { 0 };
@@ -38,24 +88,9 @@ int main() {
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
-        // Print the camera position
-        // cout << "Camera Position: "
-        //      << "x: " << camera.position.x << ", "
-        //      << "y: " << camera.position.y << ", "
-        //      << "z: " << camera.position.z << endl;
         map.checkTileHover(camera);
 
         BeginDrawing();
-            //  int mouseX = GetMouseX();
-            //     int mouseY = GetMouseY();
-            //     if (mouseX >= regionX && mouseX <= regionX + regionWidth &&
-            //         mouseY >= regionY && mouseY <= regionY + regionHeight) {
-            //         // UpdateCamera(&camera, CAMERA_THIRD_PERSON);
-            //         if (IsKeyDown(KEY_RIGHT)) camera.position.x += 1.0f;
-            //         if (IsKeyDown(KEY_LEFT)) camera.position.x -= 1.0f;
-            //         if (IsKeyDown(KEY_UP)) camera.position.y += 1.0f;
-            //         if (IsKeyDown(KEY_DOWN)) camera.position.y -= 1.0f;
-            //     }
             ClearBackground(RAYWHITE);
 
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
