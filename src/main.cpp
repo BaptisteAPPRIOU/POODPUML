@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include "map.hpp"
+#include "basicEnemy.hpp"
 #include <iostream>
 using namespace std;
 
@@ -14,7 +15,8 @@ int main() {
     const int regionHeight = 800;
 
     std::vector<Vector2> path = {
-        { -10.0f, -10.0f },
+        { -25.0f, -10.0f }, { -22.0f, -10.0f }, { -19.0f, -10.0f }, { -16.0f, -10.0f }, { -13.0f, -10.0f },
+        { -10.0f, -10.0f }, { -10.0f, -7.0f }, { -10.0f, -4.0f }, { -10.0f, -1.0f }
     };
 
     Map map;
@@ -27,6 +29,7 @@ int main() {
 
     SetTargetFPS(60);
 
+    Enemy* enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
     while (!WindowShouldClose()) {
         // Print the camera position
         cout << "Camera Position: "
@@ -36,20 +39,22 @@ int main() {
         map.checkTileHover(camera);
 
         BeginDrawing();
-            //  int mouseX = GetMouseX();
-            //     int mouseY = GetMouseY();
-            //     if (mouseX >= regionX && mouseX <= regionX + regionWidth &&
-            //         mouseY >= regionY && mouseY <= regionY + regionHeight) {
-            //         // UpdateCamera(&camera, CAMERA_THIRD_PERSON);
-            //         if (IsKeyDown(KEY_RIGHT)) camera.position.x += 1.0f;
-            //         if (IsKeyDown(KEY_LEFT)) camera.position.x -= 1.0f;
-            //         if (IsKeyDown(KEY_UP)) camera.position.y += 1.0f;
-            //         if (IsKeyDown(KEY_DOWN)) camera.position.y -= 1.0f;
-            //     }
+             int mouseX = GetMouseX();
+                int mouseY = GetMouseY();
+                if (mouseX >= regionX && mouseX <= regionX + regionWidth &&
+                    mouseY >= regionY && mouseY <= regionY + regionHeight) {
+                    // UpdateCamera(&camera, CAMERA_THIRD_PERSON);
+                    if (IsKeyDown(KEY_RIGHT)) camera.position.x += 1.0f;
+                    if (IsKeyDown(KEY_LEFT)) camera.position.x -= 1.0f;
+                    if (IsKeyDown(KEY_UP)) camera.position.y += 1.0f;
+                    if (IsKeyDown(KEY_DOWN)) camera.position.y -= 1.0f;
+                }
             ClearBackground(RAYWHITE);
 
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
                 BeginMode3D(camera);
+                    enemy->move(path);
+                    enemy->update();
                     map.drawTiles();
                     map.drawRoad(path);
                     map.drawBoundingBox(1.0f, path);
