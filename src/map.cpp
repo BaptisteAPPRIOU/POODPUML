@@ -1,4 +1,6 @@
 #include "map.hpp"
+#include <rlgl.h>
+#include <raylib.h>
 
 Map::Map() {
     tile = LoadModel("assets/models/tile.obj");
@@ -11,6 +13,8 @@ Map::Map() {
 
     tilePosition = Vector3{ 0.0f, 0.0f, 0.0f };
     roadPosition = Vector3{ 0.0f, 0.0f, 0.0f };
+    hoveredTilePosition = Vector3{ 0.0f, 0.0f, 0.0f };
+    isTileHovered = false;
 }
 
 Map::~Map() {
@@ -23,7 +27,7 @@ Map::~Map() {
 void Map::drawTiles() {
     float start = -25.0f;  
     float end = 25.0f;     
-    float step = 1.0f;     
+    float step = 3.0f;     
 
     for (float z = start; z < end; z += step) {
         for (float x = start; x < end; x += step) {
@@ -42,5 +46,41 @@ void Map::drawRoad(std::vector<Vector2> path) {
     for (auto& point : path) {
         roadPosition = Vector3{ point.x, 0.3f, point.y }; 
         DrawModel(road, roadPosition, 1.0f, WHITE);
+    }
+}
+
+void Map::checkTileHover(Camera camera) {
+    Ray ray = GetMouseRay(GetMousePosition(), camera);
+    float start = -25.0f;
+    float end = 25.0f;
+    float step = 3.0f;
+    isTileHovered = false;
+
+    for (float z = start; z < end; z += step) {
+        for (float x = start; x < end; x += step) {
+            BoundingBox tileBounds = {
+                (Vector3){ x - step / 2, 0, z - step / 2 },
+                (Vector3){ x + step / 2, 1, z + step / 2 }
+            };
+
+            RayCollision collision = GetRayCollisionBox(ray, tileBounds);
+            if (collision.hit) {
+                hoveredTilePosition = Vector3{ x, 0.0f, z };
+                isTileHovered = true;
+                return;
+            }
+        }
+    }
+}
+
+void Map::drawBoundingBox() {
+    if (isTileHovered) {
+        float step = 3.0f;
+        float boxHeight = 2.0f; // Change this value to adjust the height of the bounding box
+        BoundingBox box = {
+            (Vector3){ hoveredTilePosition.x - step / 2, 0, hoveredTilePosition.z - step / 2 },
+            (Vector3){ hoveredTilePosition.x + step / 2, boxHeight, hoveredTilePosition.z + step / 2 }
+        };
+        DrawBoundingBox(box, RED);
     }
 }
