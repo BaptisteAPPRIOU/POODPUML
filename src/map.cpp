@@ -38,14 +38,9 @@ void Map::update() {
     DrawFPS(10, 10);
 }
 
-void Map::drawRoad() {
-    float start = -25.0f;  
-    float end = 25.0f;     
-    float step = 1.0f;     
-    float roadZ = 0.0f;    // Fixed Z position for the road
-
-    for (float x = start; x < end; x += step) {
-        roadPosition = Vector3{ x, 0.3f, roadZ }; // y = 0.0f is the height, z = roadZ
+void Map::drawRoad(std::vector<Vector2> path) {
+    for (auto& point : path) {
+        roadPosition = Vector3{ point.x, 0.3f, point.y }; 
         DrawModel(road, roadPosition, 1.0f, WHITE);
     }
 }
