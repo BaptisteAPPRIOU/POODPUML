@@ -15,9 +15,6 @@ int main() {
 
     std::vector<Vector2> path = {
         { -10.0f, -10.0f },
-        { -9.0f, -10.0f },
-        { -8.0f, -10.0f },
-        { -7.0f, -9.0f },
     };
 
     Map map;

@@ -102,9 +102,9 @@ void Map::drawBoundingBox(float thickness) {
 
             // Simulate thickness by drawing multiple parallel lines
             for (float t = -thickness / 2; t <= thickness / 2; t += thickness / 10) {
-                DrawLine3D((Vector3){ start.x + t, start.y, start.z }, (Vector3){ end.x + t, end.y, end.z }, RED);
-                DrawLine3D((Vector3){ start.x, start.y + t, start.z }, (Vector3){ end.x, end.y + t, end.z }, RED);
-                DrawLine3D((Vector3){ start.x, start.y, start.z + t }, (Vector3){ end.x, end.y, end.z + t }, RED);
+                DrawLine3D((Vector3){ start.x + t, start.y, start.z }, (Vector3){ end.x + t, end.y, end.z }, GREEN);
+                DrawLine3D((Vector3){ start.x, start.y + t, start.z }, (Vector3){ end.x, end.y + t, end.z }, GREEN);
+                DrawLine3D((Vector3){ start.x, start.y, start.z + t }, (Vector3){ end.x, end.y, end.z + t }, GREEN);
             }
         }
     }
