@@ -30,3 +30,44 @@
 *.exe
 *.out
 *.app
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+CMakeOutput.log
+Makefile
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+CMakeError.log
+CTestTestfile.cmake
+Testing/
+CMakeScripts/
+
+# Build directories and files
+bin/
+lib/
+obj/
+*.o
+*.a
+*.so
+*.exe
+*.dll
+*.pdb
+
+# YAML files
+CMake.yml
+CPack.yml
+*.dSYM/
+.yml
+
+# Json files
+query.json
+.gitkeep
+.gitattributes
+
+# sudoku executable
+main
+
+#Mac files
+*.DS_Store
