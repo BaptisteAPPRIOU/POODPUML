@@ -23,7 +23,7 @@ GameManager::GameManager()
     camera.fovy = cameraFovy;
     camera.projection = CAMERA_PERSPECTIVE;
 
-    path = loadPathFromJSON("assets/paths/pathEasy.json");
+    path = loadPathFromJSON("assets/paths/pathMedium.json");
 
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
