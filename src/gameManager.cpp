@@ -2,6 +2,7 @@
 #include "basicEnemy.hpp"
 #include "map.hpp"
 #include "pathLoader.hpp"
+#include "wave.hpp"
 #include <vector>
 #include <raylib.h>
 #include <cmath>
@@ -12,7 +13,7 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), enemy(nullptr) {
+      cameraFovy(50.0f), wave(nullptr) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -26,26 +27,28 @@ GameManager::GameManager()
     path = loadPathFromJSON("assets/paths/pathMedium.json");
 
     map.drawMap(path);
-    enemies.push_back(Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f }));
-    enemies.push_back(Enemy::createEnemy("medium", Vector3{ -25.0f, 0.0f, -10.0f }));
-    enemies.push_back(Enemy::createEnemy("hard", Vector3{ -25.0f, 0.0f, -10.0f }));
-
+    // enemies.push_back(Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f }));
+    // enemies.push_back(Enemy::createEnemy("medium", Vector3{ -25.0f, 0.0f, -10.0f }));
+    // enemies.push_back(Enemy::createEnemy("hard", Vector3{ -25.0f, 0.0f, -10.0f }));
+    wave = new Wave("basic", Vector3{ -25.0f, 0.0f, -10.0f }, 10, path); // Crée une vague de 10 ennemis de type "basic"
     SetTargetFPS(60);
 }
 
 GameManager::~GameManager() {
-    for (auto enemy : enemies) {
-        delete enemy;
-    }
+    // for (auto enemy : enemies) {
+    //     delete enemy;
+    // }
+    delete wave;
     CloseWindow();
 }
 
 void GameManager::update() {
     map.checkTileHover(camera);
-    for (auto enemy : enemies) {
-        enemy->update();
-        enemy->move(path);
-    }
+    // for (auto enemy : enemies) {
+    //     enemy->update();
+    //     enemy->move(path);
+    // }
+    wave->update();
    updateCamera();
 }
 
@@ -64,10 +67,11 @@ void GameManager::draw() {
 
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
                 BeginMode3D(camera);
-                    for (auto enemy : enemies) {
-                        enemy->update();
-                        enemy->move(path);
-                    }
+                    // for (auto enemy : enemies) {
+                    //     enemy->update();
+                    //     enemy->move(path);
+                    // }
+                    wave->update();
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);
                 EndMode3D();

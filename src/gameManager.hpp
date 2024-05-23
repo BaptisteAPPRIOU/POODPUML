@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include "map.hpp"
 #include "enemy.hpp"
+#include "wave.hpp"
 #include <vector>
 using namespace std;
 
@@ -25,6 +26,8 @@ class GameManager
         Enemy* enemy;
         vector<Enemy*> enemies;  // Vecteur d'ennemis
         vector<Vector2> path;
+        Wave* wave = nullptr; // Declare the variable "wave"
+
 
     public:
         GameManager();
