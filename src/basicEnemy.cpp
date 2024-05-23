@@ -1,6 +1,7 @@
 #include "basicEnemy.hpp"
 #include <raylib.h>
 #include <vector>
+using namespace std;
 
 BasicEnemy::BasicEnemy(Vector3 position) {
     enemy = LoadModel("assets/models/enemy.obj");
@@ -17,6 +18,6 @@ void BasicEnemy::update() {
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);
 }
 
-void BasicEnemy::move(const std::vector<Vector2>& path) {
+void BasicEnemy::move(const vector<Vector2>& path) {
     Enemy::move(path);
 }

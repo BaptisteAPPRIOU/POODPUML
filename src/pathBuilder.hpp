@@ -3,27 +3,30 @@
 
 #include <vector>
 #include <utility>
+#include <vector>
+using namespace std;
 
+// Define the Node struct
+struct Node {
+    int x;
+    int y;
+};
+
+// Define the PathBuilder class
 class PathBuilder {
 public:
     PathBuilder(float start, float end, float step);
-
-    std::vector<std::pair<float, float>> generateRandomPath();
+    vector<pair<float, float>> generateRandomPath();
+    bool isValid(int x, int y, vector<vector<bool>>& visited);
+    float toWorldCoordinate(int gridCoordinate);
 
 private:
-    struct Node {
-        int x, y;
-    };
-
-    int width;
-    int height;
     float start;
     float end;
     float step;
-    const std::vector<std::pair<int, int>> directions;
-
-    bool isValid(int x, int y, std::vector<std::vector<bool>>& visited);
-    float toWorldCoordinate(int gridCoordinate);
+    int width;
+    int height;
+    vector<pair<int, int>> directions;
 };
 
 #endif // PATH_BUILDER_HPP

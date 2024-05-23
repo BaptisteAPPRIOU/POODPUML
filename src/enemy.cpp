@@ -4,8 +4,9 @@
 #include "hardEnemy.hpp"
 #include <vector>
 #include <cmath>
+using namespace std;
 
-Enemy* Enemy::createEnemy(const std::string& type, Vector3 position) {
+Enemy* Enemy::createEnemy(const string& type, Vector3 position) {
     if (type == "basic") {
         return new BasicEnemy(position);
     } else if (type == "medium") {
@@ -16,15 +17,15 @@ Enemy* Enemy::createEnemy(const std::string& type, Vector3 position) {
     return nullptr;
 }
 
-void Enemy::move(const std::vector<Vector2>& path) {
-    if (path.empty() || currentPoint >= path.size()) {
+void Enemy::move(const vector<Vector2>& path) {
+    if (path.empty() || currentPoint >= static_cast<int>(path.size())) {
         return;
     }
 
     Vector2 target = path[currentPoint];
     Vector2 direction = { target.x - enemyPosition.x, target.y - enemyPosition.z };
 
-    float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+    float length = sqrt(direction.x * direction.x + direction.y * direction.y);
     if (length > 0) {
         direction.x /= length;
         direction.y /= length;
@@ -33,7 +34,7 @@ void Enemy::move(const std::vector<Vector2>& path) {
     enemyPosition.x += direction.x * speed;
     enemyPosition.z += direction.y * speed;
 
-    if (std::fabs(enemyPosition.x - target.x) < 0.1f && std::fabs(enemyPosition.z - target.y) < 0.1f) {
+    if (fabs(enemyPosition.x - target.x) < 0.1f && fabs(enemyPosition.z - target.y) < 0.1f) {
         currentPoint++;
     }
 }

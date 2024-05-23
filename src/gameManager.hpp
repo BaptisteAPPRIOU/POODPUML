@@ -4,6 +4,8 @@
 #include <raylib.h>
 #include "map.hpp"
 #include "enemy.hpp"
+#include <vector>
+using namespace std;
 
 class GameManager
 {
@@ -24,7 +26,7 @@ class GameManager
         Enemy* enemy1;
         Enemy* enemy2;
 
-        std::vector<Vector2> path;
+        vector<Vector2> path;
 
     public:
         GameManager();

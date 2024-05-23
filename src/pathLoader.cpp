@@ -9,17 +9,17 @@ using namespace std;
 
 
 // Function to parse a JSON file manually
-std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
-    std::vector<Vector2> path;
-    std::ifstream file(filename);
+vector<Vector2> loadPathFromJSON(const string& filename) {
+    vector<Vector2> path;
+    ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Could not open the file!" << endl;
         return path;
     }
 
-    std::string line;
-    std::string fileContent;
-    while (std::getline(file, line)) {
+    string line;
+    string fileContent;
+    while (getline(file, line)) {
         fileContent += line;
     }
     file.close();
@@ -28,25 +28,25 @@ std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
 
     // Simple JSON parsing (not robust, assumes correct format)
     size_t pos = fileContent.find("\"path\"");
-    if (pos != std::string::npos) {
+    if (pos != string::npos) {
         pos = fileContent.find('[', pos);
         size_t end = fileContent.find(']', pos);
-        std::string pathData = fileContent.substr(pos + 1, end - pos - 1);
+        string pathData = fileContent.substr(pos + 1, end - pos - 1);
 
-        std::istringstream stream(pathData);
-        std::string point;
-        while (std::getline(stream, point, '{')) {
-            if (point.find("x") != std::string::npos && point.find("y") != std::string::npos) {
+        istringstream stream(pathData);
+        string point;
+        while (getline(stream, point, '{')) {
+            if (point.find("x") != string::npos && point.find("y") != string::npos) {
                 size_t xPos = point.find("x");
                 size_t yPos = point.find("y");
 
                 size_t xStart = point.find(":", xPos) + 1;
                 size_t xEnd = point.find(",", xStart);
-                float x = std::stof(point.substr(xStart, xEnd - xStart));
+                float x = stof(point.substr(xStart, xEnd - xStart));
 
                 size_t yStart = point.find(":", yPos) + 1;
                 size_t yEnd = point.find('}', yStart);
-                float y = std::stof(point.substr(yStart, yEnd - yStart));
+                float y = stof(point.substr(yStart, yEnd - yStart));
 
                 path.push_back({ x, y });
                 cout << "Loaded point: x = " << x << ", y = " << y << endl;

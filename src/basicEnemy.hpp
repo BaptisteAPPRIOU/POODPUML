@@ -2,6 +2,8 @@
 #define BASIC_ENEMY_HPP
 
 #include "enemy.hpp"
+#include <vector>
+using namespace std;
 
 class BasicEnemy : public Enemy
 {

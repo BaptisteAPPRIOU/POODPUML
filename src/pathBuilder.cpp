@@ -3,6 +3,10 @@
 #include <ctime>
 #include <stack>
 #include <algorithm>
+#include <vector>
+using namespace std;
+
+
 
 // Constructor
 PathBuilder::PathBuilder(float start, float end, float step)
@@ -13,16 +17,16 @@ PathBuilder::PathBuilder(float start, float end, float step)
     srand(time(0)); // Seed the random number generator
 }
 
-std::vector<std::pair<float, float>> PathBuilder::generateRandomPath() {
-    std::vector<std::vector<bool>> visited(width, std::vector<bool>(height, false));
-    std::stack<Node> s;
+vector<pair<float, float>> PathBuilder::generateRandomPath() {
+    vector<vector<bool>> visited(width, vector<bool>(height, false));
+    stack<Node> s;
 
     // Randomly choose a starting point on the leftmost column
     int startY = rand() % height;
     s.push({0, startY});
     visited[0][startY] = true;
 
-    std::vector<std::pair<float, float>> path;
+    vector<pair<float, float>> path;
 
     while (!s.empty()) {
         Node current = s.top();
@@ -35,8 +39,8 @@ std::vector<std::pair<float, float>> PathBuilder::generateRandomPath() {
         }
 
         // Randomize directions
-        std::vector<std::pair<int, int>> shuffledDirections = directions;
-        std::random_shuffle(shuffledDirections.begin(), shuffledDirections.end());
+        vector<pair<int, int>> shuffledDirections = directions;
+        random_shuffle(shuffledDirections.begin(), shuffledDirections.end());
 
         // Explore neighbors in randomized order
         for (auto dir : shuffledDirections) {
@@ -57,7 +61,7 @@ std::vector<std::pair<float, float>> PathBuilder::generateRandomPath() {
     return path;
 }
 
-bool PathBuilder::isValid(int x, int y, std::vector<std::vector<bool>>& visited) {
+bool PathBuilder::isValid(int x, int y, vector<vector<bool>>& visited) {
     return x >= 0 && x < width && y >= 0 && y < height && !visited[x][y];
 }
 
