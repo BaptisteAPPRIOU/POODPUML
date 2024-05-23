@@ -27,6 +27,9 @@ GameManager::GameManager()
 
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
+    enemy1 = Enemy::createEnemy("medium", Vector3{ -25.0f, 0.0f, -10.0f });
+    enemy2 = Enemy::createEnemy("hard", Vector3{ -25.0f, 0.0f, -10.0f });
+
 
     SetTargetFPS(60);
 }
@@ -39,7 +42,13 @@ GameManager::~GameManager() {
 void GameManager::update() {
     map.checkTileHover(camera);
     enemy->update();
-    enemy->move(path);
+    enemy1->update();
+    enemy2->update();
+    enemy->move(path);    
+    enemy1->move(path);    
+    enemy2->move(path);
+
+
    updateCamera();
 }
 
@@ -59,7 +68,11 @@ void GameManager::draw() {
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
                 BeginMode3D(camera);
                     enemy->move(path);
+                    enemy1->move(path);
+                    enemy2->move(path);
                     enemy->update();
+                    enemy1->update();
+                    enemy2->update();
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);
                 EndMode3D();

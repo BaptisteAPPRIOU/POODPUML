@@ -21,6 +21,9 @@ class GameManager
         float cameraFovy;
         Map map;
         Enemy* enemy;
+        Enemy* enemy1;
+        Enemy* enemy2;
+
         std::vector<Vector2> path;
 
     public:
