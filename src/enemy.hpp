@@ -23,7 +23,7 @@ protected:
     float speed;
     int health;
     bool isAlive;
-    int currentPoint;
+    int currentPoint = 0;
     int value;
 
     Enemy() {}
