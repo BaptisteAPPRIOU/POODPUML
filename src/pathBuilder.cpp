@@ -3,6 +3,8 @@
 #include <ctime>
 #include <stack>
 #include <algorithm>
+#include <vector>
+using namespace std;
 
 // Constructor
 PathBuilder::PathBuilder(float start, float end, float step)
