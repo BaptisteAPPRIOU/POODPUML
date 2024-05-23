@@ -3,6 +3,7 @@
 
 #include <string>
 #include <raylib.h>
+#include <vector>
 using namespace std;
 
 class Enemy
@@ -22,7 +23,7 @@ protected:
     float speed;
     int health;
     bool isAlive;
-    int currentPoint;
+    int currentPoint = 0;
     int value;
 
     Enemy() {}
