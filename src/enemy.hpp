@@ -14,6 +14,7 @@ public:
     static Enemy* createEnemy(const string& type, Vector3 position);
 
     virtual void move(const vector<Vector2>& path);
+    virtual ~Enemy() {}
 
 protected:
     Model enemy;
@@ -25,7 +26,6 @@ protected:
     int currentPoint;
 
     Enemy() {}
-    virtual ~Enemy() {}
     Enemy(Vector3 position) : enemyPosition(position), speed(0.0f), currentPoint(0) {}
 
 };
