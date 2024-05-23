@@ -21,7 +21,7 @@ int main() {
     const int regionWidth = 1200;
     const int regionHeight = 800;
 
-    std::vector<Vector2> path = loadPathFromJSON("src/path.json");
+    std::vector<Vector2> path = loadPathFromJSON("src/path_medium.json");
 
     if (path.empty()) {
         cerr << "Path is empty!" << endl;
