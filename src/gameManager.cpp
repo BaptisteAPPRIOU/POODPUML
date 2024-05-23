@@ -16,6 +16,7 @@ GameManager::GameManager()
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
+    ui.loadTextures();
 
     camera.position = cameraPosition;
     camera.target = cameraTarget;
@@ -29,6 +30,7 @@ GameManager::GameManager()
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
 
     SetTargetFPS(60);
+    
 }
 
 GameManager::~GameManager() {
@@ -41,6 +43,7 @@ void GameManager::update() {
     enemy->update();
     enemy->move(path);
    updateCamera();
+   ui.updateButtons();
 }
 
 void GameManager::draw() {
@@ -69,6 +72,8 @@ void GameManager::draw() {
             DrawFPS(10, 10);
 
             DrawRectangleLines(regionX, regionY, regionWidth, regionHeight, BLACK);
+            ui.drawGameButtons();
+            ui.updateButtons();
 
         EndDrawing();
     }

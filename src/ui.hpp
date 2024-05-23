@@ -7,16 +7,14 @@
 
 class UI {
 public:
-    UI(int screenWidth, int screenHeight);
+    UI();
     ~UI();
 
-    void DrawMenu();
-    void UpdateButtons();
+    void drawGameButtons();
+    void updateButtons();
+    void loadTextures();
 
 private:
-    int screenWidth;
-    int screenHeight;
-
     Texture2D buttonTexture1;
     Texture2D buttonHoverTexture1;
     Texture2D buttonTexture2;
@@ -26,10 +24,10 @@ private:
     Texture2D buttonTexture4;
     Texture2D buttonHoverTexture4;
 
-    Button* button1;
-    Button* button2;
-    Button* button3;
-    Button* button4;
+    Button* buttonTower1;
+    Button* buttonTower2;
+    Button* buttonTower3;
+    Button* buttonTower4;
 };
 
 #endif // UI_HPP

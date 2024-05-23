@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include "map.hpp"
 #include "enemy.hpp"
+#include "ui.hpp"
 
 class GameManager
 {
@@ -21,6 +22,8 @@ class GameManager
         float cameraFovy;
         Map map;
         Enemy* enemy;
+        UI ui;
+
         std::vector<Vector2> path;
 
     public:
