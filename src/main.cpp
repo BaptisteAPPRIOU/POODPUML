@@ -1,4 +1,6 @@
 #include "gameManager.hpp"
+#include "pathBuilder.hpp"
+#include <iostream>
 using namespace std;
 
 int main() {

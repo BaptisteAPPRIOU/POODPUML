@@ -8,7 +8,7 @@ BasicEnemy::BasicEnemy(Vector3 position) {
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
 
     enemyPosition = position;
-    speed = 0.1f;
+    speed = 0.05f;
     health = 100;
     isAlive = true;
     value = 100;
