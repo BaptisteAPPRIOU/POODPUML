@@ -67,7 +67,7 @@ void Map::checkTileHover(Camera camera) {
     }
 }
 
-void Map::drawBoundingBox(float thickness, vector<Vector2> path) {
+void Map::drawBoundingBox(vector<Vector2> path) {
     if (isTileHovered) {
         float step = 3.0f;
         float boxHeight = 2.0f; 
@@ -94,7 +94,7 @@ void Map::drawMap(vector<Vector2> path) {
 
     drawTiles();
     drawRoad(path);
-    drawBoundingBox(1.0f, path);
+    drawBoundingBox(path);
 }
 
 void Map::loadModelsTextures() {

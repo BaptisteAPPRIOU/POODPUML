@@ -27,7 +27,7 @@ public:
     void update();
     void drawRoad(vector<Vector2> path);
     void checkTileHover(Camera camera); 
-    void drawBoundingBox(float thickness, vector<Vector2> path);            
+    void drawBoundingBox(vector<Vector2> path);            
     void loadModelsTextures(); 
     bool isTileBuildable(Vector2 position, const vector<Vector2>& path) const;
     Vector3 getHoveredTilePosition() const;
