@@ -49,6 +49,8 @@ void UI::updateButtons() {
 
     if (buttonTower1->isClicked(mousePoint)) {
         std::cout << "Button 1 clicked" << std::endl;
+        placingTower = true;
+        selectedTowerType = "basic";
     }
     if (buttonTower2->isClicked(mousePoint)) {
         std::cout << "Button 2 clicked" << std::endl;
@@ -60,4 +62,17 @@ void UI::updateButtons() {
         std::cout << "Button 4 clicked" << std::endl;
     }
 
+}
+
+bool UI::isPlacingTower() const {
+    return placingTower;
+}
+
+const string& UI::getSelectedTowerType() const {
+    return selectedTowerType;
+}
+
+void UI::resetPlacingTower() {
+    placingTower = false;
+    selectedTowerType.clear();
 }

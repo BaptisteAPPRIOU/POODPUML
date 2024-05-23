@@ -15,11 +15,11 @@ public:
 
     virtual void shoot() = 0;
     virtual ~Tower() {}
+    Vector3 towerPosition;
 
 protected:
     Model tower;
     Texture2D textureTower;
-    Vector3 towerPosition;
     float range;
     int damage;
     float fireRate;

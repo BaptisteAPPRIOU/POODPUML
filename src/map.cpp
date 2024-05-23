@@ -106,3 +106,16 @@ void Map::loadModelsTextures() {
     textureRoad = LoadTexture("assets/textures/texture_road.png");
     road.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureRoad;
 }
+
+bool Map::isTileBuildable(Vector2 position, const vector<Vector2>& path) const {
+    for (const auto& point : path) {
+        if (point.x == position.x && point.y == position.y) {
+            return false;
+        }
+    }
+    return true;
+}
+
+Vector3 Map::getHoveredTilePosition() const {
+    return hoveredTilePosition;
+}

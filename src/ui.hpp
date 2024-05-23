@@ -13,6 +13,9 @@ public:
     void drawGameButtons();
     void updateButtons();
     void loadTextures();
+    bool isPlacingTower() const;
+    const string& getSelectedTowerType() const;
+    void resetPlacingTower();
 
 private:
     Texture2D buttonTexture1;
@@ -28,6 +31,9 @@ private:
     Button* buttonTower2;
     Button* buttonTower3;
     Button* buttonTower4;
+
+    bool placingTower;
+    string selectedTowerType;
 };
 
 #endif // UI_HPP

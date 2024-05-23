@@ -14,11 +14,11 @@ private:
     Texture2D textureRoad;
     Vector3 tilePosition;
     Vector3 roadPosition;
-    Vector3 hoveredTilePosition; 
-    bool isTileHovered;          
     bool buildable;             
 
 public:
+    Vector3 hoveredTilePosition; 
+    bool isTileHovered;          
     Map();
     ~Map();
 
@@ -29,6 +29,8 @@ public:
     void checkTileHover(Camera camera); 
     void drawBoundingBox(float thickness, vector<Vector2> path);            
     void loadModelsTextures(); 
+    bool isTileBuildable(Vector2 position, const vector<Vector2>& path) const;
+    Vector3 getHoveredTilePosition() const;
 };
 
 #endif // MAP_HPP

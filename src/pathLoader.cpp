@@ -24,7 +24,7 @@ std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
     }
     file.close();
 
-    cout << "File content: " << fileContent << endl;
+    // cout << "File content: " << fileContent << endl;
 
     // Simple JSON parsing (not robust, assumes correct format)
     size_t pos = fileContent.find("\"path\"");
@@ -49,7 +49,7 @@ std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
                 float y = std::stof(point.substr(yStart, yEnd - yStart));
 
                 path.push_back({ x, y });
-                cout << "Loaded point: x = " << x << ", y = " << y << endl;
+                // cout << "Loaded point: x = " << x << ", y = " << y << endl;
             }
         }
     } else {

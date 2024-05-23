@@ -5,6 +5,7 @@
 #include "map.hpp"
 #include "enemy.hpp"
 #include "ui.hpp"
+#include "tower.hpp"
 
 class GameManager
 {
@@ -21,10 +22,13 @@ class GameManager
         Vector3 cameraUp;
         float cameraFovy;
         Map map;
-        Enemy* enemy;
         UI ui;
+        Enemy* enemy;
+        Tower* tower;
+        Tower* hoveringTower;
 
-        std::vector<Vector2> path;
+        vector<Vector2> path;
+        BoundingBox towerBoundingBox;
 
     public:
         GameManager();
@@ -33,5 +37,7 @@ class GameManager
         void update();
         void draw();
         void updateCamera();
+        void placeTower(Vector3 position);
+        Vector3 GetMouseRayHit(Camera camera, Vector2 mousePosition);
 };
 #endif // GAME_MANAGER_HPP
