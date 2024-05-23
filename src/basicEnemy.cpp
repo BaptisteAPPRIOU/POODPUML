@@ -11,6 +11,7 @@ BasicEnemy::BasicEnemy(Vector3 position) {
     speed = 0.1f;
     health = 100;
     isAlive = true;
+    value = 100;
 }
 void BasicEnemy::update() {
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);

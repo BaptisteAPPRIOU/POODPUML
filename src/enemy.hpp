@@ -23,6 +23,7 @@ protected:
     int health;
     bool isAlive;
     int currentPoint;
+    int value;
 
     Enemy() {}
     Enemy(Vector3 position) : enemyPosition(position), speed(0.0f), currentPoint(0) {}
