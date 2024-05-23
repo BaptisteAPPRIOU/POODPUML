@@ -1,6 +1,7 @@
 #include "gameManager.hpp"
 #include "basicEnemy.hpp"
 #include "map.hpp"
+#include "pathLoader.hpp"
 #include <vector>
 #include <raylib.h>
 #include <cmath>
@@ -22,19 +23,7 @@ GameManager::GameManager()
     camera.fovy = cameraFovy;
     camera.projection = CAMERA_PERSPECTIVE;
 
-    path = {
-        { -25.0f, -10.0f }, { -22.0f, -10.0f }, { -19.0f, -10.0f }, { -16.0f, -10.0f }, { -13.0f, -10.0f },
-        { -10.0f, -10.0f }, { -10.0f, -7.0f }, { -10.0f, -4.0f }, { -10.0f, -1.0f }, { -13.0f, -1.0f },
-        { -16.0f, -1.0f }, { -19.0f, -1.0f }, { -19.0f, 2.0f }, { -19.0f, 5.0f }, { -19.0f, 8.0f },
-        { -19.0f, 11.0f }, { -19.0f, 14.0f }, { -16.0f, 14.0f }, { -13.0f, 14.0f }, { -10.0f, 14.0f },
-        { -7.0f, 14.0f }, { -4.0f, 14.0f }, { -1.0f, 14.0f }, { -1.0f, 11.0f }, { -1.0f, 8.0f },
-        { -1.0f, 5.0f }, { -1.0f, 2.0f }, { -1.0f, -1.0f }, { -1.0f, -4.0f }, { -1.0f, -7.0f },
-        { -1.0f, -10.0f }, { -1.0f, -13.0f }, { -1.0f, -16.0f }, { -1.0f, -19.0f }, { 2.0f, -19.0f },
-        { 5.0f, -19.0f }, { 8.0f, -19.0f }, { 11.0f, -19.0f }, { 14.0f, -19.0f }, { 14.0f, -16.0f },
-        { 14.0f, -13.0f }, { 14.0f, -10.0f }, { 14.0f, -7.0f }, { 14.0f, -4.0f }, { 14.0f, -1.0f },
-        { 14.0f, 2.0f }, { 14.0f, 5.0f }, { 14.0f, 8.0f }, { 14.0f, 11.0f }, { 14.0f, 14.0f },
-        { 14.0f, 17.0f }, { 17.0f, 17.0f }, { 20.0f, 17.0f }, { 23.0f, 17.0f }
-    };
+    path = loadPathFromJSON("assets/paths/pathEasy.json");
 
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
