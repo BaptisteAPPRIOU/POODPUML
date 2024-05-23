@@ -34,6 +34,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager() {
     delete enemy;
+    delete tower;
     CloseWindow();
 }
 
@@ -42,9 +43,17 @@ void GameManager::update() {
     enemy->update();
     enemy->move(path);
     tower->update();
+    
     if (isPlacingTower && hoveringTower) {
         hoveringTower->hoverTower(map.getHoveredTilePosition());
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            Vector3 hoveredPosition = map.getHoveredTilePosition();
+            if (map.isTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, path)) {
+                placeTower(hoveredPosition);
+            }
+        }
     }
+
     updateCamera();
     ui.updateButtons();
 }
@@ -54,12 +63,7 @@ void GameManager::draw() {
         map.checkTileHover(camera);
 
         BeginDrawing();
-            int mouseX = GetMouseX();
-            int mouseY = GetMouseY();
-            if (mouseX >= regionX && mouseX <= regionX + regionWidth &&
-                mouseY >= regionY && mouseY <= regionY + regionHeight) {
-                updateCamera();
-            }
+            updateCamera();
             ClearBackground(RAYWHITE);
 
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
@@ -87,23 +91,37 @@ void GameManager::draw() {
 }
 
 void GameManager::updateCamera() {
-    if (IsKeyDown(KEY_RIGHT)) camera.position.x += 1.0f;
-    if (IsKeyDown(KEY_LEFT)) camera.position.x -= 1.0f;
-    if (IsKeyDown(KEY_UP)) camera.position.y += 1.0f;
-    if (IsKeyDown(KEY_DOWN)) camera.position.y -= 1.0f;
+    int mouseX = GetMouseX();
+    int mouseY = GetMouseY();
+    if (mouseX >= regionX && mouseX <= regionX + regionWidth &&
+        mouseY >= regionY && mouseY <= regionY + regionHeight)
+        {
+            if (IsKeyDown(KEY_RIGHT)) camera.position.x += 1.0f;
+            if (IsKeyDown(KEY_LEFT)) camera.position.x -= 1.0f;
+            if (IsKeyDown(KEY_UP)) camera.position.y += 1.0f;
+            if (IsKeyDown(KEY_DOWN)) camera.position.y -= 1.0f;
+
+        }
 }
 
-void GameManager::onNotify(){
+void GameManager::onNotify() {
     isPlacingTower = true;
-    hoveringTower = Tower::createTower(ui.getSelectedTowerType(), map.getHoveredTilePosition());
+    Vector3 initialHoverPosition = map.getHoveredTilePosition();
+    hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
     std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << std::endl;
 }
 
+
 void GameManager::placeTower(Vector3 position) {
     if (hoveringTower && map.isTileBuildable(Vector2{ position.x, position.z }, path)) {
-        delete tower; // Replace old tower with new one
+        // Place the new tower at the specified position
         tower = hoveringTower;
+        tower->towerPosition = position;
+
+        // Reset hovering state
         hoveringTower = nullptr;
         isPlacingTower = false;
+
+        cout << "Tower placed at position: " << position.x << ", " << position.y << ", " << position.z << endl;
     }
 }

@@ -22,6 +22,6 @@ void Tower::shoot() {
 }
 
 void Tower::hoverTower(Vector3 position) {
-    DrawModel(tower, position, 1.0f, Fade(WHITE, 0.5f));
+    DrawModel(tower, position, 1.0f, Fade(RED, 0.5f));
 }
 
