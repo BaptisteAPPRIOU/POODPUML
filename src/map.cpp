@@ -1,15 +1,17 @@
 #include "map.hpp"
 #include <rlgl.h>
 #include <raylib.h>
+#include <vector>
+using namespace std;
 
 Map::Map() {
-    tile = LoadModel("assets/models/tile.obj");
-    textureTile = LoadTexture("assets/textures/texture_tile.png");
-    tile.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTile;
+    // tile = LoadModel("assets/models/tile.obj");
+    // textureTile = LoadTexture("assets/textures/texture_tile.png");
+    // tile.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTile;
 
-    road = LoadModel("assets/models/road.obj");
-    textureRoad = LoadTexture("assets/textures/texture_road.png");
-    road.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureRoad;
+    // road = LoadModel("assets/models/road.obj");
+    // textureRoad = LoadTexture("assets/textures/texture_road.png");
+    // road.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureRoad;
 
     tilePosition = Vector3{ 0.0f, 0.0f, 0.0f };
     roadPosition = Vector3{ 0.0f, 0.0f, 0.0f };
@@ -120,4 +122,23 @@ void Map::drawBoundingBox(float thickness, vector<Vector2> path) {
             }
         }
     }
+}
+
+void Map::drawMap(vector<Vector2> path) {
+    DrawText("Welcome to the Tower Defense Game", 910, 10, 20, DARKGRAY);
+    DrawFPS(10, 10);
+
+    drawTiles();
+    drawRoad(path);
+    drawBoundingBox(1.0f, path);
+}
+
+void Map::loadModelsTextures() {
+    tile = LoadModel("assets/models/tile.obj");
+    textureTile = LoadTexture("assets/textures/texture_tile.png");
+    tile.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTile;
+
+    road = LoadModel("assets/models/road.obj");
+    textureRoad = LoadTexture("assets/textures/texture_road.png");
+    road.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureRoad;
 }

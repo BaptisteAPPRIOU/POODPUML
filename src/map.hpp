@@ -14,20 +14,21 @@ private:
     Texture2D textureRoad;
     Vector3 tilePosition;
     Vector3 roadPosition;
-    Vector3 hoveredTilePosition; // New member to store hovered tile position
-    bool isTileHovered;          // New member to track if a tile is hovered
-    bool buildable;              // New member to track if a tile is buildable
+    Vector3 hoveredTilePosition; 
+    bool isTileHovered;          
+    bool buildable;             
 
 public:
     Map();
     ~Map();
 
-    void draw();
+    void drawMap(vector<Vector2> path);
     void drawTiles();
     void update();
     void drawRoad(vector<Vector2> path);
-    void checkTileHover(Camera camera); // New method to check for hover
-    void drawBoundingBox(float thickness, vector<Vector2> path);             // New method to draw bounding box
+    void checkTileHover(Camera camera); 
+    void drawBoundingBox(float thickness, vector<Vector2> path);            
+    void loadModelsTextures(); 
 };
 
 #endif // MAP_HPP
