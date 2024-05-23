@@ -2,12 +2,14 @@
 #define GAME_MANAGER_HPP
 
 #include <raylib.h>
+#include <vector>
 #include "map.hpp"
 #include "enemy.hpp"
 #include "ui.hpp"
 #include "tower.hpp"
+#include "osberver.hpp"
 
-class GameManager
+class GameManager : public Observer
 {
     private:
         Camera3D camera;
@@ -28,7 +30,7 @@ class GameManager
         Tower* hoveringTower;
 
         vector<Vector2> path;
-        BoundingBox towerBoundingBox;
+        bool isPlacingTower;
 
     public:
         GameManager();
@@ -37,7 +39,8 @@ class GameManager
         void update();
         void draw();
         void updateCamera();
+        void onNotify() override;
         void placeTower(Vector3 position);
-        Vector3 GetMouseRayHit(Camera camera, Vector2 mousePosition);
+        
 };
 #endif // GAME_MANAGER_HPP

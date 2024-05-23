@@ -46,12 +46,17 @@ void UI::drawGameButtons() {
 void UI::updateButtons() {
 
     Vector2 mousePoint = GetMousePosition();
-
-    if (buttonTower1->isClicked(mousePoint)) {
-        std::cout << "Button 1 clicked" << std::endl;
-        placingTower = true;
-        selectedTowerType = "basic";
+    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        if (buttonTower1->isClicked(mousePoint)) {
+            std::cout << "Button 1 clicked" << std::endl;
+            notify();
+            buttonTower1Clicked = true;
+            selectedTowerType = "basic";
+            placingTower = true;
+        }
+        
     }
+
     if (buttonTower2->isClicked(mousePoint)) {
         std::cout << "Button 2 clicked" << std::endl;
     }
@@ -68,11 +73,20 @@ bool UI::isPlacingTower() const {
     return placingTower;
 }
 
-const string& UI::getSelectedTowerType() const {
-    return selectedTowerType;
+string UI::getSelectedTowerType() const {
+    if (buttonTower1Clicked) {
+        return selectedTowerType;
+    }
+    return "";
 }
 
 void UI::resetPlacingTower() {
     placingTower = false;
     selectedTowerType.clear();
 }
+
+// void UI::notify() {
+//     for (Observer* observer : observers) {
+//         observer->onNotify();
+//     }
+// }

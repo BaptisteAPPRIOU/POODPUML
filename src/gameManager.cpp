@@ -1,9 +1,5 @@
 #include "gameManager.hpp"
-#include "basicEnemy.hpp"
-#include "map.hpp"
 #include "pathLoader.hpp"
-#include <vector>
-#include <raylib.h>
 #include <cmath>
 #include <iostream>
 
@@ -30,13 +26,14 @@ GameManager::GameManager()
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
     tower = Tower::createTower("basic", Vector3{ -22.0f, 0.0f, 2.0f });
 
+    ui.addObserver(this);
+
     SetTargetFPS(60);
     
 }
 
 GameManager::~GameManager() {
     delete enemy;
-    delete hoveringTower;
     CloseWindow();
 }
 
@@ -45,30 +42,11 @@ void GameManager::update() {
     enemy->update();
     enemy->move(path);
     tower->update();
+    if (isPlacingTower && hoveringTower) {
+        hoveringTower->hoverTower(map.getHoveredTilePosition());
+    }
     updateCamera();
     ui.updateButtons();
-
-   if (ui.isPlacingTower()) {
-        if (hoveringTower == nullptr) {
-            hoveringTower = Tower::createTower(ui.getSelectedTowerType(), Vector3{0.0f, 0.0f, 0.0f});
-        }
-
-        Vector3 mousePosition = GetMouseRayHit(camera, GetMousePosition());
-        hoveringTower->towerPosition = mousePosition;
-
-        if (map.isTileHovered) {
-            hoveringTower->towerPosition = map.getHoveredTilePosition();
-
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                if (map.isTileBuildable(Vector2{hoveringTower->towerPosition.x, hoveringTower->towerPosition.z}, path)) {
-                    placeTower(hoveringTower->towerPosition);
-                    delete hoveringTower;
-                    hoveringTower = nullptr;
-                    ui.resetPlacingTower();
-                }
-            }
-        }
-    }
 }
 
 void GameManager::draw() {
@@ -89,12 +67,11 @@ void GameManager::draw() {
                     enemy->move(path);
                     enemy->update();
                     tower->update();
+                    if (isPlacingTower && hoveringTower) {
+                        hoveringTower->hoverTower(map.getHoveredTilePosition());
+                    }
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);
-
-                    if (hoveringTower != nullptr) {
-                        hoveringTower->update();
-                    }
                 EndMode3D();
             EndScissorMode();
 
@@ -116,16 +93,17 @@ void GameManager::updateCamera() {
     if (IsKeyDown(KEY_DOWN)) camera.position.y -= 1.0f;
 }
 
-void GameManager::placeTower(Vector3 position) {
-    Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), position);
+void GameManager::onNotify(){
+    isPlacingTower = true;
+    hoveringTower = Tower::createTower(ui.getSelectedTowerType(), map.getHoveredTilePosition());
+    std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << std::endl;
 }
 
-Vector3 GameManager::GetMouseRayHit(Camera camera, Vector2 mousePosition) {
-    Ray ray = GetMouseRay(mousePosition, camera);
-    RayCollision collision = GetRayCollisionBox(ray, towerBoundingBox); // Assume boundingBox defines the valid area for tower placement
-
-    if (collision.hit) {
-        return collision.point;
+void GameManager::placeTower(Vector3 position) {
+    if (hoveringTower && map.isTileBuildable(Vector2{ position.x, position.z }, path)) {
+        delete tower; // Replace old tower with new one
+        tower = hoveringTower;
+        hoveringTower = nullptr;
+        isPlacingTower = false;
     }
-    return {0.0f, 0.0f, 0.0f}; // Default or invalid position
 }

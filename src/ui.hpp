@@ -4,8 +4,9 @@
 #include <raylib.h>
 #include "button.hpp"
 #include "map.hpp"
+#include "osberver.hpp"
 
-class UI {
+class UI : public Subject {
 public:
     UI();
     ~UI();
@@ -14,7 +15,7 @@ public:
     void updateButtons();
     void loadTextures();
     bool isPlacingTower() const;
-    const string& getSelectedTowerType() const;
+    string getSelectedTowerType() const;
     void resetPlacingTower();
 
 private:
@@ -34,6 +35,7 @@ private:
 
     bool placingTower;
     string selectedTowerType;
+    bool buttonTower1Clicked;
 };
 
 #endif // UI_HPP

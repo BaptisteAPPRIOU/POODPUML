@@ -17,3 +17,7 @@ void BasicTower::update() {
 void BasicTower::shoot() {
     //shoot at enemy
 }
+
+void BasicTower::hoverTower(Vector3 position) {
+    DrawModel(tower, position, 1.0f, Fade(WHITE, 0.5f));
+}

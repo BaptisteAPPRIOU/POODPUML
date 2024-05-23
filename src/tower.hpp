@@ -3,6 +3,7 @@
 
 #include <string>
 #include <raylib.h>
+#include <vector>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ public:
     virtual void update() = 0;
 
     static Tower* createTower(const string& type, Vector3 position);
-
+    virtual void hoverTower(Vector3 position) = 0;
     virtual void shoot() = 0;
     virtual ~Tower() {}
     Vector3 towerPosition;
