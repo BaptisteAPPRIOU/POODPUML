@@ -8,7 +8,6 @@ using namespace std;
 class Enemy
 {
 public:
-    // Pure virtual function to update the enemy
     virtual void update() = 0;
 
     static Enemy* createEnemy(const string& type, Vector3 position);

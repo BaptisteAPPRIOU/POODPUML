@@ -69,6 +69,9 @@ void GameManager::draw() {
 
             DrawText("Welcome to the Tower Defense Game", 910, 10, 20, DARKGRAY);
             DrawFPS(10, 10);
+
+            DrawRectangleLines(regionX, regionY, regionWidth, regionHeight, BLACK);
+
         EndDrawing();
     }
 }
@@ -79,4 +82,3 @@ void GameManager::updateCamera() {
     if (IsKeyDown(KEY_UP)) camera.position.y += 1.0f;
     if (IsKeyDown(KEY_DOWN)) camera.position.y -= 1.0f;
 }
-

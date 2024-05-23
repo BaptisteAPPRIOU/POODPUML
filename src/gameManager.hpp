@@ -29,12 +29,6 @@ class GameManager
 
         void update();
         void draw();
-        void drawEnemy();
-        void updateEnemy();
         void updateCamera();
-        void drawMainMenu();
-
 };
-
-
 #endif // GAME_MANAGER_HPP
