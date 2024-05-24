@@ -29,6 +29,7 @@ class GameManager : public Observer
         Enemy* enemy;
         Tower* tower;
         Tower* hoveringTower;
+        vector<Tower*> towers;
 
         vector<Vector2> path;
         bool isPlacingTower;
@@ -38,6 +39,7 @@ class GameManager : public Observer
     public:
         GameManager();
         ~GameManager();
+
 
         void update();
         void draw();

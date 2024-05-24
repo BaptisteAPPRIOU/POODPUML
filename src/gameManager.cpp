@@ -8,7 +8,7 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr) {
+      cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr), isPlacingTower(false){
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -85,9 +85,10 @@ void GameManager::draw() {
                     enemy->move(path);
                     enemy->update();
                     tower->update();
-                    if (isPlacingTower && hoveringTower) {
-                        hoveringTower->hoverTower(map.getHoveredTilePosition());
+                    for (const auto& tower : towers) {
+                        tower->update();
                     }
+                    
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);
                 EndMode3D();
@@ -119,42 +120,41 @@ void GameManager::updateCamera() {
 }
 
 void GameManager::onNotify() {
-    std::cout << "GameManager received notification from Map" << std::endl;
-
     if (ui.isPlacingTower()) {
         Vector3 position = map.getHoveredTilePosition();
-        logDebug("Placing tower at position: " + to_string(position.x) + ", " + to_string(position.y) + ", " + to_string(position.z));
-        placeTower(position);
+        if (map.isTileBuildable(Vector2{position.x, position.z}, path)) {
+            placeTower(position);
+            isPlacingTower = false; // Reset tower placement mode after successful placement
+            ui.resetPlacingTower(); // Reset UI tower placement state
+        } else {
+            logDebug("Cannot place tower on non-buildable tile.");
+        }
     } else {
         logDebug("Not placing tower. UI is not in placing tower mode.");
     }
-
-    isPlacingTower = true;
-    Vector3 initialHoverPosition = map.getHoveredTilePosition();
-    hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
-    std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << std::endl;
 }
 
 
 void GameManager::placeTower(Vector3 position) {
-    if (hoveringTower && map.isTileBuildable(Vector2{position.x, position.z}, path)) {
+    if (map.isTileBuildable(Vector2{position.x, position.z}, path)) {
         logDebug("Placing tower at position: " + to_string(position.x) + ", " + to_string(position.y) + ", " + to_string(position.z));
 
-        // Place the tower at the specified position
-        
-        tower = hoveringTower; // Assign hovering tower to the main tower
-        tower->towerPosition = position; // Fix the tower position
+        // Create a new tower instance and place it at the specified position
+        Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), position);
 
-        // Clear hovering state
-        hoveringTower = nullptr;
-        isPlacingTower = false;
-        ui.resetPlacingTower();
-
-        logDebug("Tower placed successfully");
+        if (newTower) {
+            towers.push_back(newTower); // Add the new tower to the towers vector
+            logDebug("Tower placed successfully");
+        } else {
+            logDebug("Failed to create tower");
+        }
     } else {
-        logDebug("Failed to place tower");
+        logDebug("Position is not buildable for tower placement");
     }
 }
+
+
+
 
 void GameManager::logDebug(const std::string& message) {
     if (debugLogFile.is_open()) {
