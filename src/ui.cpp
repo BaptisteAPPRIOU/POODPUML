@@ -49,10 +49,10 @@ void UI::updateButtons() {
     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         if (buttonTower1->isClicked(mousePoint)) {
             std::cout << "Button 1 clicked" << std::endl;
-            notify();
             buttonTower1Clicked = true;
             selectedTowerType = "basic";
             placingTower = true;
+            notify();
         }
         
     }

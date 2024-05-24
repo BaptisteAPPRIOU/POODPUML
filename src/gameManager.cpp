@@ -121,6 +121,7 @@ void GameManager::placeTower(Vector3 position) {
         // Reset hovering state
         hoveringTower = nullptr;
         isPlacingTower = false;
+        ui.resetPlacingTower();
 
         cout << "Tower placed at position: " << position.x << ", " << position.y << ", " << position.z << endl;
     }
