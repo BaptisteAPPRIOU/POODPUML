@@ -2,6 +2,7 @@
 #include <rlgl.h>
 #include <raylib.h>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 Map::Map() {
@@ -43,7 +44,7 @@ void Map::drawRoad(std::vector<Vector2> path) {
     }
 }
 
-void Map::checkTileHover(Camera camera) {
+void Map::checkTileHover(Camera3D& camera) {
     Ray ray = GetMouseRay(GetMousePosition(), camera);
     float start = -25.0f;
     float end = 25.0f;
@@ -63,6 +64,21 @@ void Map::checkTileHover(Camera camera) {
                 isTileHovered = true;
                 return;
             }
+        }
+    }
+
+    std::cout << "Checking tile hover" << std::endl;
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        std::cout << "Mouse button pressed" << std::endl;
+        Vector2 tilePosition = Vector2{hoveredTilePosition.x, hoveredTilePosition.z};
+        std::cout << "Hovered Tile Position: " << hoveredTilePosition.x << ", " << hoveredTilePosition.z << std::endl;
+
+        if (isTileBuildable(tilePosition, path)) {
+            std::cout << "Buildable tile clicked" << std::endl;
+            notifyTileClicked();
+        } else {
+            std::cout << "Tile is not buildable" << std::endl;
         }
     }
 }
@@ -113,9 +129,19 @@ bool Map::isTileBuildable(Vector2 position, const vector<Vector2>& path) const {
             return false;
         }
     }
+    std::cout << "Checking if tile is buildable at position: " << position.x << ", " << position.y << std::endl;
     return true;
 }
 
 Vector3 Map::getHoveredTilePosition() const {
     return hoveredTilePosition;
+}
+
+void Map::notifyTileClicked() {
+    cout << "Notify observer of the Tile clicked" << endl;
+    notify();
+}
+
+void Map::setPath(const std::vector<Vector2>& newPath) {
+    path = newPath;
 }

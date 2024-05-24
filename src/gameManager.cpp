@@ -21,12 +21,19 @@ GameManager::GameManager()
     camera.projection = CAMERA_PERSPECTIVE;
 
     path = loadPathFromJSON("assets/paths/pathMedium.json");
+    map.setPath(path);
 
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
     tower = Tower::createTower("basic", Vector3{ -22.0f, 0.0f, 2.0f });
 
     ui.addObserver(this);
+    map.addObserver(this);
+
+    debugLogFile.open("debug.log", ios::out | ios::trunc);
+    if (!debugLogFile.is_open()) {
+        cerr << "Failed to open debug log file!" << endl;
+    }
 
     SetTargetFPS(60);
     
@@ -35,6 +42,9 @@ GameManager::GameManager()
 GameManager::~GameManager() {
     delete enemy;
     delete tower;
+    if (debugLogFile.is_open()) {
+        debugLogFile.close();
+    }
     CloseWindow();
 }
 
@@ -42,14 +52,18 @@ void GameManager::update() {
     map.checkTileHover(camera);
     enemy->update();
     enemy->move(path);
-    tower->update();
     
     if (isPlacingTower && hoveringTower) {
-        hoveringTower->hoverTower(map.getHoveredTilePosition());
+        Vector3 hoveredPosition = map.getHoveredTilePosition();
+        hoveringTower->hoverTower(hoveredPosition);
+        logDebug("Hovering Tower at Position: " + to_string(hoveredPosition.x) + ", " + to_string(hoveredPosition.y) + ", " + to_string(hoveredPosition.z));
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            Vector3 hoveredPosition = map.getHoveredTilePosition();
+            logDebug("Mouse button pressed while placing tower");
             if (map.isTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, path)) {
+                logDebug("Tile is buildable at position: " + to_string(hoveredPosition.x) + ", " + to_string(hoveredPosition.z));
                 placeTower(hoveredPosition);
+            } else {
+                logDebug("Tile is NOT buildable at position: " + to_string(hoveredPosition.x) + ", " + to_string(hoveredPosition.z));
             }
         }
     }
@@ -105,6 +119,16 @@ void GameManager::updateCamera() {
 }
 
 void GameManager::onNotify() {
+    std::cout << "GameManager received notification from Map" << std::endl;
+
+    if (ui.isPlacingTower()) {
+        Vector3 position = map.getHoveredTilePosition();
+        logDebug("Placing tower at position: " + to_string(position.x) + ", " + to_string(position.y) + ", " + to_string(position.z));
+        placeTower(position);
+    } else {
+        logDebug("Not placing tower. UI is not in placing tower mode.");
+    }
+
     isPlacingTower = true;
     Vector3 initialHoverPosition = map.getHoveredTilePosition();
     hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
@@ -113,16 +137,28 @@ void GameManager::onNotify() {
 
 
 void GameManager::placeTower(Vector3 position) {
-    if (hoveringTower && map.isTileBuildable(Vector2{ position.x, position.z }, path)) {
-        // Place the new tower at the specified position
-        tower = hoveringTower;
-        tower->towerPosition = position;
+    if (hoveringTower && map.isTileBuildable(Vector2{position.x, position.z}, path)) {
+        logDebug("Placing tower at position: " + to_string(position.x) + ", " + to_string(position.y) + ", " + to_string(position.z));
 
-        // Reset hovering state
+        // Place the tower at the specified position
+        
+        tower = hoveringTower; // Assign hovering tower to the main tower
+        tower->towerPosition = position; // Fix the tower position
+
+        // Clear hovering state
         hoveringTower = nullptr;
         isPlacingTower = false;
         ui.resetPlacingTower();
 
-        cout << "Tower placed at position: " << position.x << ", " << position.y << ", " << position.z << endl;
+        logDebug("Tower placed successfully");
+    } else {
+        logDebug("Failed to place tower");
+    }
+}
+
+void GameManager::logDebug(const std::string& message) {
+    if (debugLogFile.is_open()) {
+        debugLogFile << message << std::endl;
+        debugLogFile.flush();
     }
 }

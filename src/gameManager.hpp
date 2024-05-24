@@ -8,6 +8,7 @@
 #include "ui.hpp"
 #include "tower.hpp"
 #include "osberver.hpp"
+#include <fstream>
 
 class GameManager : public Observer
 {
@@ -31,6 +32,8 @@ class GameManager : public Observer
 
         vector<Vector2> path;
         bool isPlacingTower;
+        void logDebug(const string& message);
+        ofstream debugLogFile;
 
     public:
         GameManager();
