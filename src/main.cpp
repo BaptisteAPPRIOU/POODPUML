@@ -1,15 +1,16 @@
 #include <raylib.h>
-#include <iostream>
-#include "gameManager.hpp"
-
-using namespace std;
+#include "menu.hpp"
 
 int main() {
-    GameManager gameManager;
+    InitWindow(1920, 1080, "Game");
+    SetTargetFPS(60);
 
-    while(!WindowShouldClose()) {
-        gameManager.update();
-        gameManager.draw();
+    Menu menu;
+
+    while (!WindowShouldClose()) {
+        menu.update();
+        menu.draw();
     }
+
     return 0;
 }
