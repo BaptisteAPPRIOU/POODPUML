@@ -1,149 +1,96 @@
 #include "menu.hpp"
-#include <iostream>
 
 Menu::Menu() {
-    background = LoadTexture("assets/images/background.png");
-    logo = LoadTexture("assets/images/logo.png");
-    buttonTexture = LoadTexture("assets/images/button.png");
-    buttonHoverTexture = LoadTexture("assets/images/buttonHover.png");
-
-    
-    float buttonWidth = 200;
-    float buttonHeight = 50;
-    float centerX = GetScreenWidth() / 2.0f - buttonWidth / 2.0f;
-
-    startButton = new Button(centerX, 200, buttonWidth, buttonHeight, buttonTexture, buttonHoverTexture);
-    leaderboardButton = new Button(centerX, 300, buttonWidth, buttonHeight, buttonTexture, buttonHoverTexture);
-    creditsButton = new Button(centerX, 400, buttonWidth, buttonHeight, buttonTexture, buttonHoverTexture);
-    optionsButton = new Button(centerX, 500, buttonWidth, buttonHeight, buttonTexture, buttonHoverTexture);
-    quitButton = new Button(centerX, 600, buttonWidth, buttonHeight, buttonTexture, buttonHoverTexture);
-    backButton = new Button(centerX, 700, buttonWidth, buttonHeight, buttonTexture, buttonHoverTexture);
-
-    currentState = MAIN;
-
-    ui = new UI();
-    ui->loadTextures();
+    loadTextures();
 }
 
 Menu::~Menu() {
-    UnloadTexture(background);
-    UnloadTexture(logo);
     UnloadTexture(buttonTexture);
     UnloadTexture(buttonHoverTexture);
-
+    UnloadTexture(logoTexture);
+    UnloadTexture(backgroundTexture);
     delete startButton;
     delete leaderboardButton;
     delete creditsButton;
     delete optionsButton;
     delete quitButton;
     delete backButton;
+}
 
-    delete ui;
+void Menu::loadTextures() {
+    buttonTexture = LoadTexture("assets/images/button.png");
+    buttonHoverTexture = LoadTexture("assets/images/buttonHover.png");
+    logoTexture = LoadTexture("assets/images/logo.png");
+    backgroundTexture = LoadTexture("assets/images/backgr.png");
+
+    startButton = new Button(760, 250, 400, 120, buttonTexture, buttonHoverTexture);
+    leaderboardButton = new Button(760, 400, 400, 120, buttonTexture, buttonHoverTexture);
+    creditsButton = new Button(760, 550, 400, 120, buttonTexture, buttonHoverTexture);
+    optionsButton = new Button(760, 700, 400, 120, buttonTexture, buttonHoverTexture);
+    quitButton = new Button(760, 850, 400, 120, buttonTexture, buttonHoverTexture);
+    backButton = new Button(860, 850, 200, 80, buttonTexture, buttonHoverTexture);
 }
 
 void Menu::update() {
-    switch (currentState) {
-        case MAIN:
-            updateMainMenu();
-            break;
-        case LEADERBOARD:
-            updateLeaderboard();
-            break;
-        case CREDITS:
-            updateCredits();
-            break;
-        case GAME:
-            ui->updateButtons();
-            break;
-        case QUIT:
+    Vector2 mousePoint = GetMousePosition();
+
+    if (currentState == MENU) {
+        if (startButton->isClicked(mousePoint)) {
+            currentState = GAME;
+        } else if (leaderboardButton->isClicked(mousePoint)) {
+            currentState = LEADERBOARD;
+        } else if (creditsButton->isClicked(mousePoint)) {
+            currentState = CREDITS;
+        } else if (optionsButton->isClicked(mousePoint)) {
+            currentState = OPTIONS;
+        } else if (quitButton->isClicked(mousePoint)) {
             CloseWindow();
-            break;
+        }
+    } else if (currentState == LEADERBOARD || currentState == CREDITS || currentState == OPTIONS) {
+        if (backButton->isClicked(mousePoint)) {
+            currentState = MENU;
+        }
     }
 }
 
 void Menu::draw() {
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
+    DrawTexture(backgroundTexture, 0, 0, WHITE);
+    DrawTexture(logoTexture, 50, 50, WHITE);
 
-    switch (currentState) {
-        case MAIN:
-            drawMainMenu();
-            break;
-        case LEADERBOARD:
-            drawLeaderboard();
-            break;
-        case CREDITS:
-            drawCredits();
-            break;
-        case GAME:
-            ui->drawGameButtons();
-            break;
-        case QUIT:
-            // No need to draw anything
-            break;
-    }
+    if (currentState == MENU) {
+        startButton->update(GetMousePosition());
+        leaderboardButton->update(GetMousePosition());
+        creditsButton->update(GetMousePosition());
+        optionsButton->update(GetMousePosition());
+        quitButton->update(GetMousePosition());
 
-    EndDrawing();
-}
-
-void Menu::drawMainMenu() {
-    DrawTexture(background, 0, 0, WHITE);
-    DrawTexture(logo, 10, 10, WHITE); 
-
-    startButton->update(GetMousePosition());
-    leaderboardButton->update(GetMousePosition());
-    creditsButton->update(GetMousePosition());
-    optionsButton->update(GetMousePosition());
-    quitButton->update(GetMousePosition());
-
-
-    DrawText("Start", startButton->bounds.x + 50, startButton->bounds.y + 15, 20, BLACK);
-    DrawText("Leaderboard", leaderboardButton->bounds.x + 20, leaderboardButton->bounds.y + 15, 20, BLACK);
-    DrawText("Credits", creditsButton->bounds.x + 45, creditsButton->bounds.y + 15, 20, BLACK);
-    DrawText("Options", optionsButton->bounds.x + 45, optionsButton->bounds.y + 15, 20, BLACK);
-    DrawText("Quit", quitButton->bounds.x + 60, quitButton->bounds.y + 15, 20, BLACK);
-}
-
-void Menu::updateMainMenu() {
-    Vector2 mousePoint = GetMousePosition();
-
-    if (startButton->isClicked(mousePoint)) {
-        currentState = GAME;
-    }
-    if (leaderboardButton->isClicked(mousePoint)) {
-        currentState = LEADERBOARD;
-    }
-    if (creditsButton->isClicked(mousePoint)) {
-        currentState = CREDITS;
-    }
-    if (quitButton->isClicked(mousePoint)) {
-        currentState = QUIT;
+        DrawText("Start", startButton->bounds.x + 60, startButton->bounds.y + 40, 40, BLACK);
+        DrawText("Leaderboard", leaderboardButton->bounds.x + 30, leaderboardButton->bounds.y + 40, 40, BLACK);
+        DrawText("Credits", creditsButton->bounds.x + 60, creditsButton->bounds.y + 40, 40, BLACK);
+        DrawText("Options", optionsButton->bounds.x + 60, optionsButton->bounds.y + 40, 40, BLACK);
+        DrawText("Quit", quitButton->bounds.x + 70, quitButton->bounds.y + 40, 40, BLACK);
+    } else if (currentState == LEADERBOARD) {
+        backButton->update(GetMousePosition());
+        DrawText("Leaderboard", 860, 100, 40, BLACK);
+        DrawText("Player1: 1000", 860, 200, 30, BLACK);
+        DrawText("Player2: 800", 860, 250, 30, BLACK);
+        DrawText("Player3: 600", 860, 300, 30, BLACK);
+        DrawText("Back", backButton->bounds.x + 60, backButton->bounds.y + 25, 30, BLACK);
+    } else if (currentState == CREDITS) {
+        backButton->update(GetMousePosition());
+        DrawText("Credits", 860, 100, 40, BLACK);
+        DrawText("Oussema FATNASSI", 860, 200, 30, BLACK);
+        DrawText("Baptiste APPRIOU", 860, 250, 30, BLACK);
+        DrawText("ALI Abakar Issa", 860, 300, 30, BLACK);
+        DrawText("Back", backButton->bounds.x + 60, backButton->bounds.y + 25, 30, BLACK);
+    } else if (currentState == OPTIONS) {
+        backButton->update(GetMousePosition());
+        DrawText("Options", 860, 100, 40, BLACK);
+        // Additional options settings can be added here
+        DrawText("Back", backButton->bounds.x + 60, backButton->bounds.y + 25, 30, BLACK);
     }
 }
 
-void Menu::drawLeaderboard() {
-    DrawText("Leaderboard", 100, 100, 30, BLACK);
-    backButton->update(GetMousePosition());
-    DrawText("Back", backButton->bounds.x + 65, backButton->bounds.y + 15, 20, BLACK);
-}
-
-void Menu::updateLeaderboard() {
-    if (backButton->isClicked(GetMousePosition())) {
-        currentState = MAIN;
-    }
-}
-
-void Menu::drawCredits() {
-    DrawText("Credits", 100, 100, 30, BLACK);
-    DrawText("Person 1", 100, 200, 20, BLACK);
-    DrawText("Person 2", 100, 250, 20, BLACK);
-    DrawText("Person 3", 100, 300, 20, BLACK);
-    backButton->update(GetMousePosition());
-    DrawText("Back", backButton->bounds.x + 65, backButton->bounds.y + 15, 20, BLACK);
-}
-
-void Menu::updateCredits() {
-    if (backButton->isClicked(GetMousePosition())) {
-        currentState = MAIN;
-    }
+bool Menu::isGameStarted() {
+    return currentState == GAME;
 }
