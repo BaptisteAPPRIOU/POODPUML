@@ -2,6 +2,7 @@
 
 Menu::Menu() {
     loadTextures();
+    loadFont();  // Load the font
 }
 
 Menu::~Menu() {
@@ -9,6 +10,7 @@ Menu::~Menu() {
     UnloadTexture(buttonHoverTexture);
     UnloadTexture(logoTexture);
     UnloadTexture(backgroundTexture);
+    UnloadFont(customFont);  // Unload the font
     delete startButton;
     delete leaderboardButton;
     delete creditsButton;
@@ -21,7 +23,7 @@ void Menu::loadTextures() {
     buttonTexture = LoadTexture("assets/images/button.png");
     buttonHoverTexture = LoadTexture("assets/images/buttonHover.png");
     logoTexture = LoadTexture("assets/images/logo.png");
-    backgroundTexture = LoadTexture("assets/images/backgr.png");
+    backgroundTexture = LoadTexture("assets/images/background.png");
 
     startButton = new Button(760, 250, 400, 120, buttonTexture, buttonHoverTexture);
     leaderboardButton = new Button(760, 400, 400, 120, buttonTexture, buttonHoverTexture);
@@ -29,6 +31,10 @@ void Menu::loadTextures() {
     optionsButton = new Button(760, 700, 400, 120, buttonTexture, buttonHoverTexture);
     quitButton = new Button(760, 850, 400, 120, buttonTexture, buttonHoverTexture);
     backButton = new Button(860, 850, 200, 80, buttonTexture, buttonHoverTexture);
+}
+
+void Menu::loadFont() {
+    customFont = LoadFont("assets/fonts/AmericanTypewriterRegular.ttf");
 }
 
 void Menu::update() {
@@ -64,30 +70,30 @@ void Menu::draw() {
         optionsButton->update(GetMousePosition());
         quitButton->update(GetMousePosition());
 
-        DrawText("Start", startButton->bounds.x + 60, startButton->bounds.y + 40, 40, BLACK);
-        DrawText("Leaderboard", leaderboardButton->bounds.x + 30, leaderboardButton->bounds.y + 40, 40, BLACK);
-        DrawText("Credits", creditsButton->bounds.x + 60, creditsButton->bounds.y + 40, 40, BLACK);
-        DrawText("Options", optionsButton->bounds.x + 60, optionsButton->bounds.y + 40, 40, BLACK);
-        DrawText("Quit", quitButton->bounds.x + 70, quitButton->bounds.y + 40, 40, BLACK);
+        DrawTextEx(customFont, "Start", {startButton->bounds.x + 110, startButton->bounds.y + 40}, customFont.baseSize, 2, BLACK);
+        DrawTextEx(customFont, "Leaderboard", {leaderboardButton->bounds.x + 55, leaderboardButton->bounds.y + 40}, customFont.baseSize, 2, BLACK);
+        DrawTextEx(customFont, "Credits", {creditsButton->bounds.x + 90, creditsButton->bounds.y + 40}, customFont.baseSize, 2, BLACK);
+        DrawTextEx(customFont, "Options", {optionsButton->bounds.x + 90, optionsButton->bounds.y + 40}, customFont.baseSize, 2, BLACK);
+        DrawTextEx(customFont, "Quit", {quitButton->bounds.x + 110, quitButton->bounds.y + 40}, customFont.baseSize, 2, BLACK);
     } else if (currentState == LEADERBOARD) {
         backButton->update(GetMousePosition());
-        DrawText("Leaderboard", 860, 100, 40, BLACK);
-        DrawText("Player1: 1000", 860, 200, 30, BLACK);
-        DrawText("Player2: 800", 860, 250, 30, BLACK);
-        DrawText("Player3: 600", 860, 300, 30, BLACK);
-        DrawText("Back", backButton->bounds.x + 60, backButton->bounds.y + 25, 30, BLACK);
+        DrawTextEx(customFont, "Leaderboard", {860, 100}, customFont.baseSize, 2,  WHITE);
+        DrawTextEx(customFont, "Player1: 1000", {860, 200}, customFont.baseSize, 2, BLACK);
+        DrawTextEx(customFont, "Player2: 800", {860, 250}, customFont.baseSize, 2, BLACK);
+        DrawTextEx(customFont, "Player3: 600", {860, 300}, customFont.baseSize, 2, BLACK);
+        DrawTextEx(customFont, "Back", {backButton->bounds.x + 110, backButton->bounds.y + 35}, customFont.baseSize, 2, BLACK);
     } else if (currentState == CREDITS) {
         backButton->update(GetMousePosition());
-        DrawText("Credits", 860, 100, 40, BLACK);
-        DrawText("Oussema FATNASSI", 860, 200, 30, BLACK);
-        DrawText("Baptiste APPRIOU", 860, 250, 30, BLACK);
-        DrawText("ALI Abakar Issa", 860, 300, 30, BLACK);
-        DrawText("Back", backButton->bounds.x + 60, backButton->bounds.y + 25, 30, BLACK);
+        DrawTextEx(customFont, "Credits", {860, 100}, customFont.baseSize, 2, WHITE);
+        DrawTextEx(customFont, "Oussema FATNASSI", {860, 200}, customFont.baseSize, 2,  WHITE);
+        DrawTextEx(customFont, "Baptiste APPRIOU", {860, 250}, customFont.baseSize, 2,  WHITE);
+        DrawTextEx(customFont, "Ali ABAKAR ISSA", {860, 300}, customFont.baseSize, 2,  WHITE);
+        DrawTextEx(customFont, "Back", {backButton->bounds.x + 110, backButton->bounds.y + 35}, customFont.baseSize, 2, BLACK);
     } else if (currentState == OPTIONS) {
         backButton->update(GetMousePosition());
-        DrawText("Options", 860, 100, 40, BLACK);
+        DrawTextEx(customFont, "Options", {860, 100}, customFont.baseSize, 2,  WHITE);
         // Additional options settings can be added here
-        DrawText("Back", backButton->bounds.x + 60, backButton->bounds.y + 25, 30, BLACK);
+        DrawTextEx(customFont, "Back", {backButton->bounds.x + 110, backButton->bounds.y + 35}, customFont.baseSize, 2, BLACK);
     }
 }
 
