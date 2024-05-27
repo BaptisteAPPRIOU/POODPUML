@@ -14,7 +14,7 @@ class BasicTower : public Tower, public Subject
         void hoverTower(Vector3 position) override;
         void draw(Vector3 position) override;
         bool isEnemyInRange(const Vector3& enemyPosition) const;
-        void onNotify() override;
+        // void onNotify() override;
 
     private:
         bool enemyInRange;

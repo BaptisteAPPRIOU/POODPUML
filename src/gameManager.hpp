@@ -44,7 +44,7 @@ class GameManager : public Observer
         void update();
         void draw();
         void updateCamera();
-        void onNotify() override;
+        void onNotify(EventType eventType) override;
         void placeTower(Vector3 position);
         
 };

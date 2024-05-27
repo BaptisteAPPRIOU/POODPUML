@@ -8,8 +8,8 @@ void Subject::removeObserver(Observer* observer) {
     observers.erase(remove(observers.begin(), observers.end(), observer), observers.end());
 }
 
-void Subject::notify() {
+void Subject::notify(EventType EventType) {
     for (Observer* observer : observers) {
-        observer->onNotify();
+        observer->onNotify(EventType);
     }
 }

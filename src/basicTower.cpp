@@ -46,7 +46,7 @@ bool BasicTower::isEnemyInRange(const Vector3& enemyPosition) const {
     return distance <= range;
 }
 
-void BasicTower::onNotify() {
-    notify();
-    enemyInRange = true;
-}
+// void BasicTower::onNotify() {
+//     notify();
+//     enemyInRange = true;
+// }

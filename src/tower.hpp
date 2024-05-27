@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Tower : public Observer
+class Tower 
 {
 public:
     virtual void update() = 0;

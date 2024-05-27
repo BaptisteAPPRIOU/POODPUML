@@ -4,10 +4,19 @@
 #include <vector>
 using namespace std;
 
+enum class EventType {
+    TOWER_CREATION,
+    TILE_CLICKED
+};
+
+struct Event {
+    EventType type;
+};
+
 class Observer
 {
     public:
-        virtual void onNotify() = 0;
+        virtual void onNotify(EventType eventType) = 0;
 };
 
 class Subject
@@ -17,7 +26,7 @@ class Subject
     public:
         void addObserver(Observer* observer);
         void removeObserver(Observer* observer);
-        void notify();
+        void notify(EventType eventType);
 };
 
 #endif // OBSERVER_HPP

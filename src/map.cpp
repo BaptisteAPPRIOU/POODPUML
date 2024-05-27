@@ -62,27 +62,38 @@ void Map::checkTileHover(Camera3D& camera) {
             if (collision.hit) {
                 hoveredTilePosition = Vector3{ x, 0.0f, z };
                 isTileHovered = true;
+
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                    Vector2 tilePosition = Vector2{ hoveredTilePosition.x, hoveredTilePosition.z };
+                    if (isTileBuildable(tilePosition, path)) {
+                        cout << "Tile clicked and notified: " << tilePosition.x << ", " << tilePosition.y << endl;
+                        notify(EventType::TILE_CLICKED);
+                    } else {
+                        cout << "Tile clicked but not buildable: " << tilePosition.x << ", " << tilePosition.y << endl;
+                    }
+                }
                 return;
             }
         }
     }
 
-    std::cout << "Checking tile hover" << std::endl;
 
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        std::cout << "Mouse button pressed" << std::endl;
-        Vector2 tilePosition = Vector2{hoveredTilePosition.x, hoveredTilePosition.z};
-        std::cout << "Hovered Tile Position: " << hoveredTilePosition.x << ", " << hoveredTilePosition.z << std::endl;
 
-        if (isTileBuildable(tilePosition, path)) {
-            std::cout << "Buildable tile clicked" << std::endl;
-            notify();
-        } else {
-            std::cout << "Tile is not buildable" << std::endl;
-        }
-    }
+    // std::cout << "Checking tile hover" << std::endl;
+
+    // if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    //     std::cout << "Mouse button pressed" << std::endl;
+    //     Vector2 tilePosition = Vector2{hoveredTilePosition.x, hoveredTilePosition.z};
+    //     std::cout << "Hovered Tile Position: " << hoveredTilePosition.x << ", " << hoveredTilePosition.z << std::endl;
+
+    //     if (isTileBuildable(tilePosition, path)) {
+    //         std::cout << "Buildable tile clicked" << std::endl;
+    //         notify();
+    //     } else {
+    //         std::cout << "Tile is not buildable" << std::endl;
+    //     }
+    // }
 }
-
 
 void Map::drawBoundingBox(vector<Vector2> path) {
     if (isTileHovered) {

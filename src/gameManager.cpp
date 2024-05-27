@@ -25,6 +25,7 @@ GameManager::GameManager()
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
 
     ui.addObserver(this);
+    map.addObserver(this);
     SetTargetFPS(60);
 }
 
@@ -36,20 +37,19 @@ GameManager::~GameManager() {
     CloseWindow();
 }
 
-void GameManager::update() {
+void GameManager::update() { 
     map.checkTileHover(camera);
     enemy->update();
     enemy->move(path);
     cout << "Enemy position: " << enemy->getEnemyPosition().x << ", " << enemy->getEnemyPosition().y << ", " << enemy->getEnemyPosition().z << endl;
 
-    for (Tower* tower : towers) {
-        // Check if enemy is in range for each tower
-        if (tower->isEnemyInRange(enemy->getEnemyPosition())) {
-            tower->onNotify(); // Notify the tower
-        } else {
-            tower->enemyInRange = false; // No enemy in range
-        }
-    }
+    // for (Tower* tower : towers) {
+    //     if (tower->isEnemyInRange(enemy->getEnemyPosition())) {
+    //         tower->onNotify(); 
+    //     } else {
+    //         tower->enemyInRange = false; 
+    //     }
+    // }
     updateCamera();
     ui.updateButtons();
 }
@@ -102,26 +102,41 @@ void GameManager::updateCamera() {
         }
 }
 
-void GameManager::onNotify() {
-    cout << "Notification received: Tower creation" << endl;
-
-    if (isPlacingTower && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-        Vector3 hoveredPosition = map.getHoveredTilePosition();
-
-        if (map.isTileBuildable(Vector2{ hoveredPosition.x, hoveredPosition.z }, path)) {
-            Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
-            towers.push_back(newTower);
-            cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
-            isPlacingTower = false;
-            hoveringTower = nullptr;
-        } else {
-            cout << "Cannot place tower on non-buildable tile." << endl;
+void GameManager::onNotify(EventType eventType) {
+    switch (eventType) {
+        case EventType::TOWER_CREATION: {
+            cout << "Notification received: Tower creation" << endl;
+            isPlacingTower = true;
+            Vector3 initialHoverPosition = map.getHoveredTilePosition();
+            hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
+            cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
+            break;
         }
-    }
-    else {
-        isPlacingTower = true;
-        Vector3 initialHoverPosition = map.getHoveredTilePosition();
-        hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
-        std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << std::endl;
+        case EventType::TILE_CLICKED: {
+            cout << "Notification received: Tile clicked" << endl;
+            if (isPlacingTower) {
+                if (hoveringTower) {
+                    Vector3 hoveredPosition = map.getHoveredTilePosition();
+                    cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
+
+                    if (map.isTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, path)) {
+                        Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
+                        towers.push_back(newTower);
+                        cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
+
+                        // Reset placing state
+                        isPlacingTower = false;
+                        hoveringTower = nullptr;
+                    } else {
+                        cout << "Cannot place tower on non-buildable tile." << endl;
+                    }
+                } else {
+                    cout << "hoveringTower is null when trying to place tower." << endl;
+                }
+            } else {
+                cout << "isPlacingTower is false when trying to place tower." << endl;
+            }
+            break;
+        }
     }
 }
