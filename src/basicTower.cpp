@@ -11,7 +11,8 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {
 }
 
 void BasicTower::update() {
-    DrawModel(tower, towerPosition, 1.0f, WHITE);
+    Tower::update();  // Call base class update
+    draw(towerPosition);
 }
 
 void BasicTower::shoot() {
@@ -20,4 +21,8 @@ void BasicTower::shoot() {
 
 void BasicTower::hoverTower(Vector3 position) {
     DrawModel(tower, position, 1.0f, Fade(WHITE, 0.5f));
+}
+
+void BasicTower::draw(Vector3 towerPosition) {
+    DrawModel(tower, towerPosition, 1.0f, WHITE);
 }

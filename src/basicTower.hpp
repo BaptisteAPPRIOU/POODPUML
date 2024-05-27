@@ -12,6 +12,7 @@ class BasicTower : public Tower
         void update() override;
         void shoot() override;
         void hoverTower(Vector3 position) override;
+        void draw(Vector3 position) override;
 };
 
 #endif // BASIC_TOWER_HPP

@@ -54,7 +54,6 @@ void UI::updateButtons() {
             placingTower = true;
             notify();
         }
-        
     }
 
     if (buttonTower2->isClicked(mousePoint)) {
@@ -84,9 +83,3 @@ void UI::resetPlacingTower() {
     placingTower = false;
     selectedTowerType.clear();
 }
-
-// void UI::notify() {
-//     for (Observer* observer : observers) {
-//         observer->onNotify();
-//     }
-// }
