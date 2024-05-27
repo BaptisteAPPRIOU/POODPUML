@@ -11,7 +11,7 @@ Tower* Tower::createTower(const std::string& type, Vector3 position) {
 void Tower::update() {
     //add observer to calculate distance between tower and enemy
     fireCountdown -= GetFrameTime();
-    if (fireCountdown <= 0) {
+    if (fireCountdown <= 0 && enemyInRange) {
         shoot();
         fireCountdown = 1.0f / fireRate;
     }
@@ -27,4 +27,9 @@ void Tower::hoverTower(Vector3 position) {
 
 void Tower::draw(Vector3 towerPosition) {
     DrawModel(tower, towerPosition, 1.0f, WHITE);
+}
+
+bool Tower::isEnemyInRange(Vector3 enemyPosition) const {
+    float distance = Vector3Distance(towerPosition, enemyPosition);
+    return distance <= range;
 }

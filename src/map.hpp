@@ -33,7 +33,6 @@ public:
     void loadModelsTextures(); 
     bool isTileBuildable(Vector2 position, const vector<Vector2>& path) const;
     Vector3 getHoveredTilePosition() const;
-    void notifyTileClicked();
     void setPath(const std::vector<Vector2>& newPath); 
 };
 

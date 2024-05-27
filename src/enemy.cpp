@@ -30,4 +30,9 @@ void Enemy::move(const std::vector<Vector2>& path) {
     if (std::fabs(enemyPosition.x - target.x) < 0.1f && std::fabs(enemyPosition.z - target.y) < 0.1f) {
         currentPoint++;
     }
+
+}
+
+Vector3 Enemy::getEnemyPosition() const {
+    return enemyPosition;
 }

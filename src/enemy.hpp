@@ -14,6 +14,7 @@ public:
 
     virtual void move(const vector<Vector2>& path);
     virtual ~Enemy() {}
+    virtual Vector3 getEnemyPosition() const;
 
 protected:
     Model enemy;

@@ -76,12 +76,13 @@ void Map::checkTileHover(Camera3D& camera) {
 
         if (isTileBuildable(tilePosition, path)) {
             std::cout << "Buildable tile clicked" << std::endl;
-            notifyTileClicked();
+            notify();
         } else {
             std::cout << "Tile is not buildable" << std::endl;
         }
     }
 }
+
 
 void Map::drawBoundingBox(vector<Vector2> path) {
     if (isTileHovered) {
@@ -135,11 +136,6 @@ bool Map::isTileBuildable(Vector2 position, const vector<Vector2>& path) const {
 
 Vector3 Map::getHoveredTilePosition() const {
     return hoveredTilePosition;
-}
-
-void Map::notifyTileClicked() {
-    cout << "Notify observer of the Tile clicked" << endl;
-    notify();
 }
 
 void Map::setPath(const std::vector<Vector2>& newPath) {
