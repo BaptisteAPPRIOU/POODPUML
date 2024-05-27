@@ -20,15 +20,17 @@ public:
     MenuState currentState = MENU;
 
     void loadTextures();
+    void loadFont();  // New method to load the font
     void update();
     void draw();
-    bool isGameStarted(); // New method to check if the game has started
+    bool isGameStarted();
 
 private:
     Texture2D buttonTexture;
     Texture2D buttonHoverTexture;
     Texture2D logoTexture;
     Texture2D backgroundTexture;
+    Font customFont; // New font variable
 
     Button* startButton;
     Button* leaderboardButton;
