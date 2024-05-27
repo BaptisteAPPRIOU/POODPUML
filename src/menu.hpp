@@ -3,39 +3,39 @@
 
 #include <raylib.h>
 #include "button.hpp"
-#include "ui.hpp"
 
 class Menu {
 public:
     Menu();
     ~Menu();
 
+    enum MenuState {
+        MENU,
+        GAME,
+        LEADERBOARD,
+        CREDITS,
+        OPTIONS
+    };
+
+    MenuState currentState = MENU;
+
+    void loadTextures();
     void update();
     void draw();
-
-    enum MenuState { MAIN, LEADERBOARD, CREDITS, GAME, QUIT };
-    MenuState currentState;
+    bool isGameStarted(); // New method to check if the game has started
 
 private:
-    void drawMainMenu();
-    void updateMainMenu();
-    void drawLeaderboard();
-    void updateLeaderboard();
-    void drawCredits();
-    void updateCredits();
+    Texture2D buttonTexture;
+    Texture2D buttonHoverTexture;
+    Texture2D logoTexture;
+    Texture2D backgroundTexture;
 
-    Texture2D background;
-    Texture2D logo;
     Button* startButton;
     Button* leaderboardButton;
     Button* creditsButton;
     Button* optionsButton;
     Button* quitButton;
     Button* backButton;
-    Texture2D buttonTexture;
-    Texture2D buttonHoverTexture;
-
-    UI* ui;
 };
 
 #endif // MENU_HPP
