@@ -66,13 +66,13 @@ void GameManager::draw() {
                 BeginMode3D(camera);
                     enemy->move(path);
                     enemy->update();
+                    for (Tower* tower : towers) {
+                        tower->update();
+                    }
+
+                    // Draw the hovering tower if in placing mode
                     if (isPlacingTower && hoveringTower) {
                         hoveringTower->hoverTower(map.getHoveredTilePosition());
-                    }
-                    else {
-                        for (Tower* tower : towers) {
-                            tower->update();
-                        }
                     }
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);

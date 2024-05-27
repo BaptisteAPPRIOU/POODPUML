@@ -33,19 +33,15 @@ class GameManager : public Observer
 
         vector<Vector2> path;
         bool isPlacingTower;
-        void logDebug(const string& message);
         ofstream debugLogFile;
 
     public:
         GameManager();
         ~GameManager();
 
-
         void update();
         void draw();
         void updateCamera();
-        void onNotify(EventType eventType) override;
-        void placeTower(Vector3 position);
-        
+        void onNotify(EventType eventType) override;        
 };
 #endif // GAME_MANAGER_HPP
