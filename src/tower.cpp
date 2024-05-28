@@ -12,12 +12,12 @@ void Tower::update() {
     //add observer to calculate distance between tower and enemy
     // fireCountdown -= GetFrameTime();
     // if (fireCountdown <= 0) {
-        shoot();
+        shoot(enemyPosition);
     //     fireCountdown = 1.0f / fireRate;
     // }
 }
 
-void Tower::shoot() {
+void Tower::shoot(Vector3 enemyPosition) {
     //shoot at enemy
 }
 

@@ -8,6 +8,7 @@
 #include "ui.hpp"
 #include "tower.hpp"
 #include "osberver.hpp"
+#include "projectile.hpp"
 #include <fstream>
 
 class GameManager : public Observer
@@ -29,6 +30,7 @@ class GameManager : public Observer
         Enemy* enemy;
         Tower* hoveringTower;
         vector<Tower*> towers;
+        vector<Projectile*> projectiles;
 
         vector<Vector2> path;
         bool isPlacingTower;

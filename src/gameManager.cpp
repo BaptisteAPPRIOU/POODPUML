@@ -7,7 +7,7 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr), towers() {
+      cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr), towers(), projectiles() {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -34,6 +34,10 @@ GameManager::~GameManager() {
     for (Tower* tower : towers) {
         delete tower;
     }
+
+    // for (Projectile* projectile : projectiles) {
+    //         delete projectile;
+    //     }
     CloseWindow();
 }
 
@@ -44,6 +48,16 @@ void GameManager::update() {
     for (Tower* tower : towers) {
         tower->update();
     }
+
+    for (auto it = projectiles.begin(); it != projectiles.end();) {
+            (*it)->update();
+            if ((*it)->getPosition().z <= 0.0f) { // Check if projectile is below ground
+                delete *it;
+                it = projectiles.erase(it);
+            } else {
+                ++it;
+            }
+        }
     updateCamera();
     ui.updateButtons();
 }
@@ -68,6 +82,10 @@ void GameManager::draw() {
                     // Draw the hovering tower if in placing mode
                     if (isPlacingTower && hoveringTower) {
                         hoveringTower->hoverTower(map.getHoveredTilePosition());
+                    }
+
+                    for (Projectile* projectile : projectiles) {
+                        projectile->draw();
                     }
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);

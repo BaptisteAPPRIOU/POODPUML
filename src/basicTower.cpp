@@ -1,4 +1,5 @@
 #include "basicTower.hpp"
+#include "projectile.hpp"
 #include <iostream>
 
 BasicTower::BasicTower(Vector3 position) : Tower(position) {
@@ -14,14 +15,18 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {
 
 void BasicTower::update() {
     if (enemyInRange) {
-        shoot();
+        shoot(enemyPosition);
     }
     draw(towerPosition);
 }
 
-void BasicTower::shoot() {
+void BasicTower::shoot(Vector3 enemyPosition) {
     cout << "Basic Tower shooting" << endl;
-    //shoot at enemy
+    if (!projectile) {
+        Vector3 projectilePosition = towerPosition;
+        projectilePosition.z += 12.0f; // Adjust z position to be 6 units above the tower
+        projectile = Projectile::createProjectile("basic", projectilePosition, enemyPosition);
+    }
 }
 
 void BasicTower::hoverTower(Vector3 position) {
@@ -53,5 +58,17 @@ void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
         }
     } else {
         enemyInRange = false;
+        if (projectile) {
+            delete projectile;
+            projectile = nullptr;
+        }
+    }
+}
+
+BasicTower::~BasicTower() {
+    UnloadModel(tower); // Unload tower model
+    UnloadTexture(textureTower); // Unload tower texture
+    if (projectile) {
+        delete projectile; // Delete projectile object
     }
 }

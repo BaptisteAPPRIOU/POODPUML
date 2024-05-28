@@ -6,6 +6,7 @@
 #include <vector>
 #include "osberver.hpp"
 #include <raymath.h>
+#include "projectile.hpp"
 
 using namespace std;
 
@@ -16,10 +17,11 @@ public:
 
     static Tower* createTower(const string& type, Vector3 position);
     virtual void hoverTower(Vector3 position);
-    virtual void shoot() = 0;
+    virtual void shoot(Vector3 enemyPosition) = 0;
     virtual void draw(Vector3 towerPosition) = 0;
     virtual ~Tower() {}
     Vector3 towerPosition;
+    Vector3 enemyPosition;
     bool enemyInRange;
     virtual void checkEnemyInRange(Vector3 enemyPosition) = 0;
 
