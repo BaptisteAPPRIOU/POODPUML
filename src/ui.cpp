@@ -51,7 +51,7 @@ void UI::updateButtons() {
         buttonTower1Clicked = true;
         selectedTowerType = "basic";
         placingTower = true;
-        notify({ EventType::TOWER_CREATION });
+        notify(EventType::TOWER_CREATION);
     }
 
     if (buttonTower2->isClicked(mousePoint)) {

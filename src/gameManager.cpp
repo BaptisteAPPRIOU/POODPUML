@@ -123,7 +123,7 @@ void GameManager::onNotify(EventType eventType) {
                         Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
                         towers.push_back(newTower);
                         cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
-
+                        map.setTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, false);
                         // Reset placing state
                         isPlacingTower = false;
                         hoveringTower = nullptr;

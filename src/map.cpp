@@ -10,6 +10,10 @@ Map::Map() {
     roadPosition = Vector3{ 0.0f, 0.0f, 0.0f };
     hoveredTilePosition = Vector3{ 0.0f, 0.0f, 0.0f };
     isTileHovered = false;
+
+    int numTilesX = 17; 
+    int numTilesZ = 17; 
+    buildableTiles.resize(numTilesX,vector<bool>(numTilesZ, true));
 }
 
 Map::~Map() {
@@ -108,6 +112,14 @@ void Map::drawBoundingBox(vector<Vector2> path) {
                 break;
             }
         }
+        
+        int x = static_cast<int>((hoveredTilePosition.x + 25.0f) / 3.0f);
+        int z = static_cast<int>((hoveredTilePosition.z + 25.0f) / 3.0f);
+        if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+            if (!buildableTiles[x][z]) {
+                buildable = false;
+            }
+        }
         Vector3 centerPosition = (Vector3){ hoveredTilePosition.x, yOffset, hoveredTilePosition.z };
 
         Color color = buildable ? GREEN : RED;
@@ -135,13 +147,29 @@ void Map::loadModelsTextures() {
     road.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureRoad;
 }
 
-bool Map::isTileBuildable(Vector2 position, const vector<Vector2>& path) const {
+void Map::setTileBuildable(Vector2 position, bool buildable) {
+    int x = static_cast<int>((position.x + 25.0f) / 3.0f);
+    int z = static_cast<int>((position.y + 25.0f) / 3.0f);
+    if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+        buildableTiles[x][z] = buildable;
+    }
+}
+
+bool Map::isTileBuildable(Vector2 position, const std::vector<Vector2>& path) const {
+    int x = static_cast<int>((position.x + 25.0f) / 3.0f);
+    int z = static_cast<int>((position.y + 25.0f) / 3.0f);
+    if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+        if (!buildableTiles[x][z]) {
+            return false;
+        }
+    }
+
     for (const auto& point : path) {
         if (point.x == position.x && point.y == position.y) {
             return false;
         }
     }
-    std::cout << "Checking if tile is buildable at position: " << position.x << ", " << position.y << std::endl;
+    cout << "Checking if tile is buildable at position: " << position.x << ", " << position.y << endl;
     return true;
 }
 

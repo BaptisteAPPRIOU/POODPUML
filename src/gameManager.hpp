@@ -27,7 +27,6 @@ class GameManager : public Observer
         Map map;
         UI ui;
         Enemy* enemy;
-        Tower* tower;
         Tower* hoveringTower;
         vector<Tower*> towers;
 
