@@ -3,7 +3,7 @@
 
 #include "tower.hpp"
 
-class BasicTower : public Tower, public Subject
+class BasicTower : public Tower
 {
     public:
         BasicTower(Vector3 position);
@@ -13,8 +13,7 @@ class BasicTower : public Tower, public Subject
         void shoot() override;
         void hoverTower(Vector3 position) override;
         void draw(Vector3 position) override;
-        bool isEnemyInRange(const Vector3& enemyPosition) const;
-        // void onNotify() override;
+        void checkEnemyInRange(Vector3 enemyPosition) override;
 
     private:
         bool enemyInRange;

@@ -41,15 +41,9 @@ void GameManager::update() {
     map.checkTileHover(camera);
     enemy->update();
     enemy->move(path);
-    cout << "Enemy position: " << enemy->getEnemyPosition().x << ", " << enemy->getEnemyPosition().y << ", " << enemy->getEnemyPosition().z << endl;
-
-    // for (Tower* tower : towers) {
-    //     if (tower->isEnemyInRange(enemy->getEnemyPosition())) {
-    //         tower->onNotify(); 
-    //     } else {
-    //         tower->enemyInRange = false; 
-    //     }
-    // }
+    for (Tower* tower : towers) {
+        tower->update();
+    }
     updateCamera();
     ui.updateButtons();
 }
@@ -67,6 +61,7 @@ void GameManager::draw() {
                     enemy->move(path);
                     enemy->update();
                     for (Tower* tower : towers) {
+                        tower->checkEnemyInRange(enemy->getEnemyPosition());
                         tower->update();
                     }
 
@@ -109,6 +104,7 @@ void GameManager::onNotify(EventType eventType) {
             isPlacingTower = true;
             Vector3 initialHoverPosition = map.getHoveredTilePosition();
             hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
+
             cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
             break;
         }
@@ -121,7 +117,9 @@ void GameManager::onNotify(EventType eventType) {
 
                     if (map.isTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, path)) {
                         Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
+                        newTower->addObserver(this);
                         towers.push_back(newTower);
+                        newTower->draw(hoveredPosition);
                         cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
                         map.setTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, false);
                         // Reset placing state
@@ -138,5 +136,17 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
+        case EventType::ENEMY_IN_RANGE: {
+            cout << "Notification received: Enemy in range" << endl;
+            // Implement any additional logic here if needed
+            break;
+        }
+    }
+}
+
+void GameManager::checkTowersForEnemies() {
+    Vector3 enemyPosition = enemy->getEnemyPosition();
+    for (Tower* tower : towers) {
+        tower->checkEnemyInRange(enemyPosition);  // Call the method directly on the base class
     }
 }

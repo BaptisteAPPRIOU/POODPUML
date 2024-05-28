@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Tower 
+class Tower : public Subject
 {
 public:
     virtual void update() = 0;
@@ -20,8 +20,8 @@ public:
     virtual void draw(Vector3 towerPosition) = 0;
     virtual ~Tower() {}
     Vector3 towerPosition;
-    virtual bool isEnemyInRange(Vector3 enemyPosition) const;
     bool enemyInRange;
+    virtual void checkEnemyInRange(Vector3 enemyPosition) = 0;
 
 protected:
     Model tower;

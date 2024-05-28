@@ -9,10 +9,10 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {
     damage = 10;
     fireRate = 1.0f;
     cost = 100;
+    enemyInRange = false;
 }
 
 void BasicTower::update() {
-    Tower::update();  // Call base class update
     if (enemyInRange) {
         shoot();
     }
@@ -41,12 +41,17 @@ void BasicTower::draw(Vector3 towerPosition) {
     );
 }
 
-bool BasicTower::isEnemyInRange(const Vector3& enemyPosition) const {
+void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
     float distance = Vector3Distance(towerPosition, enemyPosition);
-    return distance <= range;
+    std::cout << "Checking enemy in range. Tower Position: (" << towerPosition.x << ", " << towerPosition.y << ", " << towerPosition.z 
+              << "), Enemy Position: (" << enemyPosition.x << ", " << enemyPosition.y << ", " << enemyPosition.z 
+              << "), Distance: " << distance << ", Range: " << range << std::endl;
+    if (distance <= range) {
+        if (!enemyInRange) {
+            enemyInRange = true;
+            Subject::notify(EventType::ENEMY_IN_RANGE);  // Qualify notify with Subject
+        }
+    } else {
+        enemyInRange = false;
+    }
 }
-
-// void BasicTower::onNotify() {
-//     notify();
-//     enemyInRange = true;
-// }

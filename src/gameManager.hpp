@@ -41,6 +41,7 @@ class GameManager : public Observer
         void update();
         void draw();
         void updateCamera();
-        void onNotify(EventType eventType) override;        
+        void onNotify(EventType eventType) override;
+        void checkTowersForEnemies();
 };
 #endif // GAME_MANAGER_HPP

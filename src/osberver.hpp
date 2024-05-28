@@ -6,7 +6,8 @@ using namespace std;
 
 enum class EventType {
     TOWER_CREATION,
-    TILE_CLICKED
+    TILE_CLICKED,
+    ENEMY_IN_RANGE
 };
 
 struct Event {
