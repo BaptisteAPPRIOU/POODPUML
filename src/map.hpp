@@ -3,9 +3,10 @@
 
 #include <raylib.h>
 #include <vector>
+#include "osberver.hpp"
 using namespace std;
 
-class Map
+class Map : public Subject
 {
 private:
     Model tile;
@@ -14,11 +15,13 @@ private:
     Texture2D textureRoad;
     Vector3 tilePosition;
     Vector3 roadPosition;
-    Vector3 hoveredTilePosition; 
-    bool isTileHovered;          
-    bool buildable;             
+    bool buildable;  
+    vector<Vector2> path;
+    vector<vector<bool>> buildableTiles;           
 
 public:
+    Vector3 hoveredTilePosition; 
+    bool isTileHovered;          
     Map();
     ~Map();
 
@@ -26,9 +29,14 @@ public:
     void drawTiles();
     void update();
     void drawRoad(vector<Vector2> path);
-    void checkTileHover(Camera camera); 
-    void drawBoundingBox(float thickness, vector<Vector2> path);            
+    void checkTileHover(Camera3D& camera);
+    void drawBoundingBox(vector<Vector2> path);            
     void loadModelsTextures(); 
+    bool isTileBuildable(Vector2 position, const vector<Vector2>& path) const;
+    void setTileNotBuildable(Vector2 position, bool buildable);
+    Vector3 getHoveredTilePosition() const;
+    void setPath(const std::vector<Vector2>& newPath);
+    void setTileBuildable(Vector2 position, bool buildable); 
 };
 
 #endif // MAP_HPP

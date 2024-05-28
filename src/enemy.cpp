@@ -37,4 +37,9 @@ void Enemy::move(const vector<Vector2>& path) {
     if (fabs(enemyPosition.x - target.x) < 0.1f && fabs(enemyPosition.z - target.y) < 0.1f) {
         currentPoint++;
     }
+
+}
+
+Vector3 Enemy::getEnemyPosition() const {
+    return enemyPosition;
 }

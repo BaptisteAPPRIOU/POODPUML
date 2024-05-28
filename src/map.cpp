@@ -2,6 +2,7 @@
 #include <rlgl.h>
 #include <raylib.h>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 Map::Map() {
@@ -9,6 +10,10 @@ Map::Map() {
     roadPosition = Vector3{ 0.0f, 0.0f, 0.0f };
     hoveredTilePosition = Vector3{ 0.0f, 0.0f, 0.0f };
     isTileHovered = false;
+
+    int numTilesX = 17; 
+    int numTilesZ = 17; 
+    buildableTiles.resize(numTilesX,vector<bool>(numTilesZ, true));
 }
 
 Map::~Map() {
@@ -43,7 +48,7 @@ void Map::drawRoad(std::vector<Vector2> path) {
     }
 }
 
-void Map::checkTileHover(Camera camera) {
+void Map::checkTileHover(Camera3D& camera) {
     Ray ray = GetMouseRay(GetMousePosition(), camera);
     float start = -25.0f;
     float end = 25.0f;
@@ -61,13 +66,40 @@ void Map::checkTileHover(Camera camera) {
             if (collision.hit) {
                 hoveredTilePosition = Vector3{ x, 0.0f, z };
                 isTileHovered = true;
+
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                    Vector2 tilePosition = Vector2{ hoveredTilePosition.x, hoveredTilePosition.z };
+                    if (isTileBuildable(tilePosition, path)) {
+                        cout << "Tile clicked and notified: " << tilePosition.x << ", " << tilePosition.y << endl;
+                        notify(EventType::TILE_CLICKED);
+                    } else {
+                        cout << "Tile clicked but not buildable: " << tilePosition.x << ", " << tilePosition.y << endl;
+                    }
+                }
                 return;
             }
         }
     }
+
+
+
+    // std::cout << "Checking tile hover" << std::endl;
+
+    // if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    //     std::cout << "Mouse button pressed" << std::endl;
+    //     Vector2 tilePosition = Vector2{hoveredTilePosition.x, hoveredTilePosition.z};
+    //     std::cout << "Hovered Tile Position: " << hoveredTilePosition.x << ", " << hoveredTilePosition.z << std::endl;
+
+    //     if (isTileBuildable(tilePosition, path)) {
+    //         std::cout << "Buildable tile clicked" << std::endl;
+    //         notify();
+    //     } else {
+    //         std::cout << "Tile is not buildable" << std::endl;
+    //     }
+    // }
 }
 
-void Map::drawBoundingBox(float thickness, vector<Vector2> path) {
+void Map::drawBoundingBox(vector<Vector2> path) {
     if (isTileHovered) {
         float step = 3.0f;
         float boxHeight = 2.0f; 
@@ -78,6 +110,14 @@ void Map::drawBoundingBox(float thickness, vector<Vector2> path) {
             if (point.x == hoveredTilePosition.x && point.y == hoveredTilePosition.z) {
                 buildable = false;
                 break;
+            }
+        }
+        
+        int x = static_cast<int>((hoveredTilePosition.x + 25.0f) / 3.0f);
+        int z = static_cast<int>((hoveredTilePosition.z + 25.0f) / 3.0f);
+        if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+            if (!buildableTiles[x][z]) {
+                buildable = false;
             }
         }
         Vector3 centerPosition = (Vector3){ hoveredTilePosition.x, yOffset, hoveredTilePosition.z };
@@ -94,7 +134,7 @@ void Map::drawMap(vector<Vector2> path) {
 
     drawTiles();
     drawRoad(path);
-    drawBoundingBox(1.0f, path);
+    drawBoundingBox(path);
 }
 
 void Map::loadModelsTextures() {
@@ -105,4 +145,38 @@ void Map::loadModelsTextures() {
     road = LoadModel("assets/models/road.obj");
     textureRoad = LoadTexture("assets/textures/texture_road.png");
     road.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureRoad;
+}
+
+void Map::setTileBuildable(Vector2 position, bool buildable) {
+    int x = static_cast<int>((position.x + 25.0f) / 3.0f);
+    int z = static_cast<int>((position.y + 25.0f) / 3.0f);
+    if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+        buildableTiles[x][z] = buildable;
+    }
+}
+
+bool Map::isTileBuildable(Vector2 position, const std::vector<Vector2>& path) const {
+    int x = static_cast<int>((position.x + 25.0f) / 3.0f);
+    int z = static_cast<int>((position.y + 25.0f) / 3.0f);
+    if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+        if (!buildableTiles[x][z]) {
+            return false;
+        }
+    }
+
+    for (const auto& point : path) {
+        if (point.x == position.x && point.y == position.y) {
+            return false;
+        }
+    }
+    cout << "Checking if tile is buildable at position: " << position.x << ", " << position.y << endl;
+    return true;
+}
+
+Vector3 Map::getHoveredTilePosition() const {
+    return hoveredTilePosition;
+}
+
+void Map::setPath(const std::vector<Vector2>& newPath) {
+    path = newPath;
 }

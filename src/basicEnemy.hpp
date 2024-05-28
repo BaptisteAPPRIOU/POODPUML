@@ -13,6 +13,7 @@ public:
 
     void update() override;
     void move(const vector<Vector2>& path) override;
+    
 };
 
 #endif // BASIC_ENEMY_HPP

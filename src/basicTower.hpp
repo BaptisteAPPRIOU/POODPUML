@@ -7,10 +7,17 @@ class BasicTower : public Tower
 {
     public:
         BasicTower(Vector3 position);
-        ~BasicTower() {}
+        ~BasicTower() override;
 
         void update() override;
-        void shoot() override;
+        void shoot(Vector3 enemyPosition) override;
+        void hoverTower(Vector3 position) override;
+        void draw(Vector3 position) override;
+        void checkEnemyInRange(Vector3 enemyPosition) override;
+
+    private:
+        bool enemyInRange;
+        Projectile* projectile;
 };
 
 #endif // BASIC_TOWER_HPP

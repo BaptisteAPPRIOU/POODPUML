@@ -1,32 +1,29 @@
-#ifndef PATH_BUILDER_HPP
-#define PATH_BUILDER_HPP
+// #ifndef PATH_BUILDER_HPP
+// #define PATH_BUILDER_HPP
 
-#include <vector>
-#include <utility>
-#include <vector>
-using namespace std;
+// #include <vector>
+// #include <utility>
 
-// Define the Node struct
-struct Node {
-    int x;
-    int y;
-};
+// class PathBuilder {
+// public:
+//     PathBuilder(float start, float end, float step);
 
-// Define the PathBuilder class
-class PathBuilder {
-public:
-    PathBuilder(float start, float end, float step);
-    vector<pair<float, float>> generateRandomPath();
-    bool isValid(int x, int y, vector<vector<bool>>& visited);
-    float toWorldCoordinate(int gridCoordinate);
+//     std::vector<std::pair<float, float>> generateRandomPath();
 
-private:
-    float start;
-    float end;
-    float step;
-    int width;
-    int height;
-    vector<pair<int, int>> directions;
-};
+// private:
+//     struct Node {
+//         int x, y;
+//     };
 
-#endif // PATH_BUILDER_HPP
+//     int width;
+//     int height;
+//     float start;
+//     float end;
+//     float step;
+//     const std::vector<std::pair<int, int>> directions;
+
+//     bool isValid(int x, int y, std::vector<std::vector<bool>>& visited);
+//     float toWorldCoordinate(int gridCoordinate);
+// };
+
+// #endif // PATH_BUILDER_HPP

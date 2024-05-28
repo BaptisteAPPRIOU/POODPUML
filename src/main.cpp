@@ -1,6 +1,7 @@
-#include "gameManager.hpp"
-#include "pathBuilder.hpp"
+#include <raylib.h>
 #include <iostream>
+#include "gameManager.hpp"
+
 using namespace std;
 
 int main() {
