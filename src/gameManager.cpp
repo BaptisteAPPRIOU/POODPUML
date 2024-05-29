@@ -25,9 +25,6 @@ GameManager::GameManager()
     path = loadPathFromJSON("assets/paths/pathMedium.json");
 
     map.drawMap(path);
-    // enemies.push_back(Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f }));
-    // enemies.push_back(Enemy::createEnemy("medium", Vector3{ -25.0f, 0.0f, -10.0f }));
-    // enemies.push_back(Enemy::createEnemy("hard", Vector3{ -25.0f, 0.0f, -10.0f }));
     // wave = new Wave("basic", Vector3{ -25.0f, 0.0f, -10.0f }, 10, path); // Crée une vague de 10 ennemis de type "basic"
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
 
@@ -42,13 +39,6 @@ GameManager::~GameManager() {
     // }
     // delete wave;
     delete enemy;
-    for (Tower* tower : towers) {
-        delete tower;
-    }
-
-    // for (Projectile* projectile : projectiles) {
-    //         delete projectile;
-    //     }
     CloseWindow();
 }
 
@@ -59,22 +49,7 @@ void GameManager::update() {
     //     enemy->move(path);
     // }
     // wave->update();
-   updateCamera();
-    enemy->update();
-    enemy->move(path);
-    for (Tower* tower : towers) {
-        tower->update();
-    }
-
-    for (auto it = projectiles.begin(); it != projectiles.end();) {
-            (*it)->update();
-            if ((*it)->getPosition().z <= 0.0f) { // Check if projectile is below ground
-                delete *it;
-                it = projectiles.erase(it);
-            } else {
-                ++it;
-            }
-        }
+    updateCamera();
     updateCamera();
     ui.updateButtons();
 }
@@ -96,19 +71,6 @@ void GameManager::draw() {
                     // wave->update();
                     enemy->move(path);
                     enemy->update();
-                    for (Tower* tower : towers) {
-                        tower->checkEnemyInRange(enemy->getEnemyPosition());
-                        tower->update();
-                    }
-
-                    // Draw the hovering tower if in placing mode
-                    if (isPlacingTower && hoveringTower) {
-                        hoveringTower->hoverTower(map.getHoveredTilePosition());
-                    }
-
-                    for (Projectile* projectile : projectiles) {
-                        projectile->draw();
-                    }
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);
                 EndMode3D();
@@ -141,10 +103,6 @@ void GameManager::onNotify(EventType eventType) {
     switch (eventType) {
         case EventType::TOWER_CREATION: {
             cout << "Notification received: Tower creation" << endl;
-            isPlacingTower = true;
-            Vector3 initialHoverPosition = map.getHoveredTilePosition();
-            hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
-            cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
             break;
         }
         case EventType::TILE_CLICKED: {
@@ -155,12 +113,7 @@ void GameManager::onNotify(EventType eventType) {
                     cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
 
                     if (map.isTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, path)) {
-                        Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
-                        newTower->addObserver(this);
-                        towers.push_back(newTower);
-                        newTower->draw(hoveredPosition);
                         cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
-                        map.setTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, false);
                         // Reset placing state
                         isPlacingTower = false;
                         hoveringTower = nullptr;
@@ -180,12 +133,5 @@ void GameManager::onNotify(EventType eventType) {
             // Implement any additional logic here if needed
             break;
         }
-    }
-}
-
-void GameManager::checkTowersForEnemies() {
-    Vector3 enemyPosition = enemy->getEnemyPosition();
-    for (Tower* tower : towers) {
-        tower->checkEnemyInRange(enemyPosition);  // Call the method directly on the base class
     }
 }
