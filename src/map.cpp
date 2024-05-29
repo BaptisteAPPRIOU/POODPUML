@@ -115,7 +115,7 @@ void Map::drawBoundingBox(vector<Vector2> path) {
         
         int x = static_cast<int>((hoveredTilePosition.x + 25.0f) / 3.0f);
         int z = static_cast<int>((hoveredTilePosition.z + 25.0f) / 3.0f);
-        if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+        if (x >= 0 && x < static_cast<int>(buildableTiles.size()) && z >= 0 && z < static_cast<int>(buildableTiles[0].size())) {
             if (!buildableTiles[x][z]) {
                 buildable = false;
             }
@@ -150,7 +150,7 @@ void Map::loadModelsTextures() {
 void Map::setTileBuildable(Vector2 position, bool buildable) {
     int x = static_cast<int>((position.x + 25.0f) / 3.0f);
     int z = static_cast<int>((position.y + 25.0f) / 3.0f);
-    if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+    if (x >= 0 && x < static_cast<int>(buildableTiles.size()) && z >= 0 && z < static_cast<int>(buildableTiles[0].size())) {
         buildableTiles[x][z] = buildable;
     }
 }
@@ -158,7 +158,7 @@ void Map::setTileBuildable(Vector2 position, bool buildable) {
 bool Map::isTileBuildable(Vector2 position, const std::vector<Vector2>& path) const {
     int x = static_cast<int>((position.x + 25.0f) / 3.0f);
     int z = static_cast<int>((position.y + 25.0f) / 3.0f);
-    if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
+    if (x >= 0 && x < static_cast<int>(buildableTiles.size()) && z >= 0 && z < static_cast<int>(buildableTiles[0].size())) {
         if (!buildableTiles[x][z]) {
             return false;
         }
