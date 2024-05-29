@@ -14,20 +14,20 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {
 }
 
 void BasicTower::update() {
-    if (enemyInRange) {
-        shoot(enemyPosition);
-    }
+    // if (enemyInRange) {
+    //     shoot(enemyPosition);
+    // }
     draw(towerPosition);
 }
 
-void BasicTower::shoot(Vector3 enemyPosition) {
-    cout << "Basic Tower shooting" << endl;
-    if (!projectile) {
-        Vector3 projectilePosition = towerPosition;
-        projectilePosition.z += 12.0f; // Adjust z position to be 6 units above the tower
-        projectile = Projectile::createProjectile("basic", projectilePosition, enemyPosition);
-    }
-}
+// void BasicTower::shoot(Vector3 enemyPosition) {
+//     cout << "Basic Tower shooting" << endl;
+//     if (!projectile) {
+//         Vector3 projectilePosition = towerPosition;
+//         projectilePosition.z += 12.0f; // Adjust z position to be 6 units above the tower
+//         projectile = Projectile::createProjectile("basic", projectilePosition, enemyPosition);
+//     }
+// }
 
 void BasicTower::hoverTower(Vector3 position) {
     DrawModel(tower, position, 1.0f, Fade(WHITE, 0.5f));

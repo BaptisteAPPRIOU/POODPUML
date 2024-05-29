@@ -10,7 +10,7 @@ class BasicTower : public Tower
         ~BasicTower() override;
 
         void update() override;
-        void shoot(Vector3 enemyPosition) override;
+        // void shoot(Vector3 enemyPosition) override;
         void hoverTower(Vector3 position) override;
         void draw(Vector3 position) override;
         void checkEnemyInRange(Vector3 enemyPosition) override;
