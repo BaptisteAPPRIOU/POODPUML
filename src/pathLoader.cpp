@@ -9,8 +9,8 @@ using namespace std;
 
 
 // Function to parse a JSON file manually
-std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
-    std::vector<Vector2> path;
+std::vector<Vector3> loadPathFromJSON(const std::string& filename) {
+    std::vector<Vector3> path;
     std::ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Could not open the file!" << endl;
@@ -36,9 +36,10 @@ std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
         std::istringstream stream(pathData);
         std::string point;
         while (std::getline(stream, point, '{')) {
-            if (point.find("x") != std::string::npos && point.find("y") != std::string::npos) {
+            if (point.find("x") != std::string::npos && point.find("y") != std::string::npos && point.find("z") != std::string::npos) {
                 size_t xPos = point.find("x");
                 size_t yPos = point.find("y");
+                size_t zPos = point.find("z");
 
                 size_t xStart = point.find(":", xPos) + 1;
                 size_t xEnd = point.find(",", xStart);
@@ -48,7 +49,11 @@ std::vector<Vector2> loadPathFromJSON(const std::string& filename) {
                 size_t yEnd = point.find('}', yStart);
                 float y = std::stof(point.substr(yStart, yEnd - yStart));
 
-                path.push_back({ x, y });
+                size_t zStart = point.find(":", zPos) + 1;
+                size_t zEnd = point.find(',', zStart);
+                float z = std::stof(point.substr(zStart, zEnd - zStart));
+
+                path.push_back({ x, y, z});
                 // cout << "Loaded point: x = " << x << ", y = " << y << endl;
             }
         }

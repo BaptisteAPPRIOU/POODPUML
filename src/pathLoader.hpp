@@ -7,6 +7,6 @@
 #include <vector>
 #include <string>
 
-std::vector<Vector2> loadPathFromJSON(const std::string& filename);
+std::vector<Vector3> loadPathFromJSON(const std::string& filename);
 
 #endif // LOADING_HPP

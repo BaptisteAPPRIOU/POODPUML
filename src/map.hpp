@@ -16,7 +16,7 @@ private:
     Vector3 tilePosition;
     Vector3 roadPosition;
     bool buildable;  
-    vector<Vector2> path;
+    vector<Vector3> path;
     vector<vector<bool>> buildableTiles;           
 
 public:
@@ -25,17 +25,17 @@ public:
     Map();
     ~Map();
 
-    void drawMap(vector<Vector2> path);
+    void drawMap(vector<Vector3> path);
     void drawTiles();
     void update();
-    void drawRoad(vector<Vector2> path);
+    void drawRoad(vector<Vector3> path);
     void checkTileHover(Camera3D& camera);
-    void drawBoundingBox(vector<Vector2> path);            
+    void drawBoundingBox(vector<Vector3> path);            
     void loadModelsTextures(); 
-    bool isTileBuildable(Vector2 position, const vector<Vector2>& path) const;
+    bool isTileBuildable(Vector2 position, const vector<Vector3>& path) const;
     void setTileNotBuildable(Vector2 position, bool buildable);
     Vector3 getHoveredTilePosition() const;
-    void setPath(const std::vector<Vector2>& newPath);
+    void setPath(const std::vector<Vector3>& newPath);
     void setTileBuildable(Vector2 position, bool buildable); 
 };
 

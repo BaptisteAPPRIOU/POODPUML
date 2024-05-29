@@ -12,7 +12,7 @@ public:
 
     static Enemy* createEnemy(const string& type, Vector3 position);
 
-    virtual void move(const vector<Vector2>& path);
+    virtual void move(const vector<Vector3>& path);
     virtual ~Enemy() {}
     virtual Vector3 getEnemyPosition() const;
 

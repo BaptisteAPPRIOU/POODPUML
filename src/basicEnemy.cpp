@@ -17,6 +17,6 @@ void BasicEnemy::update() {
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);
 }
 
-void BasicEnemy::move(const std::vector<Vector2>& path) {
+void BasicEnemy::move(const std::vector<Vector3>& path) {
     Enemy::move(path);
 }

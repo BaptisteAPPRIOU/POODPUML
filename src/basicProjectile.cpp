@@ -1,4 +1,5 @@
 #include "basicProjectile.hpp"
+#include <iostream>
 
 BasicProjectile::BasicProjectile(Vector3 position, Vector3 targetPosition)
     : Projectile(position, targetPosition, 0.1f, 100) {
@@ -17,6 +18,9 @@ void BasicProjectile::update() {
     position.x += direction.x * speed;
     position.y += direction.y * speed;
     position.z += direction.z * speed;
+
+    std::cout << "Projectile Position: (" << position.x << ", " << position.y << ", " << position.z << ") "
+              << "Target Position: (" << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << ")" << std::endl;
 }
 
 void BasicProjectile::draw() const {

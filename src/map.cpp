@@ -41,9 +41,9 @@ void Map::update() {
     DrawFPS(10, 10);
 }
 
-void Map::drawRoad(std::vector<Vector2> path) {
+void Map::drawRoad(std::vector<Vector3> path) {
     for (auto& point : path) {
-        roadPosition = Vector3{ point.x, 0.3f, point.y }; 
+        roadPosition = Vector3{ point.x, 0.3f, point.z }; 
         DrawModel(road, roadPosition, 1.0f, WHITE);
     }
 }
@@ -99,7 +99,7 @@ void Map::checkTileHover(Camera3D& camera) {
     // }
 }
 
-void Map::drawBoundingBox(vector<Vector2> path) {
+void Map::drawBoundingBox(vector<Vector3> path) {
     if (isTileHovered) {
         float step = 3.0f;
         float boxHeight = 2.0f; 
@@ -128,7 +128,7 @@ void Map::drawBoundingBox(vector<Vector2> path) {
     }
 }
 
-void Map::drawMap(vector<Vector2> path) {
+void Map::drawMap(vector<Vector3> path) {
     DrawText("Welcome to the Tower Defense Game", 910, 10, 20, DARKGRAY);
     DrawFPS(10, 10);
 
@@ -155,7 +155,7 @@ void Map::setTileBuildable(Vector2 position, bool buildable) {
     }
 }
 
-bool Map::isTileBuildable(Vector2 position, const std::vector<Vector2>& path) const {
+bool Map::isTileBuildable(Vector2 position, const std::vector<Vector3>& path) const {
     int x = static_cast<int>((position.x + 25.0f) / 3.0f);
     int z = static_cast<int>((position.y + 25.0f) / 3.0f);
     if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
@@ -177,6 +177,6 @@ Vector3 Map::getHoveredTilePosition() const {
     return hoveredTilePosition;
 }
 
-void Map::setPath(const std::vector<Vector2>& newPath) {
+void Map::setPath(const std::vector<Vector3>& newPath) {
     path = newPath;
 }

@@ -23,7 +23,7 @@ GameManager::GameManager()
 
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
-    projectile1 = Projectile::createProjectile("basic", Vector3{ 0.0f, 0.0f, 10.0f }, Vector3{ 0.0f, 0.0f, 0.0f });
+    projectile1 = Projectile::createProjectile("basic", Vector3{ 0.0f, 10.0f, 0.0f }, enemy->getEnemyPosition());
 
     ui.addObserver(this);
     map.addObserver(this);
@@ -64,6 +64,7 @@ void GameManager::update() {
     for (Projectile* projectile : projectiles) {
         projectile->update();
     }
+    projectile1->update();
 
     updateCamera();
     ui.updateButtons();
@@ -92,6 +93,7 @@ void GameManager::draw() {
                         projectile->draw();
                     }
                     map.drawMap(path);
+                    projectile1->draw();
                     DrawGrid(100, 1.0f);
                 EndMode3D();
             EndScissorMode();
@@ -103,6 +105,7 @@ void GameManager::draw() {
             ui.updateButtons();
 
         EndDrawing();
+        update();
     }
 }
 
@@ -162,8 +165,8 @@ void GameManager::onNotify(EventType eventType) {
             for (Tower* tower : towers) {
                 if (tower->enemyInRange) {
                     Vector3 towerPosition = tower->getTowerPosition();
-                    Vector3 enemyPosition = enemy->getEnemyPosition();
-                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemyPosition);
+                    // Vector3 enemyPosition = enemy->getEnemyPosition();
+                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
                     projectiles.push_back(newProjectile);
                 }
             }

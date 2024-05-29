@@ -10,7 +10,7 @@ public:
     ~BasicEnemy() {}
 
     void update() override;
-    void move(const vector<Vector2>& path) override;
+    void move(const vector<Vector3>& path) override;
     
 };
 

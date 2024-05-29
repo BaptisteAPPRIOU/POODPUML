@@ -33,7 +33,7 @@ class GameManager : public Observer
         vector<Tower*> towers;
         vector<Projectile*> projectiles;
 
-        vector<Vector2> path;
+        vector<Vector3> path;
         bool isPlacingTower;
         ofstream debugLogFile;
 

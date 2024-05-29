@@ -2,6 +2,8 @@
 #include "basicEnemy.hpp"
 #include <vector>
 #include <cmath>
+#include <algorithm>
+#include <raymath.h>
 
 Enemy* Enemy::createEnemy(const std::string& type, Vector3 position) {
     if (type == "basic") {
@@ -10,24 +12,22 @@ Enemy* Enemy::createEnemy(const std::string& type, Vector3 position) {
     return nullptr;
 }
 
-void Enemy::move(const std::vector<Vector2>& path) {
+void Enemy::move(const std::vector<Vector3>& path) {
     if (path.empty() || currentPoint >= path.size()) {
         return;
     }
 
-    Vector2 target = path[currentPoint];
-    Vector2 direction = { target.x - enemyPosition.x, target.y - enemyPosition.z };
+    Vector3 target = path[currentPoint];
+    Vector3 direction = Vector3Subtract(target, enemyPosition);
 
-    float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+    float length = Vector3Length(direction);
     if (length > 0) {
-        direction.x /= length;
-        direction.y /= length;
+        direction = Vector3Scale(direction, speed / length);
     }
 
-    enemyPosition.x += direction.x * speed;
-    enemyPosition.z += direction.y * speed;
+    enemyPosition = Vector3Add(enemyPosition, direction);
 
-    if (std::fabs(enemyPosition.x - target.x) < 0.1f && std::fabs(enemyPosition.z - target.y) < 0.1f) {
+    if (Vector3Distance(enemyPosition, target) < 0.1f) {
         currentPoint++;
     }
 
