@@ -39,7 +39,6 @@ class GameManager : public Observer
         bool isPlacingTower;
         ofstream debugLogFile;
         vector<Enemy*> enemies;  // Vecteur d'ennemis
-        vector<Vector2> path;
         Wave* wave = nullptr; // Declare the variable "wave"
 
 

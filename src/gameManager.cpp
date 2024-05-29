@@ -10,7 +10,6 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), wave(nullptr) {
       cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr), towers(), projectiles() {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
@@ -29,7 +28,7 @@ GameManager::GameManager()
     // enemies.push_back(Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f }));
     // enemies.push_back(Enemy::createEnemy("medium", Vector3{ -25.0f, 0.0f, -10.0f }));
     // enemies.push_back(Enemy::createEnemy("hard", Vector3{ -25.0f, 0.0f, -10.0f }));
-    wave = new Wave("basic", Vector3{ -25.0f, 0.0f, -10.0f }, 10, path); // Crée une vague de 10 ennemis de type "basic"
+    // wave = new Wave("basic", Vector3{ -25.0f, 0.0f, -10.0f }, 10, path); // Crée une vague de 10 ennemis de type "basic"
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
 
     ui.addObserver(this);
@@ -41,7 +40,7 @@ GameManager::~GameManager() {
     // for (auto enemy : enemies) {
     //     delete enemy;
     // }
-    delete wave;
+    // delete wave;
     delete enemy;
     for (Tower* tower : towers) {
         delete tower;
@@ -59,7 +58,7 @@ void GameManager::update() {
     //     enemy->update();
     //     enemy->move(path);
     // }
-    wave->update();
+    // wave->update();
    updateCamera();
     enemy->update();
     enemy->move(path);
@@ -94,7 +93,7 @@ void GameManager::draw() {
                     //     enemy->update();
                     //     enemy->move(path);
                     // }
-                    wave->update();
+                    // wave->update();
                     enemy->move(path);
                     enemy->update();
                     for (Tower* tower : towers) {
@@ -145,7 +144,6 @@ void GameManager::onNotify(EventType eventType) {
             isPlacingTower = true;
             Vector3 initialHoverPosition = map.getHoveredTilePosition();
             hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
-
             cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
             break;
         }
