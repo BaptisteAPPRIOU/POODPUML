@@ -4,28 +4,28 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <string>
-using namespace std;
 
-class Projectile
-{
-    public:
-        virtual void update() = 0;
-        virtual void draw() = 0;
+class Projectile {
+public:
+    virtual ~Projectile() {}
 
-        Vector3 getPosition() const;
-        int getDamage() const;
-        static Projectile* createProjectile(const string& type, Vector3 position, Vector3 targetPosition);
-        virtual ~Projectile() {}
+    virtual void update() = 0;
+    virtual void draw() const = 0;
 
-    protected:
-        Model projectile;
-        Texture2D textureProjectile;
-        Vector3 position;
-        Vector3 targetPosition;
-        float speed;
-        int damage;
-        
-        Projectile(Vector3 position, Vector3 targetPosition, float speed, int damage);
+    static Projectile* createProjectile(const std::string& type, Vector3 position, Vector3 targetPosition);
+
+    Vector3 getPosition() const;
+    int getDamage() const;
+
+protected:
+    Projectile(Vector3 position, Vector3 targetPosition, float speed, int damage);
+
+    Model projectileModel;
+    Texture2D textureProjectile;
+    Vector3 position;
+    Vector3 targetPosition;
+    float speed;
+    int damage;
 };
 
 #endif // PROJECTILE_HPP

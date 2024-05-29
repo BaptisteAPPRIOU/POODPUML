@@ -1,4 +1,5 @@
 #include "osberver.hpp"
+#include <algorithm>
 
 void Subject::addObserver(Observer* observer) {
     observers.push_back(observer);

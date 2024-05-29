@@ -14,6 +14,7 @@ class BasicTower : public Tower
         void hoverTower(Vector3 position) override;
         void draw(Vector3 position) override;
         void checkEnemyInRange(Vector3 enemyPosition) override;
+        Vector3 getTowerPosition() override;
 
     private:
         bool enemyInRange;

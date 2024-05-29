@@ -47,22 +47,23 @@ void BasicTower::draw(Vector3 towerPosition) {
 }
 
 void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
-    float distance = Vector3Distance(towerPosition, enemyPosition);
-    std::cout << "Checking enemy in range. Tower Position: (" << towerPosition.x << ", " << towerPosition.y << ", " << towerPosition.z 
-              << "), Enemy Position: (" << enemyPosition.x << ", " << enemyPosition.y << ", " << enemyPosition.z 
-              << "), Distance: " << distance << ", Range: " << range << std::endl;
-    if (distance <= range) {
-        if (!enemyInRange) {
-            enemyInRange = true;
-            Subject::notify(EventType::ENEMY_IN_RANGE);  // Qualify notify with Subject
-        }
-    } else {
-        enemyInRange = false;
-        if (projectile) {
-            delete projectile;
-            projectile = nullptr;
-        }
-    }
+    // float distance = Vector3Distance(towerPosition, enemyPosition);
+    // std::cout << "Checking enemy in range. Tower Position: (" << towerPosition.x << ", " << towerPosition.y << ", " << towerPosition.z 
+    //           << "), Enemy Position: (" << enemyPosition.x << ", " << enemyPosition.y << ", " << enemyPosition.z 
+    //           << "), Distance: " << distance << ", Range: " << range << std::endl;
+    // if (distance <= range) {
+    //     if (!enemyInRange) {
+    //         enemyInRange = true;
+    //         Subject::notify(EventType::ENEMY_IN_RANGE);  // Qualify notify with Subject
+    //     }
+    // } else {
+    //     enemyInRange = false;
+    //     if (projectile) {
+    //         delete projectile;
+    //         projectile = nullptr;
+    //     }
+    // }
+    Tower::checkEnemyInRange(enemyPosition);
 }
 
 BasicTower::~BasicTower() {
@@ -71,4 +72,8 @@ BasicTower::~BasicTower() {
     if (projectile) {
         delete projectile; // Delete projectile object
     }
+}
+
+Vector3 BasicTower::getTowerPosition() {
+    return towerPosition;
 }

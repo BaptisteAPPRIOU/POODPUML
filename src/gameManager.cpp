@@ -23,9 +23,11 @@ GameManager::GameManager()
 
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
+    projectile1 = Projectile::createProjectile("basic", Vector3{ 0.0f, 0.0f, 10.0f }, Vector3{ 0.0f, 0.0f, 0.0f });
 
     ui.addObserver(this);
     map.addObserver(this);
+
     SetTargetFPS(60);
 }
 
@@ -35,9 +37,9 @@ GameManager::~GameManager() {
         delete tower;
     }
 
-    // for (Projectile* projectile : projectiles) {
-    //         delete projectile;
-    //     }
+    for (Projectile* projectile : projectiles) {
+        delete projectile;
+    }
     CloseWindow();
 }
 
@@ -47,17 +49,22 @@ void GameManager::update() {
     enemy->move(path);
     for (Tower* tower : towers) {
         tower->update();
+        tower->checkEnemyInRange(enemy->getEnemyPosition());
     }
 
     for (auto it = projectiles.begin(); it != projectiles.end();) {
-            (*it)->update();
-            if ((*it)->getPosition().z <= 0.0f) { // Check if projectile is below ground
-                delete *it;
-                it = projectiles.erase(it);
-            } else {
-                ++it;
-            }
+        (*it)->update();
+        if ((*it)->getPosition().z <= 0.0f) { 
+            delete *it;
+            it = projectiles.erase(it);
+        } else {
+            ++it;
         }
+    }
+    for (Projectile* projectile : projectiles) {
+        projectile->update();
+    }
+
     updateCamera();
     ui.updateButtons();
 }
@@ -78,12 +85,9 @@ void GameManager::draw() {
                         tower->checkEnemyInRange(enemy->getEnemyPosition());
                         tower->update();
                     }
-
-                    // Draw the hovering tower if in placing mode
                     if (isPlacingTower && hoveringTower) {
                         hoveringTower->hoverTower(map.getHoveredTilePosition());
                     }
-
                     for (Projectile* projectile : projectiles) {
                         projectile->draw();
                     }
@@ -118,47 +122,55 @@ void GameManager::updateCamera() {
 void GameManager::onNotify(EventType eventType) {
     switch (eventType) {
         case EventType::TOWER_CREATION: {
-            cout << "Notification received: Tower creation" << endl;
+            std::cout << "Notification received: Tower creation" << endl;
             isPlacingTower = true;
             Vector3 initialHoverPosition = map.getHoveredTilePosition();
             hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
 
-            cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
+            std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
             break;
         }
         case EventType::TILE_CLICKED: {
-            cout << "Notification received: Tile clicked" << endl;
+            std::cout << "Notification received: Tile clicked" << endl;
             if (isPlacingTower) {
                 if (hoveringTower) {
                     Vector3 hoveredPosition = map.getHoveredTilePosition();
-                    cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
+                    std::cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
 
                     if (map.isTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, path)) {
                         Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
                         newTower->addObserver(this);
                         towers.push_back(newTower);
                         newTower->draw(hoveredPosition);
-                        cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
+                        std::cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
                         map.setTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, false);
-                        // Reset placing state
                         isPlacingTower = false;
                         hoveringTower = nullptr;
                     } else {
-                        cout << "Cannot place tower on non-buildable tile." << endl;
+                        std::cout << "Cannot place tower on non-buildable tile." << endl;
                     }
                 } else {
-                    cout << "hoveringTower is null when trying to place tower." << endl;
+                    std::cout << "hoveringTower is null when trying to place tower." << endl;
                 }
             } else {
-                cout << "isPlacingTower is false when trying to place tower." << endl;
+                std::cout << "isPlacingTower is false when trying to place tower." << endl;
             }
             break;
         }
-        case EventType::ENEMY_IN_RANGE: {
-            cout << "Notification received: Enemy in range" << endl;
-            // Implement any additional logic here if needed
+         case EventType::ENEMY_IN_RANGE: {
+            std::cout << "Notification received: Enemy in range" << std::endl;
+            for (Tower* tower : towers) {
+                if (tower->enemyInRange) {
+                    Vector3 towerPosition = tower->getTowerPosition();
+                    Vector3 enemyPosition = enemy->getEnemyPosition();
+                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemyPosition);
+                    projectiles.push_back(newProjectile);
+                }
+            }
             break;
         }
+        default:
+            break;
     }
 }
 

@@ -29,6 +29,7 @@ class GameManager : public Observer
         UI ui;
         Enemy* enemy;
         Tower* hoveringTower;
+        Projectile* projectile1;
         vector<Tower*> towers;
         vector<Projectile*> projectiles;
 

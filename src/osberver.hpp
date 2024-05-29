@@ -10,13 +10,15 @@ enum class EventType {
     ENEMY_IN_RANGE
 };
 
-struct Event {
-    EventType type;
-};
+// struct Event {
+//     EventType type;
+// };
+
 
 class Observer
 {
     public:
+        virtual ~Observer() {}
         virtual void onNotify(EventType eventType) = 0;
 };
 
