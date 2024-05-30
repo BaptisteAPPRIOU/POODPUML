@@ -24,17 +24,18 @@ public:
     bool enemyInRange;
     virtual void checkEnemyInRange(Vector3 enemyPosition) = 0;
     virtual Vector3 getTowerPosition() = 0;
+    virtual string getType();
 
 protected:
     Model tower;
     Texture2D textureTower;
     float range;
-    int damage;
     float fireRate;
     float timeSinceLastShot;
     int cost;
+    string type;
 
     Tower() {}
-    Tower(Vector3 position) : towerPosition(position), range(0.0f), damage(0), fireRate(0.0f), timeSinceLastShot(0.0f) {}
+    Tower(Vector3 position) : towerPosition(position), range(0.0f), fireRate(0.0f), timeSinceLastShot(0.0f), type("") {}
 };
 #endif // TOWER_HPP

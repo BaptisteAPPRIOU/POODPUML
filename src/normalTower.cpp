@@ -1,28 +1,28 @@
-#include "basicTower.hpp"
+#include "normalTower.hpp"
 #include "projectile.hpp"
 #include <iostream>
 
-BasicTower::BasicTower(Vector3 position) : Tower(position) {
-    tower = LoadModel("assets/models/tower.obj");
-    textureTower = LoadTexture("assets/textures/texture_tower.png");
+NormalTower::NormalTower(Vector3 position) : Tower(position) {
+    tower = LoadModel("assets/models/tower1.obj");
+    textureTower = LoadTexture("assets/textures/texture_tower1.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
-    range = 10.0f;
+    range = 5.0f;
     fireRate = 0.3f;
     timeSinceLastShot = 0.0f;
     cost = 100;
     enemyInRange = false;
-    type = "basic";
+    type = "normal";
 }
 
-void BasicTower::update() {
+void NormalTower::update() {
     draw(towerPosition);
 }
 
-void BasicTower::hoverTower(Vector3 position) {
+void NormalTower::hoverTower(Vector3 position) {
     DrawModel(tower, position, 1.0f, Fade(WHITE, 0.5f));
 }
 
-void BasicTower::draw(Vector3 towerPosition) {
+void NormalTower::draw(Vector3 towerPosition) {
     DrawModel(tower, towerPosition, 1.0f, WHITE);
     Vector3 adjustedPosition = towerPosition;
     adjustedPosition.z += 0.4f; 
@@ -35,11 +35,11 @@ void BasicTower::draw(Vector3 towerPosition) {
     );
 }
 
-void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
+void NormalTower::checkEnemyInRange(Vector3 enemyPosition) {
     Tower::checkEnemyInRange(enemyPosition);
 }
 
-BasicTower::~BasicTower() {
+NormalTower::~NormalTower() {
     UnloadModel(tower); // Unload tower model
     UnloadTexture(textureTower); // Unload tower texture
     if (projectile) {
@@ -47,10 +47,10 @@ BasicTower::~BasicTower() {
     }
 }
 
-Vector3 BasicTower::getTowerPosition() {
+Vector3 NormalTower::getTowerPosition() {
     return towerPosition;
 }
 
-string BasicTower::getType() {
+string NormalTower::getType() {
     return type;
 }

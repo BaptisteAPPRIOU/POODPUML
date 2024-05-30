@@ -42,6 +42,9 @@ void UI::drawGameButtons() {
     buttonTower3->update(GetMousePosition());
     buttonTower4->update(GetMousePosition());
 
+    DrawText("BASIC TOWER", 1450, 285, 30, BLACK);
+    DrawText("NORMAL TOWER", 1450, 455, 30, BLACK);
+
     DrawText("SCORE", 500, 950, 30, BLACK);
 }
 
@@ -58,6 +61,10 @@ void UI::updateButtons() {
 
     if (buttonTower2->isClicked(mousePoint)) {
         std::cout << "Button 2 clicked" << std::endl;
+        buttonTower1Clicked = true;
+        selectedTowerType = "normal";
+        placingTower = true;
+        notify(EventType::TOWER_CREATION);
     }
     if (buttonTower3->isClicked(mousePoint)) {
         std::cout << "Button 3 clicked" << std::endl;

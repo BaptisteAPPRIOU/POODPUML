@@ -1,11 +1,15 @@
 #include "tower.hpp"
 #include "basicTower.hpp"
+#include "normalTower.hpp"
 #include <iostream>
 using namespace std;
 
 Tower* Tower::createTower(const std::string& type, Vector3 position) {
     if (type == "basic") {
         return new BasicTower(position);
+    }
+    else if (type == "normal") {
+        return new NormalTower(position);
     }
     return nullptr;
 }
@@ -39,4 +43,8 @@ void Tower::checkEnemyInRange(Vector3 enemyPosition) {
 
 Vector3 Tower::getTowerPosition() {
     return towerPosition;
+}
+
+string Tower::getType() {
+    return type;
 }

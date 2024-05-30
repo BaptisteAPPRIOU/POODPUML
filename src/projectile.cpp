@@ -1,5 +1,6 @@
 #include "projectile.hpp"
 #include "basicProjectile.hpp"
+#include "normalProjectile.hpp"
 
 Projectile::Projectile(Vector3 position, Vector3 targetPosition, float speed, int damage)
     : position(position), targetPosition(targetPosition), speed(speed), damage(damage) {}
@@ -15,6 +16,9 @@ int Projectile::getDamage() const {
 Projectile* Projectile::createProjectile(const std::string& type, Vector3 position, Vector3 targetPosition) {
     if (type == "basic") {
         return new BasicProjectile(position, targetPosition);
+    }
+    else if (type == "normal") {
+        return new NormalProjectile(position, targetPosition);
     }
     return nullptr;
 }

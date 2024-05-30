@@ -176,11 +176,21 @@ void GameManager::onNotify(EventType eventType) {
          case EventType::ENEMY_IN_RANGE: {
             std::cout << "Notification received: Enemy in range" << std::endl;
             for (Tower* tower : towers) {
-                if (tower->enemyInRange) {
-                    Vector3 towerPosition = tower->getTowerPosition();
-                    towerPosition.y = 6.0f;
-                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
-                    projectiles.push_back(newProjectile);
+                if(tower->getType() == "basic") {
+                    if (tower->enemyInRange) {
+                        Vector3 towerPosition = tower->getTowerPosition();
+                        towerPosition.y = 6.0f;
+                        Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                        projectiles.push_back(newProjectile);
+                    }
+                }
+                else if(tower->getType() == "normal") {
+                    if (tower->enemyInRange) {
+                        Vector3 towerPosition = tower->getTowerPosition();
+                        towerPosition.y = 6.0f;
+                        Projectile* newProjectile = Projectile::createProjectile("normal", towerPosition, enemy->getEnemyPosition());
+                        projectiles.push_back(newProjectile);
+                    }
                 }
             }
             break;

@@ -1,13 +1,13 @@
-#ifndef BASIC_TOWER_HPP
-#define BASIC_TOWER_HPP
+#ifndef NORMAL_TOWER_HPP
+#define NORMAL_TOWER_HPP
 
 #include "tower.hpp"
 
-class BasicTower : public Tower
+class NormalTower : public Tower
 {
     public:
-        BasicTower(Vector3 position);
-        ~BasicTower() override;
+        NormalTower(Vector3 position);
+        ~NormalTower() override;
 
         void update() override;
         void hoverTower(Vector3 position) override;
@@ -21,4 +21,4 @@ class BasicTower : public Tower
         Projectile* projectile;
 };
 
-#endif // BASIC_TOWER_HPP
+#endif // NORMAL_TOWER_HPP
