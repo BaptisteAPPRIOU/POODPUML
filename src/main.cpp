@@ -5,6 +5,7 @@
 
 int main() {
     InitWindow(1920, 1080, "Tower Defense Game");
+    InitAudioDevice(); // Initialize audio device
     SetTargetFPS(60);
 
     GameManager gameManager;
@@ -23,6 +24,7 @@ int main() {
         }
     }
 
+    CloseAudioDevice(); // Close audio device
     CloseWindow();
     return 0;
 }
