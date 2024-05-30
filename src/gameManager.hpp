@@ -43,15 +43,16 @@ class GameManager : public Observer
 
         vector<float> spawnTimes; // Temps d'apparition des ennemis
         float startTime; // Temps initial
+        int waveNumber = 20; // Numéro de la vague
+        int numEnemies = 10; // Nombre d'ennemis
 
     public:
         GameManager();
         ~GameManager();
-        void createEnemies(int numEnemies);
+        void createEnemies(int numEnemies, int waveNumber);
         void update();
         void draw();
         void updateCamera();
         void onNotify(EventType eventType) override;
-        void updateEnemiesWithDelay();
 };
 #endif // GAME_MANAGER_HPP

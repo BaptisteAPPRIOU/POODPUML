@@ -27,7 +27,7 @@ GameManager::GameManager()
     path = loadPathFromJSON("assets/paths/pathMedium.json");
 
     map.drawMap(path);
-    createEnemies(50);
+    createEnemies(numEnemies, waveNumber);
 
     // Initialiser les temps d'apparition
     for (int i = 0; i < static_cast<int>(enemies.size()); ++i) {
@@ -46,23 +46,32 @@ GameManager::~GameManager() {
     CloseWindow();
 }
 
-void GameManager::createEnemies(int numEnemies) {
-    for (int i = 0; i < numEnemies; i++) {
-        int randomType = rand() % 3; // Generate a random number between 0 and 2
+void GameManager::createEnemies(int numEnemies2, int waveNumber2) {
+    for (int i = 0; i < numEnemies2; i++) {
         string enemyType;
-        switch (randomType) {
-            case 0:
-                enemyType = "basic";
-                break;
-            case 1:
-                enemyType = "medium";
-                break;
-            case 2:
-                enemyType = "hard";
-                break;
+        if (waveNumber2 < 21) {
+            enemyType = "basic";
+        } else {
+            int randomType = rand() % 3; // Generate a random number between 0 and 2
+            switch (randomType) {
+                case 0:
+                    enemyType = "basic";
+                    break;
+                case 1:
+                    enemyType = "medium";
+                    break;
+                case 2:
+                    enemyType = "hard";
+                    break;
+            }
         }
         // Créer les ennemis mais ne pas les ajouter immédiatement au jeu
         enemies.push_back(Enemy::createEnemy(enemyType, Vector3{ -25.0f, 0.0f, -10.0f }));
+    }
+    if (waveNumber2 % 4 == 0) {
+        enemies.push_back(Enemy::createEnemy("medium", Vector3{ -25.0f, 0.0f, -10.0f }));
+    } if (waveNumber2 % 5 == 0) {
+        enemies.push_back(Enemy::createEnemy("hard", Vector3{ -25.0f, 0.0f, -10.0f }));
     }
 }
 
@@ -76,7 +85,6 @@ void GameManager::update() {
             }
         }
     }
-
     map.checkTileHover(camera);
     updateCamera();
     ui.updateButtons();
@@ -165,11 +173,3 @@ void GameManager::onNotify(EventType eventType) {
     }
 }
 
-void GameManager::updateEnemiesWithDelay() {
-    for (auto enemy : enemies) {
-        enemy->update();
-        enemy->move(path);
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // Delay of 1 second
-        cout << "Enemy moved with delay at " << time(nullptr) << endl;
-    }
-}
