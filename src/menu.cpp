@@ -2,7 +2,9 @@
 
 Menu::Menu() {
     loadTextures();
-    loadFont();  // Load the font
+    loadFont();
+    backgroundMusic = LoadMusicStream("assets/sounds/background.mp3");
+    PlayMusicStream(backgroundMusic); // Start playing the background music
 }
 
 Menu::~Menu() {
@@ -10,13 +12,15 @@ Menu::~Menu() {
     UnloadTexture(buttonHoverTexture);
     UnloadTexture(logoTexture);
     UnloadTexture(backgroundTexture);
-    UnloadFont(customFont);  // Unload the font
+    UnloadFont(customFont);
+    UnloadMusicStream(backgroundMusic); // Unload the background music
     delete startButton;
     delete leaderboardButton;
     delete creditsButton;
     delete optionsButton;
     delete quitButton;
     delete backButton;
+    delete musicToggleButton;
 }
 
 void Menu::loadTextures() {
@@ -31,6 +35,7 @@ void Menu::loadTextures() {
     optionsButton = new Button(760, 700, 400, 120, buttonTexture, buttonHoverTexture);
     quitButton = new Button(760, 850, 400, 120, buttonTexture, buttonHoverTexture);
     backButton = new Button(860, 850, 200, 80, buttonTexture, buttonHoverTexture);
+    musicToggleButton = new Button(1720, 20, 180, 60, buttonTexture, buttonHoverTexture); // Position the music toggle button
 }
 
 void Menu::loadFont() {
@@ -39,6 +44,16 @@ void Menu::loadFont() {
 
 void Menu::update() {
     Vector2 mousePoint = GetMousePosition();
+    UpdateMusicStream(backgroundMusic); // Update the music stream
+
+    if (musicToggleButton->isClicked(mousePoint)) {
+        isMusicOn = !isMusicOn; // Toggle the music state
+        if (isMusicOn) {
+            PlayMusicStream(backgroundMusic);
+        } else {
+            StopMusicStream(backgroundMusic);
+        }
+    }
 
     if (currentState == MENU) {
         if (startButton->isClicked(mousePoint)) {
@@ -62,6 +77,13 @@ void Menu::update() {
 void Menu::draw() {
     DrawTexture(backgroundTexture, 0, 0, WHITE);
     DrawTexture(logoTexture, 50, 50, WHITE);
+
+    musicToggleButton->update(GetMousePosition());
+    if (isMusicOn) {
+        DrawTextEx(customFont, "Music: ON", {musicToggleButton->bounds.x + 30, musicToggleButton->bounds.y + 15}, customFont.baseSize, 2, BLACK);
+    } else {
+        DrawTextEx(customFont, "Music: OFF", {musicToggleButton->bounds.x + 30, musicToggleButton->bounds.y + 15}, customFont.baseSize, 2, BLACK);
+    }
 
     if (currentState == MENU) {
         startButton->update(GetMousePosition());
@@ -92,7 +114,6 @@ void Menu::draw() {
     } else if (currentState == OPTIONS) {
         backButton->update(GetMousePosition());
         DrawTextEx(customFont, "Options", {860, 100}, customFont.baseSize, 2,  WHITE);
-        // Additional options settings can be added here
         DrawTextEx(customFont, "Back", {backButton->bounds.x + 110, backButton->bounds.y + 35}, customFont.baseSize, 2, BLACK);
     }
 }
