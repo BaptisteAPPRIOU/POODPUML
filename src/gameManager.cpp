@@ -5,12 +5,15 @@
 #include <raylib.h>
 #include <cmath>
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include <time.h>
 using namespace std;
 
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr), towers(), projectiles() {
+      cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr), towers(), projectiles(), startTime(GetTime()) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -25,9 +28,12 @@ GameManager::GameManager()
     path = loadPathFromJSON("assets/paths/pathMedium.json");
 
     map.drawMap(path);
-    // wave = new Wave("basic", Vector3{ -25.0f, 0.0f, -10.0f }, 10, path); // Crée une vague de 10 ennemis de type "basic"
-    // enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
-    createEnemies(10);
+    createEnemies(50);
+
+    // Initialiser les temps d'apparition
+    for (int i = 0; i < static_cast<int>(enemies.size()); ++i) {
+        spawnTimes.push_back(i * 2.0f); // Chaque ennemi apparaît avec un intervalle de 2 secondes
+    }
 
     ui.addObserver(this);
     map.addObserver(this);
@@ -38,8 +44,6 @@ GameManager::~GameManager() {
     for (auto enemy : enemies) {
         delete enemy;
     }
-    // delete wave;
-    delete enemy;
     CloseWindow();
 }
 
@@ -58,18 +62,23 @@ void GameManager::createEnemies(int numEnemies) {
                 enemyType = "hard";
                 break;
         }
+        // Créer les ennemis mais ne pas les ajouter immédiatement au jeu
         enemies.push_back(Enemy::createEnemy(enemyType, Vector3{ -25.0f, 0.0f, -10.0f }));
     }
 }
 
-void GameManager::update() { 
-    map.checkTileHover(camera);
-    for (auto enemy : enemies) {
-        enemy->update();
-        enemy->move(path);
+void GameManager::update() {
+    float currentTime = GetTime();
+    for (size_t i = 0; i < enemies.size(); ++i) {
+        if (currentTime - startTime >= spawnTimes[i]) {
+            if (enemies[i] != nullptr) {
+                enemies[i]->update();
+                enemies[i]->move(path);
+            }
+        }
     }
-    // wave->update();
-    updateCamera();
+
+    map.checkTileHover(camera);
     updateCamera();
     ui.updateButtons();
 }
@@ -84,11 +93,14 @@ void GameManager::draw() {
 
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
                 BeginMode3D(camera);
-                    for (auto enemy : enemies) {
-                        enemy->update();
-                        enemy->move(path);
+                    for (size_t i = 0; i < enemies.size(); ++i) {
+                        if (GetTime() - startTime >= spawnTimes[i]) {
+                            if (enemies[i] != nullptr) {
+                                enemies[i]->update();
+                                enemies[i]->move(path);
+                            }
+                        }
                     }
-                    // wave->update();
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);
                 EndMode3D();
@@ -151,5 +163,14 @@ void GameManager::onNotify(EventType eventType) {
             // Implement any additional logic here if needed
             break;
         }
+    }
+}
+
+void GameManager::updateEnemiesWithDelay() {
+    for (auto enemy : enemies) {
+        enemy->update();
+        enemy->move(path);
+        std::this_thread::sleep_for(std::chrono::seconds(1)); // Delay of 1 second
+        cout << "Enemy moved with delay at " << time(nullptr) << endl;
     }
 }

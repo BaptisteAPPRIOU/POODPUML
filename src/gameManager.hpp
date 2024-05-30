@@ -38,9 +38,12 @@ class GameManager : public Observer
         vector<Vector2> path;
         bool isPlacingTower;
         ofstream debugLogFile;
-        vector<Enemy*> enemies;  // Vecteur d'ennemis
+        vector<Enemy*> enemies = {};  // Vecteur d'ennemis
         Wave* wave = nullptr; // Declare the variable "wave"
+        bool isFirstUpdate = true; // Add this static variable
 
+        vector<float> spawnTimes; // Temps d'apparition des ennemis
+        float startTime; // Temps initial
 
     public:
         GameManager();
@@ -50,5 +53,6 @@ class GameManager : public Observer
         void draw();
         void updateCamera();
         void onNotify(EventType eventType) override;
+        void updateEnemiesWithDelay();
 };
 #endif // GAME_MANAGER_HPP
