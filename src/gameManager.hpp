@@ -45,7 +45,7 @@ class GameManager : public Observer
     public:
         GameManager();
         ~GameManager();
-
+        void createEnemies(int numEnemies);
         void update();
         void draw();
         void updateCamera();

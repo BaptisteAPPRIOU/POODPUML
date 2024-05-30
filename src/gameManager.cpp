@@ -26,7 +26,8 @@ GameManager::GameManager()
 
     map.drawMap(path);
     // wave = new Wave("basic", Vector3{ -25.0f, 0.0f, -10.0f }, 10, path); // Crée une vague de 10 ennemis de type "basic"
-    enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
+    // enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
+    createEnemies(10);
 
     ui.addObserver(this);
     map.addObserver(this);
@@ -34,20 +35,39 @@ GameManager::GameManager()
 }
 
 GameManager::~GameManager() {
-    // for (auto enemy : enemies) {
-    //     delete enemy;
-    // }
+    for (auto enemy : enemies) {
+        delete enemy;
+    }
     // delete wave;
     delete enemy;
     CloseWindow();
 }
 
+void GameManager::createEnemies(int numEnemies) {
+    for (int i = 0; i < numEnemies; i++) {
+        int randomType = rand() % 3; // Generate a random number between 0 and 2
+        string enemyType;
+        switch (randomType) {
+            case 0:
+                enemyType = "basic";
+                break;
+            case 1:
+                enemyType = "medium";
+                break;
+            case 2:
+                enemyType = "hard";
+                break;
+        }
+        enemies.push_back(Enemy::createEnemy(enemyType, Vector3{ -25.0f, 0.0f, -10.0f }));
+    }
+}
+
 void GameManager::update() { 
     map.checkTileHover(camera);
-    // for (auto enemy : enemies) {
-    //     enemy->update();
-    //     enemy->move(path);
-    // }
+    for (auto enemy : enemies) {
+        enemy->update();
+        enemy->move(path);
+    }
     // wave->update();
     updateCamera();
     updateCamera();
@@ -64,13 +84,11 @@ void GameManager::draw() {
 
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
                 BeginMode3D(camera);
-                    // for (auto enemy : enemies) {
-                    //     enemy->update();
-                    //     enemy->move(path);
-                    // }
+                    for (auto enemy : enemies) {
+                        enemy->update();
+                        enemy->move(path);
+                    }
                     // wave->update();
-                    enemy->move(path);
-                    enemy->update();
                     map.drawMap(path);
                     DrawGrid(100, 1.0f);
                 EndMode3D();
