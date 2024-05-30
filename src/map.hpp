@@ -15,7 +15,7 @@ private:
     Texture2D textureRoad;
     Vector3 tilePosition;
     Vector3 roadPosition;
-    bool buildable;  
+    // bool buildable;  
     vector<Vector3> path;
     vector<vector<bool>> buildableTiles;           
 

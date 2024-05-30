@@ -23,7 +23,6 @@ GameManager::GameManager()
 
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
-    // projectile1 = Projectile::createProjectile("basic", Vector3{ 0.0f, 10.0f, 0.0f }, enemy->getEnemyPosition());
 
     ui.addObserver(this);
     map.addObserver(this);
@@ -64,8 +63,6 @@ void GameManager::update() {
     for (Projectile* projectile : projectiles) {
         projectile->update();
     }
-    // projectile1->update();
-
     updateCamera();
     ui.updateButtons();
 }
@@ -93,7 +90,6 @@ void GameManager::draw() {
                         projectile->draw();
                     }
                     map.drawMap(path);
-                    // projectile1->draw();
                     DrawGrid(100, 1.0f);
                 EndMode3D();
             EndScissorMode();
@@ -145,7 +141,7 @@ void GameManager::onNotify(EventType eventType) {
                         towers.push_back(newTower);
                         newTower->draw(hoveredPosition);
                         std::cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
-                        map.setTileBuildable(hoveredPosition, false); // Update to pass Vector3
+                        map.setTileBuildable(hoveredPosition, false); 
                         isPlacingTower = false;
                         delete hoveringTower;
                         hoveringTower = nullptr;

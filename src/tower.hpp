@@ -17,7 +17,6 @@ public:
 
     static Tower* createTower(const string& type, Vector3 position);
     virtual void hoverTower(Vector3 position);
-    // virtual void shoot(Vector3 enemyPosition) = 0;
     virtual void draw(Vector3 towerPosition) = 0;
     virtual ~Tower() {}
     Vector3 towerPosition;
@@ -38,6 +37,4 @@ protected:
     Tower() {}
     Tower(Vector3 position) : towerPosition(position), range(0.0f), damage(0), fireRate(0.0f), fireCountdown(0.0f) {}
 };
-
-
 #endif // TOWER_HPP

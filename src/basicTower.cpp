@@ -14,27 +14,15 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {
 }
 
 void BasicTower::update() {
-    // if (enemyInRange) {
-    //     shoot(enemyPosition);
-    // }
     draw(towerPosition);
 }
-
-// void BasicTower::shoot(Vector3 enemyPosition) {
-//     cout << "Basic Tower shooting" << endl;
-//     if (!projectile) {
-//         Vector3 projectilePosition = towerPosition;
-//         projectilePosition.z += 12.0f; // Adjust z position to be 6 units above the tower
-//         projectile = Projectile::createProjectile("basic", projectilePosition, enemyPosition);
-//     }
-// }
 
 void BasicTower::hoverTower(Vector3 position) {
     DrawModel(tower, position, 1.0f, Fade(WHITE, 0.5f));
 }
 
 void BasicTower::draw(Vector3 towerPosition) {
-    DrawModel(tower, towerPosition, 1.0f, WHITE);
+    DrawModel(tower, towerPosition, 1.0f,Fade(WHITE, 0.5f));
     Vector3 adjustedPosition = towerPosition;
     adjustedPosition.z += 0.4f; 
     DrawCircle3D(
@@ -47,22 +35,6 @@ void BasicTower::draw(Vector3 towerPosition) {
 }
 
 void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
-    // float distance = Vector3Distance(towerPosition, enemyPosition);
-    // std::cout << "Checking enemy in range. Tower Position: (" << towerPosition.x << ", " << towerPosition.y << ", " << towerPosition.z 
-    //           << "), Enemy Position: (" << enemyPosition.x << ", " << enemyPosition.y << ", " << enemyPosition.z 
-    //           << "), Distance: " << distance << ", Range: " << range << std::endl;
-    // if (distance <= range) {
-    //     if (!enemyInRange) {
-    //         enemyInRange = true;
-    //         Subject::notify(EventType::ENEMY_IN_RANGE);  // Qualify notify with Subject
-    //     }
-    // } else {
-    //     enemyInRange = false;
-    //     if (projectile) {
-    //         delete projectile;
-    //         projectile = nullptr;
-    //     }
-    // }
     Tower::checkEnemyInRange(enemyPosition);
 }
 
