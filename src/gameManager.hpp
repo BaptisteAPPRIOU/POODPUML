@@ -10,7 +10,6 @@
 #include "osberver.hpp"
 #include "projectile.hpp"
 #include <fstream>
-#include "wave.hpp"
 #include <vector>
 using namespace std;
 

@@ -1,6 +1,5 @@
 #include "gameManager.hpp"
 #include "pathLoader.hpp"
-#include "wave.hpp"
 #include <vector>
 #include <raylib.h>
 #include <cmath>
