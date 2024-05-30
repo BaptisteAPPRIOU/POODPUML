@@ -8,7 +8,8 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 10.0f;
     damage = 10;
-    fireRate = 1.0f;
+    fireRate = 0.3f;
+    timeSinceLastShot = 0.0f;
     cost = 100;
     enemyInRange = false;
 }
@@ -22,7 +23,7 @@ void BasicTower::hoverTower(Vector3 position) {
 }
 
 void BasicTower::draw(Vector3 towerPosition) {
-    DrawModel(tower, towerPosition, 1.0f,Fade(WHITE, 0.5f));
+    DrawModel(tower, towerPosition, 1.0f, WHITE);
     Vector3 adjustedPosition = towerPosition;
     adjustedPosition.z += 0.4f; 
     DrawCircle3D(

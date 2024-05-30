@@ -15,6 +15,9 @@ public:
     virtual void move(const vector<Vector3>& path);
     virtual ~Enemy() {}
     virtual Vector3 getEnemyPosition() const;
+    virtual void takeDamage(int damage);
+    virtual bool isEnemyAlive() const;
+    bool isAlive;
 
 protected:
     Model enemy;
@@ -22,7 +25,6 @@ protected:
     Vector3 enemyPosition;
     float speed;
     int health;
-    bool isAlive;
     int currentPoint;
     int value;
 

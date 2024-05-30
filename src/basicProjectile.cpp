@@ -2,7 +2,7 @@
 #include <iostream>
 
 BasicProjectile::BasicProjectile(Vector3 position, Vector3 targetPosition)
-    : Projectile(position, targetPosition, 1.0f, 100) {
+    : Projectile(position, targetPosition, 1.0f, 50) {
     projectileModel = LoadModel("assets/models/projectile.obj");
     textureProjectile = LoadTexture("assets/textures/texture_projectile.png");
     projectileModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureProjectile;
@@ -19,8 +19,8 @@ void BasicProjectile::update() {
     position.y += direction.y * speed;
     position.z += direction.z * speed;
 
-    std::cout << "Projectile Position: (" << position.x << ", " << position.y << ", " << position.z << ") "
-              << "Target Position: (" << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << ")" << std::endl;
+    // std::cout << "Projectile Position: (" << position.x << ", " << position.y << ", " << position.z << ") "
+    //           << "Target Position: (" << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << ")" << std::endl;
 }
 
 void BasicProjectile::draw() const {

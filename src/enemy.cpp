@@ -36,3 +36,14 @@ void Enemy::move(const std::vector<Vector3>& path) {
 Vector3 Enemy::getEnemyPosition() const {
     return enemyPosition;
 }
+
+void Enemy::takeDamage(int damage) {
+    health -= damage;
+    if (health <= 0) {
+        isAlive = false;
+    }
+}
+
+bool Enemy::isEnemyAlive() const {
+    return isAlive;
+}

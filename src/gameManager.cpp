@@ -44,20 +44,32 @@ GameManager::~GameManager() {
 
 void GameManager::update() { 
     map.checkTileHover(camera);
-    enemy->update();
-    enemy->move(path);
+    if (enemy) {
+        enemy->move(path);
+        enemy->update();
+        for (Tower* tower : towers) {
+            tower->checkEnemyInRange(enemy->getEnemyPosition());
+        }
+    }
+
     for (Tower* tower : towers) {
         tower->update();
-        tower->checkEnemyInRange(enemy->getEnemyPosition());
     }
+
 
     for (auto it = projectiles.begin(); it != projectiles.end();) {
         (*it)->update();
-        if ((*it)->getPosition().y <= 0.3f) { 
+        bool collided = checkProjectileCollision(*it);
+        if (collided) {
             delete *it;
             it = projectiles.erase(it);
         } else {
-            ++it;
+            if ((*it)->getPosition().y <= 0.4f) { 
+                delete *it;
+                it = projectiles.erase(it);
+            } else {
+                ++it;
+            }
         }
     }
     for (Projectile* projectile : projectiles) {
@@ -77,10 +89,14 @@ void GameManager::draw() {
 
             BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
                 BeginMode3D(camera);
-                    enemy->move(path);
-                    enemy->update();
+                    if (enemy) {
+                        enemy->move(path);
+                        enemy->update();
+                        for (Tower* tower : towers) {
+                            tower->checkEnemyInRange(enemy->getEnemyPosition());
+                        }
+                    }
                     for (Tower* tower : towers) {
-                        tower->checkEnemyInRange(enemy->getEnemyPosition());
                         tower->update();
                     }
                     if (isPlacingTower && hoveringTower) {
@@ -161,7 +177,7 @@ void GameManager::onNotify(EventType eventType) {
             for (Tower* tower : towers) {
                 if (tower->enemyInRange) {
                     Vector3 towerPosition = tower->getTowerPosition();
-                    towerPosition.y = 5.0f;
+                    towerPosition.y = 6.0f;
                     Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
                     projectiles.push_back(newProjectile);
                 }
@@ -176,6 +192,68 @@ void GameManager::onNotify(EventType eventType) {
 void GameManager::checkTowersForEnemies() {
     Vector3 enemyPosition = enemy->getEnemyPosition();
     for (Tower* tower : towers) {
-        tower->checkEnemyInRange(enemyPosition);  // Call the method directly on the base class
+        tower->checkEnemyInRange(enemyPosition);  
     }
 }
+
+// bool GameManager::checkProjectileCollision(Projectile* projectile) {
+//     // Get projectile position and damage
+//     Vector3 projectilePosition = projectile->getPosition();
+//     int projectileDamage = projectile->getDamage();
+
+//     // Loop through enemies to check collision
+//     for (auto it = enemies.begin(); it != enemies.end();) {
+//         Vector3 enemyPosition = (*it)->getEnemyPosition(); // Access the enemy object correctly
+//         float distance = Vector3Distance(projectilePosition, enemyPosition);
+//         if (distance <= 1.0f) { // Adjust the collision radius as needed
+//             // Apply damage to the enemy
+//             (*it)->takeDamage(projectileDamage);
+
+//             // Check if the enemy is destroyed
+//             if (!(*it)->isAlive()) {
+//                 delete *it;
+//                 it = enemies.erase(it);
+//             }
+
+//             // Remove the projectile
+//             return true;
+//         } else {
+//             ++it; // Move to the next enemy
+//         }
+//     }
+
+//     // No collision detected
+//     return false;
+// }
+
+bool GameManager::checkProjectileCollision(Projectile* projectile) {
+    // Get projectile position and damage
+    Vector3 projectilePosition = projectile->getPosition();
+    int projectileDamage = projectile->getDamage();
+
+    // Check if the enemy is valid
+    if (enemy) {
+        // Get enemy position
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+
+        // Check collision
+        float distance = Vector3Distance(projectilePosition, enemyPosition);
+        if (distance <= 1.0f) { // Adjust the collision radius as needed
+            // Apply damage to the enemy
+            enemy->takeDamage(projectileDamage);
+
+            // Check if the enemy is destroyed
+            if (!enemy->isEnemyAlive()) {
+                delete enemy;
+                enemy = nullptr; // Reset the pointer
+            }
+
+            // Remove the projectile
+            return true;
+        }
+    }
+
+    // No collision detected or enemy not valid
+    return false;
+}
+

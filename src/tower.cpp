@@ -11,6 +11,7 @@ Tower* Tower::createTower(const std::string& type, Vector3 position) {
 }
 
 void Tower::update() {
+
 }
 
 void Tower::hoverTower(Vector3 position) {

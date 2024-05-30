@@ -31,10 +31,10 @@ protected:
     float range;
     int damage;
     float fireRate;
-    float fireCountdown;
+    float timeSinceLastShot;
     int cost;
 
     Tower() {}
-    Tower(Vector3 position) : towerPosition(position), range(0.0f), damage(0), fireRate(0.0f), fireCountdown(0.0f) {}
+    Tower(Vector3 position) : towerPosition(position), range(0.0f), damage(0), fireRate(0.0f), timeSinceLastShot(0.0f) {}
 };
 #endif // TOWER_HPP
