@@ -12,7 +12,7 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), enemy(nullptr) {
+      cameraFovy(50.0f), enemy(nullptr), minutes(0), seconds(0) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -29,8 +29,10 @@ GameManager::GameManager()
     map.drawMap(path);
     enemy = Enemy::createEnemy("basic", Vector3{ -25.0f, 0.0f, -10.0f });
 
+    timerFont = LoadFont("assets/fonts/time.otf");
+    startTime = std::chrono::steady_clock::now();
+
     SetTargetFPS(60);
-    
 }
 
 GameManager::~GameManager() {
@@ -42,8 +44,8 @@ void GameManager::update() {
     map.checkTileHover(camera);
     enemy->update();
     enemy->move(path);
-   updateCamera();
-   ui.updateButtons();
+    updateCamera();
+    ui.updateButtons();
 }
 
 void GameManager::draw() {
@@ -67,6 +69,16 @@ void GameManager::draw() {
                     DrawGrid(100, 1.0f);
                 EndMode3D();
             EndScissorMode();
+
+            // draw timer
+            auto now = std::chrono::steady_clock::now();
+            std::chrono::duration<float> elapsed = now - startTime;
+            minutes = static_cast<int>(elapsed.count()) / 60;
+            seconds = static_cast<int>(elapsed.count()) % 60;
+
+            char timerText[10];
+            snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
+          DrawTextEx(timerFont, timerText, {1600, 60}, timerFont.baseSize, 2, BLACK);
 
             DrawText("Welcome to the Tower Defense Game", 910, 10, 20, DARKGRAY);
             DrawFPS(10, 10);
