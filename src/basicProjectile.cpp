@@ -2,16 +2,16 @@
 #include <iostream>
 
 BasicProjectile::BasicProjectile(Vector3 position, Vector3 targetPosition)
-    : Projectile(position, targetPosition, 0.1f, 100) {
+    : Projectile(position, targetPosition, 1.0f, 100) {
     projectileModel = LoadModel("assets/models/projectile.obj");
     textureProjectile = LoadTexture("assets/textures/texture_projectile.png");
     projectileModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureProjectile;
 }
 
-BasicProjectile::~BasicProjectile() {
-    UnloadModel(projectileModel);
-    UnloadTexture(textureProjectile);
-}
+// BasicProjectile::~BasicProjectile() {
+//     UnloadModel(projectileModel);
+//     UnloadTexture(textureProjectile);
+// }
 
 void BasicProjectile::update() {
     Vector3 direction = Vector3Normalize(Vector3Subtract(targetPosition, position));

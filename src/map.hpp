@@ -32,11 +32,11 @@ public:
     void checkTileHover(Camera3D& camera);
     void drawBoundingBox(vector<Vector3> path);            
     void loadModelsTextures(); 
-    bool isTileBuildable(Vector2 position, const vector<Vector3>& path) const;
-    void setTileNotBuildable(Vector2 position, bool buildable);
+    bool isTileBuildable(Vector3 position, const vector<Vector3>& path) const;
+    // void setTileNotBuildable(Vector3 position, bool buildable);
     Vector3 getHoveredTilePosition() const;
     void setPath(const std::vector<Vector3>& newPath);
-    void setTileBuildable(Vector2 position, bool buildable); 
+    void setTileBuildable(Vector3 position, bool buildable); 
 };
 
 #endif // MAP_HPP

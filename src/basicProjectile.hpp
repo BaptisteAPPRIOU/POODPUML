@@ -6,7 +6,7 @@
 class BasicProjectile : public Projectile {
 public:
     BasicProjectile(Vector3 position, Vector3 targetPosition);
-    ~BasicProjectile();
+    // ~BasicProjectile();
 
     void update() override;
     void draw() const override;

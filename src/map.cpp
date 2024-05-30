@@ -13,7 +13,7 @@ Map::Map() {
 
     int numTilesX = 17; 
     int numTilesZ = 17; 
-    buildableTiles.resize(numTilesX,vector<bool>(numTilesZ, true));
+    buildableTiles.resize(numTilesX, vector<bool>(numTilesZ, true));
 }
 
 Map::~Map() {
@@ -68,35 +68,17 @@ void Map::checkTileHover(Camera3D& camera) {
                 isTileHovered = true;
 
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                    Vector2 tilePosition = Vector2{ hoveredTilePosition.x, hoveredTilePosition.z };
-                    if (isTileBuildable(tilePosition, path)) {
-                        cout << "Tile clicked and notified: " << tilePosition.x << ", " << tilePosition.y << endl;
+                    if (isTileBuildable(hoveredTilePosition, path)) {
+                        cout << "Tile clicked and notified: " << hoveredTilePosition.x << ", " << hoveredTilePosition.z << endl;
                         notify(EventType::TILE_CLICKED);
                     } else {
-                        cout << "Tile clicked but not buildable: " << tilePosition.x << ", " << tilePosition.y << endl;
+                        cout << "Tile clicked but not buildable: " << hoveredTilePosition.x << ", " << hoveredTilePosition.z << endl;
                     }
                 }
                 return;
             }
         }
     }
-
-
-
-    // std::cout << "Checking tile hover" << std::endl;
-
-    // if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-    //     std::cout << "Mouse button pressed" << std::endl;
-    //     Vector2 tilePosition = Vector2{hoveredTilePosition.x, hoveredTilePosition.z};
-    //     std::cout << "Hovered Tile Position: " << hoveredTilePosition.x << ", " << hoveredTilePosition.z << std::endl;
-
-    //     if (isTileBuildable(tilePosition, path)) {
-    //         std::cout << "Buildable tile clicked" << std::endl;
-    //         notify();
-    //     } else {
-    //         std::cout << "Tile is not buildable" << std::endl;
-    //     }
-    // }
 }
 
 void Map::drawBoundingBox(vector<Vector3> path) {
@@ -105,9 +87,9 @@ void Map::drawBoundingBox(vector<Vector3> path) {
         float boxHeight = 2.0f; 
         float yOffset = 1.3f; 
 
-        buildable = true;
+        bool buildable = true;
         for (auto& point : path) {
-            if (point.x == hoveredTilePosition.x && point.y == hoveredTilePosition.z) {
+            if (point.x == hoveredTilePosition.x && point.z == hoveredTilePosition.z) {
                 buildable = false;
                 break;
             }
@@ -124,7 +106,7 @@ void Map::drawBoundingBox(vector<Vector3> path) {
 
         Color color = buildable ? GREEN : RED;
 
-        DrawCube(centerPosition, step, boxHeight, step, Fade(color, 0.5f));;
+        DrawCube(centerPosition, step, boxHeight, step, Fade(color, 0.5f));
     }
 }
 
@@ -147,17 +129,17 @@ void Map::loadModelsTextures() {
     road.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureRoad;
 }
 
-void Map::setTileBuildable(Vector2 position, bool buildable) {
+void Map::setTileBuildable(Vector3 position, bool buildable) {
     int x = static_cast<int>((position.x + 25.0f) / 3.0f);
-    int z = static_cast<int>((position.y + 25.0f) / 3.0f);
+    int z = static_cast<int>((position.z + 25.0f) / 3.0f); 
     if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
         buildableTiles[x][z] = buildable;
     }
 }
 
-bool Map::isTileBuildable(Vector2 position, const std::vector<Vector3>& path) const {
+bool Map::isTileBuildable(Vector3 position, const std::vector<Vector3>& path) const {
     int x = static_cast<int>((position.x + 25.0f) / 3.0f);
-    int z = static_cast<int>((position.y + 25.0f) / 3.0f);
+    int z = static_cast<int>((position.z + 25.0f) / 3.0f);
     if (x >= 0 && x < buildableTiles.size() && z >= 0 && z < buildableTiles[0].size()) {
         if (!buildableTiles[x][z]) {
             return false;
@@ -165,11 +147,11 @@ bool Map::isTileBuildable(Vector2 position, const std::vector<Vector3>& path) co
     }
 
     for (const auto& point : path) {
-        if (point.x == position.x && point.y == position.y) {
+        if (point.x == position.x && point.z == position.z) {
             return false;
         }
     }
-    cout << "Checking if tile is buildable at position: " << position.x << ", " << position.y << endl;
+    cout << "Checking if tile is buildable at position: " << position.x << ", " << position.z << endl;
     return true;
 }
 
