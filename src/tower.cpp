@@ -1,6 +1,7 @@
 #include "tower.hpp"
 #include "basicTower.hpp"
 #include "normalTower.hpp"
+#include "slowTower.hpp"
 #include <iostream>
 using namespace std;
 
@@ -10,6 +11,9 @@ Tower* Tower::createTower(const std::string& type, Vector3 position) {
     }
     else if (type == "normal") {
         return new NormalTower(position);
+    }
+    else if (type == "slow") {
+        return new SlowTower(position);
     }
     return nullptr;
 }
@@ -28,17 +32,16 @@ void Tower::draw(Vector3 towerPosition) {
 
 void Tower::checkEnemyInRange(Vector3 enemyPosition) {
     float distance = Vector3Distance(towerPosition, enemyPosition);
-    // cout << "Checking enemy in range. Tower Position: (" << towerPosition.x << ", " << towerPosition.y << ", " << towerPosition.z 
-    //           << "), Enemy Position: (" << enemyPosition.x << ", " << enemyPosition.y << ", " << enemyPosition.z 
-    //           << "), Distance: " << distance << ", Range: " << range << endl;
     if (distance <= range) {
         if (!enemyInRange) {
             enemyInRange = true;
             Subject::notify(EventType::ENEMY_IN_RANGE);  // Notify observers
         }
-    } else {
-        enemyInRange = false;
-    }
+    } 
+    else if (distance > range) {
+            enemyInRange = false;
+            Subject::notify(EventType::ENEMY_OUT_OF_RANGE);  // Notify observers
+        }
 }
 
 Vector3 Tower::getTowerPosition() {

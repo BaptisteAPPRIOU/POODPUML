@@ -8,7 +8,8 @@ enum class EventType {
     TOWER_CREATION,
     TILE_CLICKED,
     ENEMY_IN_RANGE,
-    TOWER_READY_TO_FIRE
+    TOWER_READY_TO_FIRE,
+    ENEMY_OUT_OF_RANGE
 };
 
 class Observer

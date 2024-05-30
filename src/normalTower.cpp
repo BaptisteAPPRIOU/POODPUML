@@ -1,5 +1,5 @@
 #include "normalTower.hpp"
-#include "projectile.hpp"
+// #include "projectile.hpp"
 #include <iostream>
 
 NormalTower::NormalTower(Vector3 position) : Tower(position) {
@@ -42,9 +42,6 @@ void NormalTower::checkEnemyInRange(Vector3 enemyPosition) {
 NormalTower::~NormalTower() {
     UnloadModel(tower); // Unload tower model
     UnloadTexture(textureTower); // Unload tower texture
-    if (projectile) {
-        delete projectile; // Delete projectile object
-    }
 }
 
 Vector3 NormalTower::getTowerPosition() {

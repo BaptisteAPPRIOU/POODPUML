@@ -1,28 +1,28 @@
-#include "basicTower.hpp"
+#include "slowTower.hpp"
 // #include "projectile.hpp"
 #include <iostream>
 
-BasicTower::BasicTower(Vector3 position) : Tower(position) {
-    tower = LoadModel("assets/models/tower.obj");
-    textureTower = LoadTexture("assets/textures/texture_tower.png");
+SlowTower::SlowTower(Vector3 position) : Tower(position) {
+    tower = LoadModel("assets/models/tower2.obj");
+    textureTower = LoadTexture("assets/textures/texture_tower2.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
-    range = 10.0f;
+    range = 15.0f;
     fireRate = 0.3f;
     timeSinceLastShot = 0.0f;
     cost = 100;
     enemyInRange = false;
-    type = "basic";
+    type = "slow";
 }
 
-void BasicTower::update() {
+void SlowTower::update() {
     draw(towerPosition);
 }
 
-void BasicTower::hoverTower(Vector3 position) {
+void SlowTower::hoverTower(Vector3 position) {
     DrawModel(tower, position, 1.0f, Fade(WHITE, 0.5f));
 }
 
-void BasicTower::draw(Vector3 towerPosition) {
+void SlowTower::draw(Vector3 towerPosition) {
     DrawModel(tower, towerPosition, 1.0f, WHITE);
     Vector3 adjustedPosition = towerPosition;
     adjustedPosition.z += 0.4f; 
@@ -35,22 +35,19 @@ void BasicTower::draw(Vector3 towerPosition) {
     );
 }
 
-void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
+void SlowTower::checkEnemyInRange(Vector3 enemyPosition) {
     Tower::checkEnemyInRange(enemyPosition);
 }
 
-BasicTower::~BasicTower() {
+SlowTower::~SlowTower() {
     UnloadModel(tower); // Unload tower model
     UnloadTexture(textureTower); // Unload tower texture
-    // if (projectile) {
-    //     delete projectile; // Delete projectile object
-    // }
 }
 
-Vector3 BasicTower::getTowerPosition() {
+Vector3 SlowTower::getTowerPosition() {
     return towerPosition;
 }
 
-string BasicTower::getType() {
+string SlowTower::getType() {
     return type;
 }

@@ -53,21 +53,25 @@ void UI::updateButtons() {
     Vector2 mousePoint = GetMousePosition();
     if (buttonTower1->isClicked(mousePoint)) {
         std::cout << "Button 1 clicked" << std::endl;
-        buttonTower1Clicked = true;
         selectedTowerType = "basic";
         placingTower = true;
+        towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
     }
 
-    if (buttonTower2->isClicked(mousePoint)) {
+    else if (buttonTower2->isClicked(mousePoint)) {
         std::cout << "Button 2 clicked" << std::endl;
-        buttonTower1Clicked = true;
         selectedTowerType = "normal";
         placingTower = true;
+        towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
     }
-    if (buttonTower3->isClicked(mousePoint)) {
+    else if (buttonTower3->isClicked(mousePoint)) {
         std::cout << "Button 3 clicked" << std::endl;
+        selectedTowerType = "slow";
+        placingTower = true;
+        towerShopClicked = true;
+        notify(EventType::TOWER_CREATION);
     }
     if (buttonTower4->isClicked(mousePoint)) {
         std::cout << "Button 4 clicked" << std::endl;
@@ -80,7 +84,7 @@ bool UI::isPlacingTower() const {
 }
 
 string UI::getSelectedTowerType() const {
-    if (buttonTower1Clicked) {
+    if (towerShopClicked) {
         return selectedTowerType;
     }
     return "";

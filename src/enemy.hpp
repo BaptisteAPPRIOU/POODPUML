@@ -19,6 +19,9 @@ public:
     virtual bool isEnemyAlive() const;
     bool isAlive;
     void drawLifeBar(Camera camera);
+    void setSpeed(float speed);
+    float getSpeed();
+    bool slowed = false;
 
 protected:
     Model enemy;

@@ -35,7 +35,7 @@ private:
 
     bool placingTower;
     string selectedTowerType;
-    bool buttonTower1Clicked;
+    bool towerShopClicked;
 };
 
 #endif // UI_HPP

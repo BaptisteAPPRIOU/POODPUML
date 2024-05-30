@@ -68,3 +68,11 @@ void Enemy::drawLifeBar(Camera camera) {
     // Draw foreground (health) bar (width adjusted by health percentage within the fixed width)
     DrawCube(Vector3Add(lifeBarPosition, Vector3{-lifeBarFixedWidth * (1 - healthPercentage) / 2, 0, 0}), lifeBarFixedWidth * healthPercentage, lifeBarHeight, lifeBarDepth, GREEN);
 }
+
+void Enemy::setSpeed(float speed) {
+    this->speed = speed;
+}
+
+float Enemy::getSpeed() {
+    return speed;
+}

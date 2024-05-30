@@ -1,13 +1,13 @@
-#ifndef NORMAL_TOWER_HPP
-#define NORMAL_TOWER_HPP
+#ifndef SLOW_TOWER_HPP
+#define SLOW_TOWER_HPP
 
 #include "tower.hpp"
 
-class NormalTower : public Tower
+class SlowTower : public Tower
 {
     public:
-        NormalTower(Vector3 position);
-        ~NormalTower() override;
+        SlowTower(Vector3 position);
+        ~SlowTower() override;
 
         void update() override;
         void hoverTower(Vector3 position) override;
@@ -21,4 +21,4 @@ class NormalTower : public Tower
         // Projectile* projectile;
 };
 
-#endif // NORMAL_TOWER_HPP
+#endif // SLOW_TOWER_HPP

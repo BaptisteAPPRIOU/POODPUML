@@ -18,7 +18,7 @@ class BasicTower : public Tower
 
     private:
         bool enemyInRange;
-        Projectile* projectile;
+        // Projectile* projectile;
 };
 
 #endif // BASIC_TOWER_HPP

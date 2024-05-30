@@ -176,6 +176,12 @@ void GameManager::onNotify(EventType eventType) {
          case EventType::ENEMY_IN_RANGE: {
             std::cout << "Notification received: Enemy in range" << std::endl;
             for (Tower* tower : towers) {
+                if(tower->getType() == "slow") {
+                    if (tower->enemyInRange && !enemy->slowed) {                        
+                        enemy->setSpeed(enemy->getSpeed() * 0.5f);
+                        enemy->slowed = true;
+                    }
+                }
                 if(tower->getType() == "basic") {
                     if (tower->enemyInRange) {
                         Vector3 towerPosition = tower->getTowerPosition();
@@ -184,7 +190,7 @@ void GameManager::onNotify(EventType eventType) {
                         projectiles.push_back(newProjectile);
                     }
                 }
-                else if(tower->getType() == "normal") {
+                if(tower->getType() == "normal") {
                     if (tower->enemyInRange) {
                         Vector3 towerPosition = tower->getTowerPosition();
                         towerPosition.y = 6.0f;
@@ -194,6 +200,17 @@ void GameManager::onNotify(EventType eventType) {
                 }
             }
             break;
+        }
+        case EventType::ENEMY_OUT_OF_RANGE: {
+            std::cout << "Notification received: Enemy out of range" << std::endl;
+            for (Tower* tower : towers) {
+                if(tower->getType() == "slow") {
+                    if (enemy->slowed) {
+                        enemy->setSpeed(enemy->getSpeed()*2.0f);
+                        enemy->slowed = false;
+                    }
+                }
+            }
         }
         default:
             break;
