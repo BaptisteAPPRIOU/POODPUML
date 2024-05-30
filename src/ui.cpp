@@ -41,6 +41,8 @@ void UI::drawGameButtons() {
     buttonTower2->update(GetMousePosition());
     buttonTower3->update(GetMousePosition());
     buttonTower4->update(GetMousePosition());
+
+    DrawText("SCORE", 500, 950, 30, BLACK);
 }
 
 void UI::updateButtons() {

@@ -9,14 +9,17 @@ BasicEnemy::BasicEnemy(Vector3 position) {
 
     enemyPosition = position;
     speed = 0.05f;
-    health = 100;
+    maxHealth = health = 500;
     isAlive = true;
     value = 100;
 }
-void BasicEnemy::update() {
+
+void BasicEnemy::update(Camera camera) {
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);
+    drawLifeBar(camera);
 }
 
 void BasicEnemy::move(const std::vector<Vector3>& path) {
     Enemy::move(path);
 }
+

@@ -1,4 +1,4 @@
-#include "osberver.hpp"
+#include "observer.hpp"
 #include <algorithm>
 
 void Subject::addObserver(Observer* observer) {

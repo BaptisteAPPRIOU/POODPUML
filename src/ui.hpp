@@ -4,7 +4,7 @@
 #include <raylib.h>
 #include "button.hpp"
 #include "map.hpp"
-#include "osberver.hpp"
+#include "observer.hpp"
 
 class UI : public Subject {
 public:

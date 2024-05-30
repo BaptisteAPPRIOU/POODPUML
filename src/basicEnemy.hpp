@@ -9,7 +9,7 @@ public:
     BasicEnemy(Vector3 position);
     ~BasicEnemy() {}
 
-    void update() override;
+    void update(Camera camera) override;
     void move(const vector<Vector3>& path) override;
     
 };

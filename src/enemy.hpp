@@ -8,7 +8,7 @@ using namespace std;
 class Enemy
 {
 public:
-    virtual void update() = 0;
+    virtual void update(Camera camera) = 0;
 
     static Enemy* createEnemy(const string& type, Vector3 position);
 
@@ -18,6 +18,7 @@ public:
     virtual void takeDamage(int damage);
     virtual bool isEnemyAlive() const;
     bool isAlive;
+    void drawLifeBar(Camera camera);
 
 protected:
     Model enemy;
@@ -25,6 +26,7 @@ protected:
     Vector3 enemyPosition;
     float speed;
     int health;
+    int maxHealth;
     int currentPoint;
     int value;
 

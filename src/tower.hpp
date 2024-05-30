@@ -4,7 +4,7 @@
 #include <string>
 #include <raylib.h>
 #include <vector>
-#include "osberver.hpp"
+#include "observer.hpp"
 #include <raymath.h>
 #include "projectile.hpp"
 

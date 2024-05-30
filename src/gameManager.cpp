@@ -46,7 +46,7 @@ void GameManager::update() {
     map.checkTileHover(camera);
     if (enemy) {
         enemy->move(path);
-        enemy->update();
+        enemy->update(camera);
         for (Tower* tower : towers) {
             tower->checkEnemyInRange(enemy->getEnemyPosition());
         }
@@ -55,7 +55,6 @@ void GameManager::update() {
     for (Tower* tower : towers) {
         tower->update();
     }
-
 
     for (auto it = projectiles.begin(); it != projectiles.end();) {
         (*it)->update();
@@ -91,7 +90,9 @@ void GameManager::draw() {
                 BeginMode3D(camera);
                     if (enemy) {
                         enemy->move(path);
-                        enemy->update();
+                        enemy->update(camera);
+
+                        
                         for (Tower* tower : towers) {
                             tower->checkEnemyInRange(enemy->getEnemyPosition());
                         }
@@ -227,33 +228,20 @@ void GameManager::checkTowersForEnemies() {
 // }
 
 bool GameManager::checkProjectileCollision(Projectile* projectile) {
-    // Get projectile position and damage
     Vector3 projectilePosition = projectile->getPosition();
     int projectileDamage = projectile->getDamage();
 
-    // Check if the enemy is valid
     if (enemy) {
-        // Get enemy position
         Vector3 enemyPosition = enemy->getEnemyPosition();
-
-        // Check collision
         float distance = Vector3Distance(projectilePosition, enemyPosition);
-        if (distance <= 1.0f) { // Adjust the collision radius as needed
-            // Apply damage to the enemy
+        if (distance <= 1.0f) { 
             enemy->takeDamage(projectileDamage);
-
-            // Check if the enemy is destroyed
             if (!enemy->isEnemyAlive()) {
                 delete enemy;
-                enemy = nullptr; // Reset the pointer
+                enemy = nullptr; 
             }
-
-            // Remove the projectile
             return true;
         }
     }
-
-    // No collision detected or enemy not valid
     return false;
 }
-

@@ -3,7 +3,7 @@
 
 #include <raylib.h>
 #include <vector>
-#include "osberver.hpp"
+#include "observer.hpp"
 using namespace std;
 
 class Map : public Subject

@@ -7,7 +7,7 @@
 #include "enemy.hpp"
 #include "ui.hpp"
 #include "tower.hpp"
-#include "osberver.hpp"
+#include "observer.hpp"
 #include "projectile.hpp"
 #include <fstream>
 
