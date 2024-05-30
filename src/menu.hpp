@@ -20,7 +20,7 @@ public:
     MenuState currentState = MENU;
 
     void loadTextures();
-    void loadFont();  // New method to load the font
+    void loadFont();
     void update();
     void draw();
     bool isGameStarted();
@@ -30,7 +30,9 @@ private:
     Texture2D buttonHoverTexture;
     Texture2D logoTexture;
     Texture2D backgroundTexture;
-    Font customFont; // New font variable
+    Font customFont;
+    Music backgroundMusic; // New variable for background music
+    bool isMusicOn = true; // New variable to track music state
 
     Button* startButton;
     Button* leaderboardButton;
@@ -38,6 +40,7 @@ private:
     Button* optionsButton;
     Button* quitButton;
     Button* backButton;
+    Button* musicToggleButton; // New button for toggling music
 };
 
 #endif // MENU_HPP
