@@ -2,6 +2,9 @@
 #define GAME_MANAGER_HPP
 
 #include <raylib.h>
+#include <vector>
+#include <chrono>
+
 #include "map.hpp"
 #include "enemy.hpp"
 #include "ui.hpp"
@@ -23,6 +26,10 @@ class GameManager
         Map map;
         Enemy* enemy;
         UI ui;
+        Font timerFont;
+        std::chrono::steady_clock::time_point startTime;
+        int minutes;
+        int seconds;
 
         std::vector<Vector2> path;
 
@@ -34,4 +41,5 @@ class GameManager
         void draw();
         void updateCamera();
 };
+
 #endif // GAME_MANAGER_HPP
