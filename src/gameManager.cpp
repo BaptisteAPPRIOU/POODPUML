@@ -53,7 +53,7 @@ void GameManager::update() {
 
     for (auto it = projectiles.begin(); it != projectiles.end();) {
         (*it)->update();
-        if ((*it)->getPosition().z <= 0.0f) { 
+        if ((*it)->getPosition().y <= 0.3f) { 
             delete *it;
             it = projectiles.erase(it);
         } else {
