@@ -35,8 +35,8 @@ void BasicTower::draw(Vector3 towerPosition) {
     );
 }
 
-void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemyPosition);
+void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+    Tower::checkEnemyInRange(enemies);
 }
 
 BasicTower::~BasicTower() {

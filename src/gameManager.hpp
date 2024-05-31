@@ -45,6 +45,10 @@ class GameManager : public Observer
         int waveNumber = 21; // Numéro de la vague
         int numEnemies = 30; // Nombre d'ennemis
 
+        float enemySpawnTimer; // Timer for enemy spawning
+        int enemiesToSpawn;
+        void spawnEnemy();
+
     public:
         GameManager();
         ~GameManager();

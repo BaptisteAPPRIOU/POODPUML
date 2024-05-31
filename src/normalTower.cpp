@@ -33,8 +33,8 @@ void NormalTower::draw(Vector3 towerPosition) {
     );
 }
 
-void NormalTower::checkEnemyInRange(Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemyPosition);
+void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+    Tower::checkEnemyInRange(enemies);
 }
 
 NormalTower::~NormalTower() {

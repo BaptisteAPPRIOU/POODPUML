@@ -7,6 +7,7 @@
 #include "observer.hpp"
 #include <raymath.h>
 #include "projectile.hpp"
+#include "enemy.hpp"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ public:
     Vector3 towerPosition;
     Vector3 enemyPosition;
     bool enemyInRange;
-    virtual void checkEnemyInRange(Vector3 enemyPosition) = 0;
+    virtual void checkEnemyInRange(const std::vector<Enemy*>& enemies) = 0;
     virtual Vector3 getTowerPosition() = 0;
     virtual string getType();
     virtual float getFireRate() = 0;
