@@ -1,5 +1,7 @@
 #include "enemy.hpp"
 #include "basicEnemy.hpp"
+#include "mediumEnemy.hpp"
+#include "hardEnemy.hpp"
 #include <vector>
 #include <cmath>
 #include <algorithm>
@@ -7,9 +9,13 @@
 #include <iostream>
 using namespace std;
 
-Enemy* Enemy::createEnemy(const std::string& type, Vector3 position) {
+Enemy* Enemy::createEnemy(const string& type, Vector3 position) {
     if (type == "basic") {
         return new BasicEnemy(position);
+    } else if (type == "medium") {
+        return new MediumEnemy(position);
+    } else if (type == "hard") {
+        return new HardEnemy(position);
     }
     return nullptr;
 }

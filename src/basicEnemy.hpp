@@ -4,6 +4,7 @@
 #include "enemy.hpp"
 #include <vector>
 #include <iostream>
+using namespace std;
 
 class BasicEnemy : public Enemy
 {
@@ -13,7 +14,7 @@ public:
 
     void update(Camera camera) override;
     void move(const std::vector<Vector3>& path) override;
-    
+
 };
 
 #endif // BASIC_ENEMY_HPP
