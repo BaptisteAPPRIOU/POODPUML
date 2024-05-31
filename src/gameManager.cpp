@@ -84,12 +84,12 @@ void GameManager::update() {
     for (size_t i = 0; i < enemies.size(); ++i) {
         if (currentTime - startTime >= spawnTimes[i]) {
             if (enemies[i] != nullptr) {
-                enemies[i]->update();
+                enemies[i]->update(camera);
                 enemies[i]->move(path);
             }
         }
     }
-    
+
     map.checkTileHover(camera);
     if (enemy) {
         enemy->move(path);
@@ -139,10 +139,11 @@ void GameManager::draw() {
                     for (size_t i = 0; i < enemies.size(); ++i) {
                         if (GetTime() - startTime >= spawnTimes[i]) {
                             if (enemies[i] != nullptr) {
-                                enemies[i]->update();
+                                enemies[i]->update(camera); // Pass the 'camera' object as an argument to the 'update()' function
                                 enemies[i]->move(path);
                             }
                         }
+                    }
                     if (enemy) {
                         enemy->move(path);
                         enemy->update(camera);
@@ -209,9 +210,10 @@ void GameManager::onNotify(EventType eventType) {
                     Vector3 hoveredPosition = map.getHoveredTilePosition();
                     std::cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
 
-                    if (map.isTileBuildable(Vector2{hoveredPosition.x, hoveredPosition.z}, path)) {
+                    if (map.isTileBuildable(Vector3{hoveredPosition.x, hoveredPosition.y, hoveredPosition.z}, path)) {
                         cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
                         // Reset placing state
+                    }
                     if (map.isTileBuildable(hoveredPosition, path)) {
                         Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
                         newTower->addObserver(this);
@@ -232,8 +234,8 @@ void GameManager::onNotify(EventType eventType) {
                 std::cout << "isPlacingTower is false when trying to place tower." << endl;
             }
             break;
-        }
-         case EventType::ENEMY_IN_RANGE: {
+            }
+        case EventType::ENEMY_IN_RANGE: {
             std::cout << "Notification received: Enemy in range" << std::endl;
             for (Tower* tower : towers) {
                 if(tower->getType() == "slow") {
@@ -276,10 +278,9 @@ void GameManager::onNotify(EventType eventType) {
             }
         }
         default:
-            break;
+           break;
     }
 }
-
 
 void GameManager::checkTowersForEnemies() {
     Vector3 enemyPosition = enemy->getEnemyPosition();
