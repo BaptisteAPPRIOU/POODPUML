@@ -3,7 +3,7 @@
 #include <iostream>
 
 NormalTower::NormalTower(Vector3 position) : Tower(position) {
-    tower = LoadModel("assets/models/tower1.obj");
+    tower = LoadModel("assets/images/button.png");
     textureTower = LoadTexture("assets/textures/texture_tower1.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 5.0f;
