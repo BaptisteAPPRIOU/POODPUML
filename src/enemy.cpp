@@ -15,7 +15,7 @@ Enemy* Enemy::createEnemy(const std::string& type, Vector3 position) {
 }
 
 void Enemy::move(const std::vector<Vector3>& path) {
-    if (path.empty() || currentPoint >= path.size()) {
+    if (path.empty() || static_cast<std::vector<Vector3>::size_type>(currentPoint) >= path.size()) {
         return;
     }
 

@@ -1,6 +1,7 @@
 #include "basicEnemy.hpp"
 #include <raylib.h>
 #include <vector>
+#include <iostream>
 
 BasicEnemy::BasicEnemy(Vector3 position) {
     enemy = LoadModel("assets/models/enemy.obj");

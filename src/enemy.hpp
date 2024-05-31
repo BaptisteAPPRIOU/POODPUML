@@ -3,6 +3,8 @@
 
 #include <string>
 #include <raylib.h>
+#include <vector>
+#include <iostream>
 using namespace std;
 
 class Enemy
@@ -12,7 +14,7 @@ public:
 
     static Enemy* createEnemy(const string& type, Vector3 position);
 
-    virtual void move(const vector<Vector3>& path);
+    virtual void move(const std::vector<Vector3>& path);
     virtual ~Enemy() {}
     virtual Vector3 getEnemyPosition() const;
     virtual void takeDamage(int damage);
@@ -22,6 +24,7 @@ public:
     void setSpeed(float speed);
     float getSpeed();
     bool slowed = false;
+    bool isChecked = false;
 
 protected:
     Model enemy;
