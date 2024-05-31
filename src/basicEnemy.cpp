@@ -2,6 +2,7 @@
 #include <raylib.h>
 #include <vector>
 #include <iostream>
+using namespace std;
 
 BasicEnemy::BasicEnemy(Vector3 position) {
     enemy = LoadModel("assets/models/soldier1.obj");
@@ -20,7 +21,7 @@ void BasicEnemy::update(Camera camera) {
     drawLifeBar(camera);
 }
 
-void BasicEnemy::move(const std::vector<Vector3>& path) {
+void BasicEnemy::move(const vector<Vector3>& path) {
     Enemy::move(path);
 }
 

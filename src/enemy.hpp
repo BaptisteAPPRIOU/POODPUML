@@ -33,7 +33,7 @@ protected:
     float speed;
     int health;
     int maxHealth;
-    int currentPoint;
+    int currentPoint = 0;
     int value;
 
     Enemy() {}

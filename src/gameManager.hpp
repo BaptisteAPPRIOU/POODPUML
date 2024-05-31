@@ -10,6 +10,8 @@
 #include "observer.hpp"
 #include "projectile.hpp"
 #include <fstream>
+#include <vector>
+using namespace std;
 
 class GameManager : public Observer
 {
@@ -35,11 +37,19 @@ class GameManager : public Observer
         vector<Vector3> path;
         bool isPlacingTower;
         ofstream debugLogFile;
+        vector<Enemy*> enemies = {};  // Vecteur d'ennemis
+        Wave* wave = nullptr; // Declare the variable "wave"
+        bool isFirstUpdate = true; // Add this static variable
+
+        vector<float> spawnTimes; // Temps d'apparition des ennemis
+        float startTime; // Temps initial
+        int waveNumber = 21; // Numéro de la vague
+        int numEnemies = 30; // Nombre d'ennemis
 
     public:
         GameManager();
         ~GameManager();
-
+        void createEnemies(int numEnemies, int waveNumber);
         void update();
         void draw();
         void updateCamera();

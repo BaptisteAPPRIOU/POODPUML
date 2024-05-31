@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+using namespace std;
 
 std::vector<Vector3> loadPathFromJSON(const std::string& filename);
 
