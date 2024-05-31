@@ -76,6 +76,13 @@
 		"locale": "cpp",
 		"mutex": "cpp",
 		"ratio": "cpp",
-		"variant": "cpp"
+		"variant": "cpp",
+		"chrono": "cpp",
+		"condition_variable": "cpp",
+		"format": "cpp",
+		"semaphore": "cpp",
+		"span": "cpp",
+		"stop_token": "cpp",
+		"thread": "cpp"
 	}
 }
