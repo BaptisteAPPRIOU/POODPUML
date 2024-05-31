@@ -17,6 +17,7 @@ public:
     bool isPlacingTower() const;
     string getSelectedTowerType() const;
     void resetPlacingTower();
+    float getSelectedTowerFireRate() const;
 
 private:
     Texture2D buttonTexture1;
@@ -35,6 +36,7 @@ private:
 
     bool placingTower;
     string selectedTowerType;
+    float selectedTowerFireRate;
     bool towerShopClicked;
 };
 

@@ -6,7 +6,7 @@
 class BasicTower : public Tower
 {
     public:
-        BasicTower(Vector3 position);
+        BasicTower(Vector3 position, float fireRate);
         ~BasicTower() override;
 
         void update() override;
@@ -15,6 +15,7 @@ class BasicTower : public Tower
         void checkEnemyInRange(Vector3 enemyPosition) override;
         Vector3 getTowerPosition() override;
         string getType() override;
+        float getFireRate() override;
 
     private:
         bool enemyInRange;

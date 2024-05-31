@@ -6,7 +6,7 @@
 class SlowTower : public Tower
 {
     public:
-        SlowTower(Vector3 position);
+        SlowTower(Vector3 position, float fireRate);
         ~SlowTower() override;
 
         void update() override;
@@ -15,6 +15,7 @@ class SlowTower : public Tower
         void checkEnemyInRange(Vector3 enemyPosition) override;
         Vector3 getTowerPosition() override;
         string getType() override;
+        float getFireRate() override;
 
     private:
         bool enemyInRange;

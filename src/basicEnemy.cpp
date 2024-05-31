@@ -4,8 +4,8 @@
 #include <iostream>
 
 BasicEnemy::BasicEnemy(Vector3 position) {
-    enemy = LoadModel("assets/models/enemy.obj");
-    textureEnemy = LoadTexture("assets/textures/texture_enemy.png");
+    enemy = LoadModel("assets/models/soldier1.obj");
+    textureEnemy = LoadTexture("assets/textures/texture_soldier1.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
 
     enemyPosition = position;

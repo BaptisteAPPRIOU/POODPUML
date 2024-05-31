@@ -60,7 +60,7 @@ void Enemy::drawLifeBar(Camera camera) {
     float healthPercentage = (float)health / maxHealth; // Calculate health percentage based on max health
 
     // Calculate the position of the lifebar
-    Vector3 lifeBarPosition = Vector3Add(enemyPosition, Vector3{0, 2.5f, 0});
+    Vector3 lifeBarPosition = Vector3Add(enemyPosition, Vector3{0, 4.5f, 0});
 
     // Draw background bar (full width, representing the max health)
     DrawCube(Vector3Add(lifeBarPosition, Vector3{0, 0, 0}), lifeBarFixedWidth, lifeBarHeight, lifeBarDepth, DARKGRAY);

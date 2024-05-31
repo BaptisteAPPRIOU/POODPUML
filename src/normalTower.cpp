@@ -2,13 +2,11 @@
 // #include "projectile.hpp"
 #include <iostream>
 
-NormalTower::NormalTower(Vector3 position) : Tower(position) {
+NormalTower::NormalTower(Vector3 position, float fireRate) : Tower(position, fireRate)  {
     tower = LoadModel("assets/models/tower1.obj");
     textureTower = LoadTexture("assets/textures/texture_tower1.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 5.0f;
-    fireRate = 0.3f;
-    timeSinceLastShot = 0.0f;
     cost = 100;
     enemyInRange = false;
     type = "normal";
@@ -50,4 +48,8 @@ Vector3 NormalTower::getTowerPosition() {
 
 string NormalTower::getType() {
     return type;
+}
+
+float NormalTower::getFireRate() {
+    return fireRate;
 }

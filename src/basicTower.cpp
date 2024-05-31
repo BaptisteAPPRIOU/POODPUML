@@ -2,19 +2,19 @@
 // #include "projectile.hpp"
 #include <iostream>
 
-BasicTower::BasicTower(Vector3 position) : Tower(position) {
-    tower = LoadModel("assets/images/button.png");
+BasicTower::BasicTower(Vector3 position, float fireRate) : Tower(position, fireRate) {
+    tower = LoadModel("assets/models/tower.obj");
     textureTower = LoadTexture("assets/textures/texture_tower.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 10.0f;
-    fireRate = 0.3f;
-    timeSinceLastShot = 0.0f;
     cost = 100;
     enemyInRange = false;
     type = "basic";
+    timer = 0.0f;
 }
 
 void BasicTower::update() {
+    Tower::update();
     draw(towerPosition);
 }
 
@@ -53,4 +53,8 @@ Vector3 BasicTower::getTowerPosition() {
 
 string BasicTower::getType() {
     return type;
+}
+
+float BasicTower::getFireRate() {
+    return fireRate;
 }
