@@ -29,17 +29,16 @@ class GameManager : public Observer
         float cameraFovy;
         Map map;
         UI ui;
-        Enemy* enemy;
         Tower* hoveringTower;
         vector<Tower*> towers;
+        vector<Enemy*> enemies;  // Vecteur d'ennemis
         vector<Projectile*> projectiles;
 
         vector<Vector3> path;
         bool isPlacingTower;
         ofstream debugLogFile;
-        vector<Enemy*> enemies = {};  // Vecteur d'ennemis
-        Wave* wave = nullptr; // Declare the variable "wave"
-        bool isFirstUpdate = true; // Add this static variable
+        // Wave* wave = nullptr; // Declare the variable "wave"
+        // bool isFirstUpdate = true; // Add this static variable
 
         vector<float> spawnTimes; // Temps d'apparition des ennemis
         float startTime; // Temps initial

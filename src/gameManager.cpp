@@ -12,7 +12,7 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), enemy(nullptr), hoveringTower(nullptr), towers(), projectiles(), startTime(GetTime()) {
+      cameraFovy(50.0f), hoveringTower(nullptr), towers(), enemies(), projectiles(), startTime(GetTime()) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -29,9 +29,8 @@ GameManager::GameManager()
     map.drawMap(path);
     createEnemies(numEnemies, waveNumber);
 
-    // Initialiser les temps d'apparition
     for (int i = 0; i < static_cast<int>(enemies.size()); ++i) {
-        spawnTimes.push_back(i * 2.0f); // Chaque ennemi apparaît avec un intervalle de 2 secondes
+        spawnTimes.push_back(i * 2.0f);
     }
 
     ui.addObserver(this);
@@ -46,6 +45,9 @@ GameManager::~GameManager() {
     }
     for (Projectile* projectile : projectiles) {
         delete projectile;
+    }
+    for(Tower* tower : towers) {
+        delete tower;
     }
     CloseWindow();
 }
@@ -69,7 +71,6 @@ void GameManager::createEnemies(int numEnemies2, int waveNumber2) {
                     break;
             }
         }
-        // Créer les ennemis mais ne pas les ajouter immédiatement au jeu
         enemies.push_back(Enemy::createEnemy(enemyType, Vector3{ -25.0f, 0.0f, -10.0f }));
     }
     if (waveNumber2 % 4 == 0) {
@@ -86,18 +87,15 @@ void GameManager::update() {
             if (enemies[i] != nullptr) {
                 enemies[i]->update(camera);
                 enemies[i]->move(path);
+                for (Tower* tower : towers) {
+                tower->checkEnemyInRange(enemies[i]->getEnemyPosition());
+                }
             }
         }
     }
 
     map.checkTileHover(camera);
-    if (enemy) {
-        enemy->move(path);
-        enemy->update(camera);
-        for (Tower* tower : towers) {
-            tower->checkEnemyInRange(enemy->getEnemyPosition());
-        }
-    }
+
 
     for (Tower* tower : towers) {
         tower->update();
@@ -141,16 +139,10 @@ void GameManager::draw() {
                             if (enemies[i] != nullptr) {
                                 enemies[i]->update(camera); // Pass the 'camera' object as an argument to the 'update()' function
                                 enemies[i]->move(path);
+                                for (Tower* tower : towers) {
+                                    tower->checkEnemyInRange(enemies[i]->getEnemyPosition());
+                                }
                             }
-                        }
-                    }
-                    if (enemy) {
-                        enemy->move(path);
-                        enemy->update(camera);
-
-                        
-                        for (Tower* tower : towers) {
-                            tower->checkEnemyInRange(enemy->getEnemyPosition());
                         }
                     }
                     for (Tower* tower : towers) {
@@ -237,105 +229,110 @@ void GameManager::onNotify(EventType eventType) {
             }
         case EventType::ENEMY_IN_RANGE: {
             std::cout << "Notification received: Enemy in range" << std::endl;
-            for (Tower* tower : towers) {
-                if(tower->getType() == "slow") {
-                    if (tower->enemyInRange && !enemy->slowed && !enemy->isChecked) {                        
-                        enemy->setSpeed(enemy->getSpeed() * 0.5f);
-                        enemy->slowed = true;
-                        enemy->isChecked = true;
+            for(Enemy* enemy : enemies) {
+                for (Tower* tower : towers) {
+                    if(tower->getType() == "slow") {
+                        if (tower->enemyInRange && !enemy->slowed && !enemy->isChecked) {                        
+                            enemy->setSpeed(enemy->getSpeed() * 0.5f);
+                            enemy->slowed = true;
+                            enemy->isChecked = true;
+                        }
+                    }
+                    if(tower->getType() == "basic") {
+                        if (tower->enemyInRange) {
+                            Vector3 towerPosition = tower->getTowerPosition();
+                            towerPosition.y = 6.0f;
+                            Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                            projectiles.push_back(newProjectile);
+                        }
+                    }
+                    if(tower->getType() == "normal") {
+                        if (tower->enemyInRange) {
+                            Vector3 towerPosition = tower->getTowerPosition();
+                            towerPosition.y = 6.0f;
+                            Projectile* newProjectile = Projectile::createProjectile("normal", towerPosition, enemy->getEnemyPosition());
+                            projectiles.push_back(newProjectile);
+                        }
                     }
                 }
-                if(tower->getType() == "basic") {
-                    if (tower->enemyInRange) {
-                        Vector3 towerPosition = tower->getTowerPosition();
-                        towerPosition.y = 6.0f;
-                        Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
-                        projectiles.push_back(newProjectile);
-                    }
-                }
-                if(tower->getType() == "normal") {
-                    if (tower->enemyInRange) {
-                        Vector3 towerPosition = tower->getTowerPosition();
-                        towerPosition.y = 6.0f;
-                        Projectile* newProjectile = Projectile::createProjectile("normal", towerPosition, enemy->getEnemyPosition());
-                        projectiles.push_back(newProjectile);
-                    }
-                }
+                break;
             }
-            break;
         }
         case EventType::ENEMY_OUT_OF_RANGE: {
         std::cout << "Notification received: Enemy out of range" << std::endl;
-        for (Tower* tower : towers) {
-            if (!enemy->isChecked) {
-                if(tower->getType() == "slow") {
-                    if (enemy->slowed) {
-                        enemy->slowed = false;
-                        enemy->setSpeed(enemy->getSpeed()*2.0f);
+        for (Enemy* enemy : enemies) {
+            for (Tower* tower : towers) {
+                if (!enemy->isChecked) {
+                    if(tower->getType() == "slow") {
+                        if (enemy->slowed) {
+                            enemy->slowed = false;
+                            enemy->setSpeed(enemy->getSpeed()*2.0f);
+                        }
                     }
                 }
             }
+            enemy->isChecked = false; // Reset isChecked to false
+            break;
+            }
+            default:
+            break;
         }
-        enemy->isChecked = false; // Reset isChecked to false
-        break;
-        }
-        default:
-           break;
     }
 }
 
 void GameManager::checkTowersForEnemies() {
-    Vector3 enemyPosition = enemy->getEnemyPosition();
-    for (Tower* tower : towers) {
-        tower->checkEnemyInRange(enemyPosition);  
+    for (Enemy* enemy : enemies) {
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+        for (Tower* tower : towers) {
+            tower->checkEnemyInRange(enemyPosition);  
+        }
     }
 }
 
-// bool GameManager::checkProjectileCollision(Projectile* projectile) {
-//     // Get projectile position and damage
-//     Vector3 projectilePosition = projectile->getPosition();
-//     int projectileDamage = projectile->getDamage();
-
-//     // Loop through enemies to check collision
-//     for (auto it = enemies.begin(); it != enemies.end();) {
-//         Vector3 enemyPosition = (*it)->getEnemyPosition(); // Access the enemy object correctly
-//         float distance = Vector3Distance(projectilePosition, enemyPosition);
-//         if (distance <= 1.0f) { // Adjust the collision radius as needed
-//             // Apply damage to the enemy
-//             (*it)->takeDamage(projectileDamage);
-
-//             // Check if the enemy is destroyed
-//             if (!(*it)->isAlive()) {
-//                 delete *it;
-//                 it = enemies.erase(it);
-//             }
-
-//             // Remove the projectile
-//             return true;
-//         } else {
-//             ++it; // Move to the next enemy
-//         }
-//     }
-
-//     // No collision detected
-//     return false;
-// }
-
 bool GameManager::checkProjectileCollision(Projectile* projectile) {
+    // Get projectile position and damage
     Vector3 projectilePosition = projectile->getPosition();
     int projectileDamage = projectile->getDamage();
 
-    if (enemy) {
-        Vector3 enemyPosition = enemy->getEnemyPosition();
+    // Loop through enemies to check collision
+    for (auto it = enemies.begin(); it != enemies.end();) {
+        Vector3 enemyPosition = (*it)->getEnemyPosition(); // Access the enemy object correctly
         float distance = Vector3Distance(projectilePosition, enemyPosition);
-        if (distance <= 1.0f) { 
-            enemy->takeDamage(projectileDamage);
-            if (!enemy->isEnemyAlive()) {
-                delete enemy;
-                enemy = nullptr; 
+        if (distance <= 1.0f) { // Adjust the collision radius as needed
+            // Apply damage to the enemy
+            (*it)->takeDamage(projectileDamage);
+
+            // Check if the enemy is destroyed
+            if (!(*it)->isEnemyAlive()) {
+                delete *it;
+                it = enemies.erase(it);
             }
+
             return true;
+        } else {
+            ++it; // Move to the next enemy
         }
     }
+
+    // No collision detected
     return false;
 }
+
+// bool GameManager::checkProjectileCollision(Projectile* projectile) {
+//     Vector3 projectilePosition = projectile->getPosition();
+//     int projectileDamage = projectile->getDamage();
+
+//     if (enemy) {
+//         Vector3 enemyPosition = enemy->getEnemyPosition();
+//         float distance = Vector3Distance(projectilePosition, enemyPosition);
+//         if (distance <= 1.0f) { 
+//             enemy->takeDamage(projectileDamage);
+//             if (!enemy->isEnemyAlive()) {
+//                 delete enemy;
+//                 enemy = nullptr; 
+//             }
+//             return true;
+//         }
+//     }
+//     return false;
+// }

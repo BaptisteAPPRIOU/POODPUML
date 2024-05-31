@@ -10,8 +10,8 @@ HardEnemy::HardEnemy(Vector3 position) {
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
 
     enemyPosition = position;
-    speed = 0.5f;
-    health = 100;
+    speed = 0.1f;
+    maxHealth = health = 100;
     isAlive = true;
     value = 100;
 }
