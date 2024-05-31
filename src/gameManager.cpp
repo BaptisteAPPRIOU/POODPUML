@@ -141,6 +141,7 @@ void GameManager::onNotify(EventType eventType) {
             std::cout << "Notification received: Tower creation" << endl;
             isPlacingTower = true;
             Vector3 initialHoverPosition = map.getHoveredTilePosition();
+            std::cout << "Initial hover position: " << initialHoverPosition.x << ", " << initialHoverPosition.y << ", " << initialHoverPosition.z << endl;
             hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
             std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
             break;
@@ -177,9 +178,10 @@ void GameManager::onNotify(EventType eventType) {
             std::cout << "Notification received: Enemy in range" << std::endl;
             for (Tower* tower : towers) {
                 if(tower->getType() == "slow") {
-                    if (tower->enemyInRange && !enemy->slowed) {                        
+                    if (tower->enemyInRange && !enemy->slowed && !enemy->isChecked) {                        
                         enemy->setSpeed(enemy->getSpeed() * 0.5f);
                         enemy->slowed = true;
+                        enemy->isChecked = true;
                     }
                 }
                 if(tower->getType() == "basic") {
@@ -204,10 +206,12 @@ void GameManager::onNotify(EventType eventType) {
         case EventType::ENEMY_OUT_OF_RANGE: {
             std::cout << "Notification received: Enemy out of range" << std::endl;
             for (Tower* tower : towers) {
-                if(tower->getType() == "slow") {
-                    if (enemy->slowed) {
-                        enemy->setSpeed(enemy->getSpeed()*2.0f);
-                        enemy->slowed = false;
+                if (!enemy->isChecked) {
+                    if(tower->getType() == "slow") {
+                        if (enemy->slowed) {
+                            enemy->setSpeed(enemy->getSpeed()*2.0f);
+                            enemy->slowed = false;
+                        }
                     }
                 }
             }
