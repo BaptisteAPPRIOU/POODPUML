@@ -54,7 +54,7 @@ void UI::updateButtons() {
     if (buttonTower1->isClicked(mousePoint)) {
         std::cout << "Button 1 clicked" << std::endl;
         selectedTowerType = "basic";
-        selectedTowerFireRate = 1.3f;
+        // selectedTowerFireRate = 1.3f;
         std::cout << "Selected Tower Fire Rate: " << selectedTowerFireRate << std::endl; // Add this line
         placingTower = true;
         towerShopClicked = true;
@@ -64,7 +64,7 @@ void UI::updateButtons() {
     else if (buttonTower2->isClicked(mousePoint)) {
         std::cout << "Button 2 clicked" << std::endl;
         selectedTowerType = "normal";
-        selectedTowerFireRate = 2.0f;
+        // selectedTowerFireRate = 2.0f;
         placingTower = true;
         towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
@@ -72,7 +72,7 @@ void UI::updateButtons() {
     else if (buttonTower3->isClicked(mousePoint)) {
         std::cout << "Button 3 clicked" << std::endl;
         selectedTowerType = "slow";
-        selectedTowerFireRate = 0.0f;
+        // selectedTowerFireRate = 0.0f;
         placingTower = true;
         towerShopClicked = true;
         notify(EventType::TOWER_CREATION);

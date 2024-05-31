@@ -6,7 +6,7 @@
 class SlowTower : public Tower
 {
     public:
-        SlowTower(Vector3 position, float fireRate);
+        SlowTower(Vector3 position);
         ~SlowTower() override;
 
         void update() override;
@@ -19,6 +19,7 @@ class SlowTower : public Tower
 
     private:
         bool enemyInRange;
+        static constexpr float fireRate = 0.0f;
         // Projectile* projectile;
 };
 

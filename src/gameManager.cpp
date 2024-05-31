@@ -141,9 +141,8 @@ void GameManager::onNotify(EventType eventType) {
             std::cout << "Notification received: Tower creation" << endl;
             isPlacingTower = true;
             Vector3 initialHoverPosition = map.getHoveredTilePosition();
-            float selectedFireRate = ui.getSelectedTowerFireRate();
             std::cout << "Initial hover position: " << initialHoverPosition.x << ", " << initialHoverPosition.y << ", " << initialHoverPosition.z << endl;
-            hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition, selectedFireRate);
+            hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
             std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
             break;
         }
@@ -155,7 +154,7 @@ void GameManager::onNotify(EventType eventType) {
                     std::cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
 
                     if (map.isTileBuildable(hoveredPosition, path)) {
-                        Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition, ui.getSelectedTowerFireRate());
+                        Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
                         newTower->addObserver(this);
                         towers.push_back(newTower);
                         newTower->draw(hoveredPosition);

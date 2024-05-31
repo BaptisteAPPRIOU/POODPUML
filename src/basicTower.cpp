@@ -2,7 +2,7 @@
 // #include "projectile.hpp"
 #include <iostream>
 
-BasicTower::BasicTower(Vector3 position, float fireRate) : Tower(position, fireRate) {
+BasicTower::BasicTower(Vector3 position) : Tower(position) {
     tower = LoadModel("assets/models/tower.obj");
     textureTower = LoadTexture("assets/textures/texture_tower.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
@@ -56,5 +56,5 @@ string BasicTower::getType() {
 }
 
 float BasicTower::getFireRate() {
-    return fireRate;
+    return 2.0f;
 }

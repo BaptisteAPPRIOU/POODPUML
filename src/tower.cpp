@@ -5,15 +5,15 @@
 #include <iostream>
 using namespace std;
 
-Tower* Tower::createTower(const std::string& type, Vector3 position, float fireRate) {
+Tower* Tower::createTower(const std::string& type, Vector3 position) {
     if (type == "basic") {
-        return new BasicTower(position, fireRate);
+        return new BasicTower(position);
     }
     else if (type == "normal") {
-        return new NormalTower(position, fireRate);
+        return new NormalTower(position);
     }
     else if (type == "slow") {
-        return new SlowTower(position, fireRate);
+        return new SlowTower(position);
     }
     return nullptr;
 }
@@ -34,9 +34,8 @@ void Tower::checkEnemyInRange(Vector3 enemyPosition) {
     if (distance <= range) {
         enemyInRange = true;
         timer += GetFrameTime();  // Increment the timer by the frame time
-        std::cout << "Timer: " << timer << " / Fire Rate: " << fireRate << std::endl;  // Debug print
 
-        if (timer >= fireRate) {
+        if (timer >= getFireRate()) {
             Subject::notify(EventType::ENEMY_IN_RANGE);  // Notify observers to fire
             std::cout << "Firing projectile!" << std::endl;  // Debug print
             timer = 0.0f;  // Reset the timer after firing
@@ -56,6 +55,3 @@ string Tower::getType() {
     return type;
 }
 
-float Tower::getFireRate() {
-    return fireRate;
-}

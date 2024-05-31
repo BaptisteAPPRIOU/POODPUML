@@ -2,7 +2,7 @@
 // #include "projectile.hpp"
 #include <iostream>
 
-NormalTower::NormalTower(Vector3 position, float fireRate) : Tower(position, fireRate)  {
+NormalTower::NormalTower(Vector3 position) : Tower(position)  {
     tower = LoadModel("assets/models/tower1.obj");
     textureTower = LoadTexture("assets/textures/texture_tower1.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
@@ -51,5 +51,5 @@ string NormalTower::getType() {
 }
 
 float NormalTower::getFireRate() {
-    return fireRate;
+    return 2.0f;
 }

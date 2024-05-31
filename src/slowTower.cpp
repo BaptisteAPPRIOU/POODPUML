@@ -2,7 +2,7 @@
 // #include "projectile.hpp"
 #include <iostream>
 
-SlowTower::SlowTower(Vector3 position, float fireRate) : Tower(position, fireRate) {
+SlowTower::SlowTower(Vector3 position) : Tower(position) {
     tower = LoadModel("assets/models/tower2.obj");
     textureTower = LoadTexture("assets/textures/texture_tower2.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
@@ -51,5 +51,5 @@ string SlowTower::getType() {
 }
 
 float SlowTower::getFireRate() {
-    return fireRate;
+    return __FLT_MAX__;
 }
