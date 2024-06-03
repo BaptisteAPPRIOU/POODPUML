@@ -69,7 +69,7 @@ void GameManager::update() {
     for (Tower* tower : towers) {
         tower->update();
         for (Enemy* enemy : enemies) {
-            tower->checkEnemyInRange(enemies);
+            tower->checkEnemyInRange(enemies, enemy->getEnemyPosition());
         }
     }
 
@@ -110,7 +110,7 @@ void GameManager::draw() {
         }
         for (Tower* tower : towers) {
             for (Enemy* enemy : enemies) {
-                tower->checkEnemyInRange(enemies);
+                tower->checkEnemyInRange(enemies, enemy->getEnemyPosition());
             }
             tower->update();
         }
@@ -246,7 +246,7 @@ void GameManager::checkTowersForEnemies() {
     for (Tower* tower : towers) {
         for (Enemy* enemy : enemies) {
             Vector3 enemyPosition = enemy->getEnemyPosition();
-            tower->checkEnemyInRange(enemies);  
+            tower->checkEnemyInRange(enemies, enemyPosition);  
         }
     }
 }

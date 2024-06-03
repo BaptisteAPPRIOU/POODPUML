@@ -12,7 +12,7 @@ class SlowTower : public Tower
         void update() override;
         void hoverTower(Vector3 position) override;
         void draw(Vector3 position) override;
-        void checkEnemyInRange(const std::vector<Enemy*>& enemies) override;
+        void checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) override;
         Vector3 getTowerPosition() override;
         string getType() override;
         float getFireRate() override;

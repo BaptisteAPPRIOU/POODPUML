@@ -29,7 +29,7 @@ void Tower::draw(Vector3 towerPosition) {
     DrawModel(tower, towerPosition, 1.0f, WHITE);
 }
 
-void Tower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+void Tower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 ) {
     for (Enemy* enemy : enemies) {
         Vector3 enemyPosition = enemy->getEnemyPosition();
         float distance = Vector3Distance(enemyPosition, towerPosition);

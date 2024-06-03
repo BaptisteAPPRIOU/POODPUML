@@ -33,8 +33,8 @@ void SlowTower::draw(Vector3 towerPosition) {
     );
 }
 
-void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
-    Tower::checkEnemyInRange(enemies);
+void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
+    Tower::checkEnemyInRange(enemies, enemyPosition);
 }
 
 SlowTower::~SlowTower() {
