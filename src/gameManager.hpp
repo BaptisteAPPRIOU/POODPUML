@@ -43,7 +43,7 @@ class GameManager : public Observer
 
         vector<float> spawnTimes; // Temps d'apparition des ennemis
         float startTime; // Temps initial
-        int waveNumber = 21; // Numéro de la vague
+        int waveNumber = 20; // Numéro de la vague
         int numEnemies = 30; // Nombre d'ennemis
 
     public:
