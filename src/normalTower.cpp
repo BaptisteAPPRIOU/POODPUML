@@ -1,6 +1,8 @@
 #include "normalTower.hpp"
 // #include "projectile.hpp"
 #include <iostream>
+#include <vector>
+using namespace std;
 
 NormalTower::NormalTower(Vector3 position) : Tower(position)  {
     tower = LoadModel("assets/models/normalTower.obj");
@@ -33,8 +35,8 @@ void NormalTower::draw(Vector3 towerPosition) {
     );
 }
 
-void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition, const string& type) {
+    Tower::checkEnemyInRange(enemies, enemyPosition, type);
 }
 
 NormalTower::~NormalTower() {

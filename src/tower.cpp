@@ -29,18 +29,21 @@ void Tower::draw(Vector3 towerPosition) {
     DrawModel(tower, towerPosition, 1.0f, WHITE);
 }
 
-void Tower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 ) {
+void Tower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3, const string& type) {
     for (Enemy* enemy : enemies) {
         Vector3 enemyPosition = enemy->getEnemyPosition();
         float distance = Vector3Distance(enemyPosition, towerPosition);
         if (distance <= range) {
             enemyInRange = true;
             timer += GetFrameTime();  // Increment the timer by the frame time
-
             if (timer >= getFireRate()) {
-                Subject::notify(EventType::ENEMY_IN_RANGE);  // Notify observers to fire
-                std::cout << "Firing projectile!" << std::endl;  // Debug print
-                timer = 0.0f;  // Reset the timer after firing
+                if (type == "slow") {
+                    Subject::notify(EventType::ENEMY_IN_RANGE_SLOW);  // Notify observers to slow the enemy
+                }
+                else if (type == "normal" || type == "basic") {
+                    Subject::notify(EventType::ENEMY_IN_RANGE);  // Notify observers to fire
+                    timer = 0.0f;  // Reset the timer after firing
+                }
             }
             return; // Exit the loop if any enemy is in range
         }

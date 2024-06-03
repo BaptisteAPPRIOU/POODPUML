@@ -1,6 +1,8 @@
 #include "slowTower.hpp"
 // #include "projectile.hpp"
 #include <iostream>
+#include <vector>
+using namespace std;
 
 SlowTower::SlowTower(Vector3 position) : Tower(position) {
     tower = LoadModel("assets/models/slowTower.obj");
@@ -33,8 +35,8 @@ void SlowTower::draw(Vector3 towerPosition) {
     );
 }
 
-void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition, const string& type) {
+    Tower::checkEnemyInRange(enemies, enemyPosition, type);
 }
 
 SlowTower::~SlowTower() {
