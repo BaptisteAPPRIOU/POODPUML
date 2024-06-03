@@ -8,7 +8,7 @@ GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(),
-      enemySpawnTimer(0.0f), enemiesToSpawn(10) { // Initialize timer and enemies to spawn
+      enemySpawnTimer(0.0f), enemiesToSpawn(10), score(0), money(500), lives(3) { // Initialize score, money, and lives
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -58,6 +58,9 @@ void GameManager::update() {
         (*it)->move(path);
         (*it)->update(camera);
         if (!(*it)->isEnemyAlive()) {
+            int enemyValue = (*it)->getEnemyValue();
+            score += enemyValue;
+            money += enemyValue / 2;
             delete *it;
             it = enemies.erase(it);
         } else {
@@ -129,7 +132,10 @@ void GameManager::draw() {
         DrawFPS(10, 10);
         DrawRectangleLines(regionX, regionY, regionWidth, regionHeight, BLACK);
         ui.drawGameButtons();
-        ui.updateButtons();
+
+        DrawText(TextFormat("SCORE: %d", score), 500, 950, 30, BLACK);
+        DrawText(TextFormat("MONEY: %d", money), 800, 950, 30, BLACK);
+        DrawText(TextFormat("LIVES: %d", lives), 1100, 950, 30, BLACK);
 
         EndDrawing();
         update();
@@ -251,7 +257,6 @@ void GameManager::checkTowersForEnemies() {
     }
 }
 
-
 void GameManager::spawnEnemy() {
     if (enemiesToSpawn > 0) {
         enemies.push_back(Enemy::createEnemy("basic", Vector3{-25.0f, 0.0f, -10.0f}));
@@ -263,18 +268,21 @@ bool GameManager::checkProjectileCollision(Projectile* projectile) {
     Vector3 projectilePosition = projectile->getPosition();
     int projectileDamage = projectile->getDamage();
     for (auto it = enemies.begin(); it != enemies.end();) {
-    Vector3 enemyPosition = (*it)->getEnemyPosition();
-    float distance = Vector3Distance(projectilePosition, enemyPosition);
-    if (distance <= 1.0f) { 
-        (*it)->takeDamage(projectileDamage);
-        if (!(*it)->isEnemyAlive()) {
-            delete *it;
-            it = enemies.erase(it);
+        Vector3 enemyPosition = (*it)->getEnemyPosition();
+        float distance = Vector3Distance(projectilePosition, enemyPosition);
+        if (distance <= 1.0f) { 
+            (*it)->takeDamage(projectileDamage);
+            if (!(*it)->isEnemyAlive()) {
+                int enemyValue = (*it)->getEnemyValue();
+                score += enemyValue;
+                money += enemyValue / 2;
+                delete *it;
+                it = enemies.erase(it);
+            }
+            return true;
+        } else {
+            ++it;
         }
-        return true;
-    } else {
-        ++it;
     }
-}
-return false;
+    return false;
 }

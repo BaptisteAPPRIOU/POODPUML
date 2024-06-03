@@ -7,7 +7,7 @@ NormalTower::NormalTower(Vector3 position) : Tower(position)  {
     textureTower = LoadTexture("assets/textures/texture_normalTower.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 5.0f;
-    cost = 100;
+    cost = 400;
     enemyInRange = false;
     type = "normal";
 }
@@ -52,4 +52,8 @@ string NormalTower::getType() {
 
 float NormalTower::getFireRate() {
     return 2.0f;
+}
+
+int NormalTower::getCost() {
+    return cost;
 }

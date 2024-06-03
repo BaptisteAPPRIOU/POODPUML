@@ -82,3 +82,7 @@ void Enemy::setSpeed(float speed) {
 float Enemy::getSpeed() {
     return speed;
 }
+
+int Enemy::getEnemyValue() const {
+    return value;
+}

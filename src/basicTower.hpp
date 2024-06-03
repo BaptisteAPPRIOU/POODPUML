@@ -16,6 +16,7 @@ class BasicTower : public Tower
         Vector3 getTowerPosition() override;
         string getType() override;
         float getFireRate() override;
+        int getCost() override;
 
     private:
         bool enemyInRange;

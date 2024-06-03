@@ -14,6 +14,8 @@ public:
 
     void update(Camera camera) override; // Add 'override' keyword here
     void move(const vector<Vector3>& path) override;
+    int getEnemyValue() const override;
+
 };
 
 

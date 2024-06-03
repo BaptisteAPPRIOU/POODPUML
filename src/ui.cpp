@@ -44,8 +44,14 @@ void UI::drawGameButtons() {
 
     DrawText("BASIC TOWER", 1450, 285, 30, BLACK);
     DrawText("NORMAL TOWER", 1450, 455, 30, BLACK);
+    DrawText("SLOW TOWER", 1450, 635, 30, BLACK);
+
 
     DrawText("SCORE", 500, 950, 30, BLACK);
+    
+    DrawText("MONEY", 800, 950, 30, BLACK);
+
+    DrawText("LIVES", 1100, 950, 30, BLACK);
 }
 
 void UI::updateButtons() {

@@ -13,7 +13,7 @@ HardEnemy::HardEnemy(Vector3 position) {
     speed = 0.1f;
     maxHealth = health = 100;
     isAlive = true;
-    value = 100;
+    value = 300;
 }
 void HardEnemy::update(Camera camera) {
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);
@@ -22,4 +22,8 @@ void HardEnemy::update(Camera camera) {
 
 void HardEnemy::move(const vector<Vector3>& path) {
     Enemy::move(path);
+}
+
+int HardEnemy::getEnemyValue() const{
+    return value;
 }
