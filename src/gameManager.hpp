@@ -31,27 +31,25 @@ class GameManager : public Observer
         UI ui;
         Tower* hoveringTower;
         vector<Tower*> towers;
-        vector<Enemy*> enemies;  // Vecteur d'ennemis
+        vector<Enemy*> enemies;  
         vector<Projectile*> projectiles;
 
         vector<Vector3> path;
         bool isPlacingTower;
         ofstream debugLogFile;
-        // Wave* wave = nullptr; // Declare the variable "wave"
-        // bool isFirstUpdate = true; // Add this static variable
 
-        vector<float> spawnTimes; // Temps d'apparition des ennemis
-        float startTime; // Temps initial
-        int waveNumber = 21; // Numéro de la vague
-        int numEnemies = 30; // Nombre d'ennemis
-
-        float enemySpawnTimer; // Timer for enemy spawning
+        float enemySpawnTimer; 
         int enemiesToSpawn;
         void spawnEnemy();
+        void initializeWaves();
+        void startNextWave();
+        std::vector<std::pair<int, std::string>> waves;
+        std::string enemyTypeToSpawn;
+        int currentWave;
+
         int score;
         int money;
         int lives;
-
     public:
         GameManager();
         ~GameManager();

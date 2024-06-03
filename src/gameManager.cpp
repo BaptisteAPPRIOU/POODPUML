@@ -8,7 +8,7 @@ GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(),
-      enemySpawnTimer(0.0f), enemiesToSpawn(10), score(0), money(500), lives(3) { // Initialize score, money, and lives
+      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), score(0), money(500), lives(3) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -28,6 +28,9 @@ GameManager::GameManager()
     map.addObserver(this);
 
     SetTargetFPS(60);
+
+    initializeWaves();
+    startNextWave();
 }
 
 GameManager::~GameManager() {
@@ -43,14 +46,36 @@ GameManager::~GameManager() {
     CloseWindow();
 }
 
+void GameManager::initializeWaves() {
+    waves = {
+        {10, "basic"},
+        {15, "basic"},
+        {20, "hard"}
+    };
+}
+
+void GameManager::startNextWave() {
+    if (currentWave < waves.size()) {
+        enemiesToSpawn = waves[currentWave].first;
+        enemyTypeToSpawn = waves[currentWave].second;
+        currentWave++;
+        enemySpawnTimer = 0.0f;
+        std::cout << "Wave " << currentWave << " started with " << enemiesToSpawn << " " << enemyTypeToSpawn << " enemies." << std::endl;
+    } else {
+        std::cout << "All waves completed!" << std::endl;
+    }
+}
+
 void GameManager::update() {
     map.checkTileHover(camera);
 
     // Update enemy spawning
-    enemySpawnTimer += GetFrameTime();
-    if (enemySpawnTimer >= 5.0f && enemiesToSpawn > 0) {
-        spawnEnemy();
-        enemySpawnTimer = 0.0f;
+    if (enemiesToSpawn > 0) {
+        enemySpawnTimer += GetFrameTime();
+        if (enemySpawnTimer >= 5.0f) {
+            spawnEnemy();
+            enemySpawnTimer = 0.0f;
+        }
     }
 
     // Update all enemies
@@ -76,6 +101,11 @@ void GameManager::update() {
         } else {
             ++it;
         }
+    }
+
+    // Check if wave is completed
+    if (enemiesToSpawn == 0 && enemies.empty()) {
+        startNextWave();
     }
 
     // Update towers
@@ -260,7 +290,7 @@ void GameManager::onNotify(EventType eventType) {
                 }
             }
             for (Enemy* enemy : enemies) {
-                enemy->isChecked = false; // Reset isChecked to false
+                enemy->isChecked = false;
             }
             break;
         }
@@ -280,7 +310,7 @@ void GameManager::checkTowersForEnemies() {
 
 void GameManager::spawnEnemy() {
     if (enemiesToSpawn > 0) {
-        enemies.push_back(Enemy::createEnemy("basic", Vector3{-25.0f, 0.0f, -10.0f}));
+        enemies.push_back(Enemy::createEnemy(enemyTypeToSpawn, Vector3{-25.0f, 0.0f, -10.0f}));
         enemiesToSpawn--;
     }
 }
