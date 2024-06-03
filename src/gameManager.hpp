@@ -46,6 +46,8 @@ class GameManager : public Observer
         std::vector<std::pair<int, std::string>> waves;
         std::string enemyTypeToSpawn;
         int currentWave;
+        int enemiesRemaining;
+        int waveRemaining;
 
         int score;
         int money;

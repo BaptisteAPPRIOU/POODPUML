@@ -51,7 +51,7 @@ string SlowTower::getType() {
 }
 
 float SlowTower::getFireRate() {
-    return __FLT_MAX__;
+    return fireRate;
 }
 
 int SlowTower::getCost() {

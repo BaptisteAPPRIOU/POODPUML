@@ -8,7 +8,7 @@ GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(),
-      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), score(0), money(500), lives(3) {
+      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -58,7 +58,9 @@ void GameManager::startNextWave() {
     if (currentWave < waves.size()) {
         enemiesToSpawn = waves[currentWave].first;
         enemyTypeToSpawn = waves[currentWave].second;
+        enemiesRemaining = enemiesToSpawn;
         currentWave++;
+        waveRemaining ++;
         enemySpawnTimer = 0.0f;
         std::cout << "Wave " << currentWave << " started with " << enemiesToSpawn << " " << enemyTypeToSpawn << " enemies." << std::endl;
     } else {
@@ -98,6 +100,7 @@ void GameManager::update() {
             money += enemyValue / 2;
             delete *it;
             it = enemies.erase(it);
+            enemiesRemaining--;
         } else {
             ++it;
         }
@@ -176,6 +179,8 @@ void GameManager::draw() {
         DrawText(TextFormat("SCORE: %d", score), 500, 950, 30, BLACK);
         DrawText(TextFormat("MONEY: %d", money), 800, 950, 30, BLACK);
         DrawText(TextFormat("LIVES: %d", lives), 1100, 950, 30, BLACK);
+        DrawText(TextFormat("ENEMIES: %d", enemiesRemaining), 550, 1000, 30, BLACK);
+        DrawText(TextFormat("WAVES: %d", waveRemaining), 850, 1000, 30, BLACK);
 
         EndDrawing();
         update();
@@ -327,6 +332,7 @@ bool GameManager::checkProjectileCollision(Projectile* projectile) {
                 int enemyValue = (*it)->getEnemyValue();
                 score += enemyValue;
                 money += enemyValue / 2;
+                enemiesRemaining--;
                 delete *it;
                 it = enemies.erase(it);
             }

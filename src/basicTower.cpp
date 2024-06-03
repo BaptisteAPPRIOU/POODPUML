@@ -42,9 +42,6 @@ void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 e
 BasicTower::~BasicTower() {
     UnloadModel(tower); // Unload tower model
     UnloadTexture(textureTower); // Unload tower texture
-    // if (projectile) {
-    //     delete projectile; // Delete projectile object
-    // }
 }
 
 Vector3 BasicTower::getTowerPosition() {
@@ -56,7 +53,7 @@ string BasicTower::getType() {
 }
 
 float BasicTower::getFireRate() {
-    return 2.0f;
+    return fireRate;
 }
 
 int BasicTower::getCost() {
