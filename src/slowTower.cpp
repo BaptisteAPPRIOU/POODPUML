@@ -7,7 +7,7 @@ SlowTower::SlowTower(Vector3 position) : Tower(position) {
     textureTower = LoadTexture("assets/textures/texture_tower2.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 15.0f;
-    cost = 1000;
+    cost = 500;
     enemyInRange = false;
     type = "slow";
 }

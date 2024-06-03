@@ -50,8 +50,11 @@ void UI::drawGameButtons(int money) {
 
     // Draw button labels
     DrawText("BASIC TOWER", 1450, 285, 30, BLACK);
+    if(buttonTower1Active) DrawText("COST: 200", 1450, 315, 20, BLACK);
     DrawText("NORMAL TOWER", 1450, 455, 30, BLACK);
+    if(buttonTower2Active) DrawText("COST: 400", 1450, 485, 20, BLACK);
     DrawText("SLOW TOWER", 1450, 635, 30, BLACK);
+    if(buttonTower3Active) DrawText("COST: 500", 1450, 665, 20, BLACK);
 
     // Draw other UI elements
     DrawText("SCORE", 500, 950, 30, BLACK);
