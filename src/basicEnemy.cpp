@@ -24,3 +24,7 @@ void BasicEnemy::update(Camera camera) {
 void BasicEnemy::move(const vector<Vector3>& path) {
     Enemy::move(path);
 }
+
+int BasicEnemy::getEnemyValue() const{
+    return value;
+}

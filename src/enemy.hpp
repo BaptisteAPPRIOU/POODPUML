@@ -26,6 +26,8 @@ public:
     bool slowed = false;
     bool isChecked = false;
 
+    virtual int getEnemyValue() const;
+
 protected:
     Model enemy;
     Texture2D textureEnemy;

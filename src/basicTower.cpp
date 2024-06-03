@@ -7,7 +7,7 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {
     textureTower = LoadTexture("assets/textures/texture_basicTower.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 10.0f;
-    cost = 100;
+    cost = 200;
     enemyInRange = false;
     type = "basic";
     timer = 0.0f;
@@ -57,4 +57,8 @@ string BasicTower::getType() {
 
 float BasicTower::getFireRate() {
     return 2.0f;
+}
+
+int BasicTower::getCost() {
+    return cost;
 }

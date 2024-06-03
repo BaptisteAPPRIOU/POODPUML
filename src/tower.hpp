@@ -27,6 +27,7 @@ public:
     virtual Vector3 getTowerPosition() = 0;
     virtual string getType();
     virtual float getFireRate() = 0;
+    virtual int getCost() = 0;
 
 protected:
     Model tower;

@@ -60,3 +60,6 @@ string Tower::getType() {
     return type;
 }
 
+int Tower::getCost() {
+    return cost;
+}

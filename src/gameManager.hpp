@@ -48,6 +48,9 @@ class GameManager : public Observer
         float enemySpawnTimer; // Timer for enemy spawning
         int enemiesToSpawn;
         void spawnEnemy();
+        int score;
+        int money;
+        int lives;
 
     public:
         GameManager();

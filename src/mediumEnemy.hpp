@@ -13,6 +13,8 @@ public:
 
     void update(Camera camera) override;
     void move(const vector<Vector3>& path) override;
+    int getEnemyValue() const override;
+
 };
 
 #endif // MEDIUM_ENEMY_HPP

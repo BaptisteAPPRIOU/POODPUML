@@ -13,7 +13,7 @@ MediumEnemy::MediumEnemy(Vector3 position) {
     speed = 0.15f;
     maxHealth = health = 100;
     isAlive = true;
-    value = 100;
+    value = 200;
 }
 void MediumEnemy::update(Camera camera) {
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);
@@ -22,4 +22,8 @@ void MediumEnemy::update(Camera camera) {
 
 void MediumEnemy::move(const std::vector<Vector3>& path) {
     Enemy::move(path);
+}
+
+int MediumEnemy::getEnemyValue() const{
+    return value;
 }

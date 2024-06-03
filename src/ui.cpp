@@ -36,24 +36,45 @@ void UI::loadTextures() {
     buttonTower4 = new Button(1420, 780, 400, 120, buttonTexture4, buttonHoverTexture4);
 }
 
-void UI::drawGameButtons() {
+void UI::drawGameButtons(int money) {
+    // Update button states based on the money
+    buttonTower1Active = money >= 200; // Basic tower cost
+    buttonTower2Active = money >= 400; // Normal tower cost
+    buttonTower3Active = money >= 500; // Slow tower cost
+
+    // Update buttons and draw them
     buttonTower1->update(GetMousePosition());
     buttonTower2->update(GetMousePosition());
     buttonTower3->update(GetMousePosition());
     buttonTower4->update(GetMousePosition());
 
+    // Draw button labels
     DrawText("BASIC TOWER", 1450, 285, 30, BLACK);
+    if(buttonTower1Active) DrawText("COST: 200", 1450, 315, 20, BLACK);
     DrawText("NORMAL TOWER", 1450, 455, 30, BLACK);
+    if(buttonTower2Active) DrawText("COST: 400", 1450, 485, 20, BLACK);
+    DrawText("SLOW TOWER", 1450, 635, 30, BLACK);
+    if(buttonTower3Active) DrawText("COST: 500", 1450, 665, 20, BLACK);
 
+    // Draw other UI elements
     DrawText("SCORE", 500, 950, 30, BLACK);
+    DrawText("MONEY", 800, 950, 30, BLACK);
+    DrawText("LIVES", 1100, 950, 30, BLACK);
+
+    // Draw "NOT ENOUGH MONEY" text if button is inactive
+    if (!buttonTower1Active) DrawText("NOT ENOUGH MONEY", 1450, 320, 20, RED);
+    if (!buttonTower2Active) DrawText("NOT ENOUGH MONEY", 1450, 490, 20, RED);
+    if (!buttonTower3Active) DrawText("NOT ENOUGH MONEY", 1450, 670, 20, RED);
 }
 
-void UI::updateButtons() {
+
+void UI::updateButtons(int money) {
 
     Vector2 mousePoint = GetMousePosition();
     if (buttonTower1->isClicked(mousePoint)) {
         std::cout << "Button 1 clicked" << std::endl;
         selectedTowerType = "basic";
+        selectedTowerCost = 200;
         // selectedTowerFireRate = 1.3f;
         std::cout << "Selected Tower Fire Rate: " << selectedTowerFireRate << std::endl; // Add this line
         placingTower = true;
@@ -64,6 +85,7 @@ void UI::updateButtons() {
     else if (buttonTower2->isClicked(mousePoint)) {
         std::cout << "Button 2 clicked" << std::endl;
         selectedTowerType = "normal";
+        selectedTowerCost = 400;
         // selectedTowerFireRate = 2.0f;
         placingTower = true;
         towerShopClicked = true;
@@ -72,6 +94,7 @@ void UI::updateButtons() {
     else if (buttonTower3->isClicked(mousePoint)) {
         std::cout << "Button 3 clicked" << std::endl;
         selectedTowerType = "slow";
+        selectedTowerCost = 500;
         // selectedTowerFireRate = 0.0f;
         placingTower = true;
         towerShopClicked = true;
@@ -101,4 +124,8 @@ void UI::resetPlacingTower() {
 
 float UI::getSelectedTowerFireRate() const {
     return selectedTowerFireRate;
+}
+
+int UI::getSelectedTowerCost() const {
+    return selectedTowerCost;
 }
