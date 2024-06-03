@@ -51,7 +51,7 @@ string NormalTower::getType() {
 }
 
 float NormalTower::getFireRate() {
-    return 2.0f;
+    return fireRate;
 }
 
 int NormalTower::getCost() {

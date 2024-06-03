@@ -56,7 +56,7 @@ string BasicTower::getType() {
 }
 
 float BasicTower::getFireRate() {
-    return 2.0f;
+    return fireRate;
 }
 
 int BasicTower::getCost() {
