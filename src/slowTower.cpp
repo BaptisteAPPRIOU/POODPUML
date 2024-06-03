@@ -3,8 +3,8 @@
 #include <iostream>
 
 SlowTower::SlowTower(Vector3 position) : Tower(position) {
-    tower = LoadModel("assets/models/tower2.obj");
-    textureTower = LoadTexture("assets/textures/texture_tower2.png");
+    tower = LoadModel("assets/models/slowTower.obj");
+    textureTower = LoadTexture("assets/textures/texture_slowTower.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 15.0f;
     cost = 100;
