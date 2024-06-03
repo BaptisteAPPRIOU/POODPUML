@@ -94,7 +94,7 @@ void GameManager::update() {
     }
 
     updateCamera();
-    ui.updateButtons();
+    ui.updateButtons(money);
 }
 
 void GameManager::draw() {
@@ -131,7 +131,7 @@ void GameManager::draw() {
         DrawText("Welcome to the Tower Defense Game", 910, 10, 20, DARKGRAY);
         DrawFPS(10, 10);
         DrawRectangleLines(regionX, regionY, regionWidth, regionHeight, BLACK);
-        ui.drawGameButtons();
+        ui.drawGameButtons(money);
 
         DrawText(TextFormat("SCORE: %d", score), 500, 950, 30, BLACK);
         DrawText(TextFormat("MONEY: %d", money), 800, 950, 30, BLACK);
@@ -157,39 +157,50 @@ void GameManager::updateCamera() {
 void GameManager::onNotify(EventType eventType) {
     switch (eventType) {
         case EventType::TOWER_CREATION: {
-            std::cout << "Notification received: Tower creation" << endl;
-            isPlacingTower = true;
-            Vector3 initialHoverPosition = map.getHoveredTilePosition();
-            std::cout << "Initial hover position: " << initialHoverPosition.x << ", " << initialHoverPosition.y << ", " << initialHoverPosition.z << endl;
-            hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
-            std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << endl;
+            std::cout << "Notification received: Tower creation" << std::endl;
+            int selectedTowerCost = ui.getSelectedTowerCost();
+            if (money >= selectedTowerCost) {
+                isPlacingTower = true;
+                Vector3 initialHoverPosition = map.getHoveredTilePosition();
+                std::cout << "Initial hover position: " << initialHoverPosition.x << ", " << initialHoverPosition.y << ", " << initialHoverPosition.z << std::endl;
+                hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
+                std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << std::endl;
+            } else {
+                std::cout << "Not enough money to create the tower." << std::endl;
+            }
             break;
         }
         case EventType::TILE_CLICKED: {
-            std::cout << "Notification received: Tile clicked" << endl;
+            std::cout << "Notification received: Tile clicked" << std::endl;
             if (isPlacingTower) {
                 if (hoveringTower) {
                     Vector3 hoveredPosition = map.getHoveredTilePosition();
-                    std::cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
+                    std::cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << std::endl;
 
                     if (map.isTileBuildable(hoveredPosition, path)) {
-                        Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
-                        newTower->addObserver(this);
-                        towers.push_back(newTower);
-                        newTower->draw(hoveredPosition);
-                        std::cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << endl;
-                        map.setTileBuildable(hoveredPosition, false); 
-                        isPlacingTower = false;
-                        delete hoveringTower;
-                        hoveringTower = nullptr;
+                        int towerCost = hoveringTower->getCost();
+                        if (money >= towerCost) {
+                            Tower* newTower = Tower::createTower(ui.getSelectedTowerType(), hoveredPosition);
+                            newTower->addObserver(this);
+                            towers.push_back(newTower);
+                            newTower->draw(hoveredPosition);
+                            std::cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << std::endl;
+                            map.setTileBuildable(hoveredPosition, false); 
+                            isPlacingTower = false;
+                            delete hoveringTower;
+                            hoveringTower = nullptr;
+                            money -= towerCost;
+                        } else {
+                            std::cout << "Not enough money to place the tower." << std::endl;
+                        }
                     } else {
-                        std::cout << "Cannot place tower on non-buildable tile." << endl;
+                        std::cout << "Cannot place tower on non-buildable tile." << std::endl;
                     }
                 } else {
-                    std::cout << "hoveringTower is null when trying to place tower." << endl;
+                    std::cout << "hoveringTower is null when trying to place tower." << std::endl;
                 }
             } else {
-                std::cout << "isPlacingTower is false when trying to place tower." << endl;
+                std::cout << "isPlacingTower is false when trying to place tower." << std::endl;
             }
             break;
         }

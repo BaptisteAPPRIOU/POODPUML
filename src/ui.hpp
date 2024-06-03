@@ -11,13 +11,14 @@ public:
     UI();
     ~UI();
 
-    void drawGameButtons();
-    void updateButtons();
+    void drawGameButtons(int money);
+    void updateButtons(int money);
     void loadTextures();
     bool isPlacingTower() const;
     string getSelectedTowerType() const;
     void resetPlacingTower();
     float getSelectedTowerFireRate() const;
+    int getSelectedTowerCost() const;
 
 private:
     Texture2D buttonTexture1;
@@ -34,10 +35,16 @@ private:
     Button* buttonTower3;
     Button* buttonTower4;
 
+    bool buttonTower1Active;
+    bool buttonTower2Active;
+    bool buttonTower3Active;
+    bool buttonTower4Active;
+
     bool placingTower;
     string selectedTowerType;
     float selectedTowerFireRate;
     bool towerShopClicked;
+    int selectedTowerCost;
 };
 
 #endif // UI_HPP
