@@ -86,3 +86,6 @@ float Enemy::getSpeed() {
 int Enemy::getEnemyValue() const {
     return value;
 }
+bool Enemy::hasReachedEnd(std::vector<Vector3>& path) const {
+    return static_cast<std::vector<Vector3>::size_type>(currentPoint) >= path.size();
+}

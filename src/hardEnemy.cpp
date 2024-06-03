@@ -27,3 +27,7 @@ void HardEnemy::move(const vector<Vector3>& path) {
 int HardEnemy::getEnemyValue() const{
     return value;
 }
+
+bool HardEnemy::hasReachedEnd(vector<Vector3>& path) const {
+    return Enemy::hasReachedEnd(path);
+}

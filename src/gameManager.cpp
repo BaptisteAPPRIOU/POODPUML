@@ -57,7 +57,17 @@ void GameManager::update() {
     for (auto it = enemies.begin(); it != enemies.end();) {
         (*it)->move(path);
         (*it)->update(camera);
-        if (!(*it)->isEnemyAlive()) {
+
+        if ((*it)->hasReachedEnd(path)) {
+            std::cout << "An enemy has reached the end of the path!" << std::endl;
+            delete *it;
+            it = enemies.erase(it);
+            lives -= 1;
+            if (lives <= 0) {
+                std::cout << "Game Over" << std::endl;
+                return;
+            }
+        } else if (!(*it)->isEnemyAlive()) {
             int enemyValue = (*it)->getEnemyValue();
             score += enemyValue;
             money += enemyValue / 2;

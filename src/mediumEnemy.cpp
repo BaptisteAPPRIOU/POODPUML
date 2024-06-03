@@ -27,3 +27,7 @@ void MediumEnemy::move(const std::vector<Vector3>& path) {
 int MediumEnemy::getEnemyValue() const{
     return value;
 }
+
+bool MediumEnemy::hasReachedEnd(vector<Vector3>& path) const {
+    return Enemy::hasReachedEnd(path);
+}

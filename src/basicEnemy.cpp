@@ -28,3 +28,7 @@ void BasicEnemy::move(const vector<Vector3>& path) {
 int BasicEnemy::getEnemyValue() const{
     return value;
 }
+
+bool BasicEnemy::hasReachedEnd(vector<Vector3>& path) const {
+    return Enemy::hasReachedEnd(path);
+}

@@ -27,6 +27,7 @@ public:
     bool isChecked = false;
 
     virtual int getEnemyValue() const;
+    virtual bool hasReachedEnd(std::vector<Vector3>& path) const;
 
 protected:
     Model enemy;
