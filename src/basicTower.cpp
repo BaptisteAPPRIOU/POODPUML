@@ -37,6 +37,7 @@ void BasicTower::draw(Vector3 towerPosition) {
 
 void BasicTower::checkEnemyInRange(Vector3 enemyPosition) {
     Tower::checkEnemyInRange(enemyPosition);
+    cout << fireRate << endl;
 }
 
 BasicTower::~BasicTower() {
@@ -56,5 +57,5 @@ string BasicTower::getType() {
 }
 
 float BasicTower::getFireRate() {
-    return 2.0f;
+    return fireRate;
 }

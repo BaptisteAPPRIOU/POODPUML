@@ -19,7 +19,7 @@ class SlowTower : public Tower
 
     private:
         bool enemyInRange;
-        static constexpr float fireRate = 0.0f;
+        static constexpr float fireRate = 1.0f;
         // Projectile* projectile;
 };
 

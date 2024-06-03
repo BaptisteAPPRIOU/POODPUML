@@ -6,7 +6,7 @@ NormalTower::NormalTower(Vector3 position) : Tower(position)  {
     tower = LoadModel("assets/models/tower1.obj");
     textureTower = LoadTexture("assets/textures/texture_tower1.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
-    range = 5.0f;
+    range = 10.0f;
     cost = 100;
     enemyInRange = false;
     type = "normal";
@@ -35,6 +35,7 @@ void NormalTower::draw(Vector3 towerPosition) {
 
 void NormalTower::checkEnemyInRange(Vector3 enemyPosition) {
     Tower::checkEnemyInRange(enemyPosition);
+    cout<< fireRate<< endl;
 }
 
 NormalTower::~NormalTower() {
@@ -51,5 +52,5 @@ string NormalTower::getType() {
 }
 
 float NormalTower::getFireRate() {
-    return 2.0f;
+    return fireRate;
 }

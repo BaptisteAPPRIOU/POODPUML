@@ -19,7 +19,7 @@ class BasicTower : public Tower
 
     private:
         bool enemyInRange;
-        static constexpr float fireRate = 1.3f;
+        static constexpr float fireRate = 0.5f;
         // Projectile* projectile;
 };
 

@@ -31,16 +31,20 @@ void Tower::draw(Vector3 towerPosition) {
 
 void Tower::checkEnemyInRange(Vector3 enemyPosition) {
     float distance = Vector3Distance(enemyPosition, towerPosition);
+    cout <<"distance: "<< distance << " range: " << range << endl;
     if (distance <= range) {
+        cout << "Enemy in range!" << endl;
         enemyInRange = true;
         timer += GetFrameTime();  // Increment the timer by the frame time
 
         if (timer >= getFireRate()) {
+            cout << "Firing projectile!" << endl;
             Subject::notify(EventType::ENEMY_IN_RANGE);  // Notify observers to fire
-            std::cout << "Firing projectile!" << std::endl;  // Debug print
+            std::cout << "Firing projectile!222" << std::endl;  // Debug print
             timer = 0.0f;  // Reset the timer after firing
         }
     } else {
+        cout << "Enemy out of range!22222" << endl;
         enemyInRange = false;
         timer = 0.0f;  // Reset the timer if the enemy is out of range
         Subject::notify(EventType::ENEMY_OUT_OF_RANGE);  // Notify observers that the enemy is out of range

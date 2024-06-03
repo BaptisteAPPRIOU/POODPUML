@@ -10,7 +10,7 @@ BasicEnemy::BasicEnemy(Vector3 position) {
 
     enemyPosition = position;
     speed = 0.05f;
-    maxHealth = health = 500;
+    maxHealth = health = 5000;
     isAlive = true;
     value = 100;
 }

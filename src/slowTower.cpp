@@ -35,6 +35,7 @@ void SlowTower::draw(Vector3 towerPosition) {
 
 void SlowTower::checkEnemyInRange(Vector3 enemyPosition) {
     Tower::checkEnemyInRange(enemyPosition);
+    cout << fireRate << endl;
 }
 
 SlowTower::~SlowTower() {
@@ -51,5 +52,5 @@ string SlowTower::getType() {
 }
 
 float SlowTower::getFireRate() {
-    return __FLT_MAX__;
+    return fireRate;
 }

@@ -54,6 +54,7 @@ void GameManager::update() {
 
     for (Tower* tower : towers) {
         tower->update();
+        cout << "Enemy in range: " << tower->enemyInRange << endl;
     }
 
     for (auto it = projectiles.begin(); it != projectiles.end();) {
@@ -76,6 +77,7 @@ void GameManager::update() {
     }
     updateCamera();
     ui.updateButtons();
+
 }
 
 void GameManager::draw() {
@@ -93,9 +95,9 @@ void GameManager::draw() {
                         enemy->update(camera);
 
                         
-                        for (Tower* tower : towers) {
-                            tower->checkEnemyInRange(enemy->getEnemyPosition());
-                        }
+                        // for (Tower* tower : towers) {
+                        //     tower->checkEnemyInRange(enemy->getEnemyPosition());
+                        // }
                     }
                     for (Tower* tower : towers) {
                         tower->update();
@@ -178,13 +180,15 @@ void GameManager::onNotify(EventType eventType) {
             std::cout << "Notification received: Enemy in range" << std::endl;
             for (Tower* tower : towers) {
                 if(tower->getType() == "slow") {
+                    cout << "Slow tower detected" << endl;
                     if (tower->enemyInRange && !enemy->slowed && !enemy->isChecked) {                        
                         enemy->setSpeed(enemy->getSpeed() * 0.5f);
                         enemy->slowed = true;
                         enemy->isChecked = true;
                     }
                 }
-                if(tower->getType() == "basic") {
+                else if(tower->getType() == "basic") {
+                    cout << "Basic tower detected" << endl;
                     if (tower->enemyInRange) {
                         Vector3 towerPosition = tower->getTowerPosition();
                         towerPosition.y = 6.0f;
@@ -192,7 +196,8 @@ void GameManager::onNotify(EventType eventType) {
                         projectiles.push_back(newProjectile);
                     }
                 }
-                if(tower->getType() == "normal") {
+                else if(tower->getType() == "normal") {
+                    cout << "Normal tower detected" << endl;
                     if (tower->enemyInRange) {
                         Vector3 towerPosition = tower->getTowerPosition();
                         towerPosition.y = 6.0f;
