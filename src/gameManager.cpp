@@ -8,7 +8,7 @@ GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(),
-      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3) {
+      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -77,6 +77,9 @@ void GameManager::update() {
         if (enemySpawnTimer >= 5.0f) {
             spawnEnemy();
             enemySpawnTimer = 0.0f;
+            if (!timerStarted) {
+                timerStarted = true;
+            }
         }
     }
 
@@ -136,6 +139,10 @@ void GameManager::update() {
         }
     }
 
+    if (timerStarted) {
+        elapsedTime += GetFrameTime();
+    }
+
     updateCamera();
     ui.updateButtons(money);
 }
@@ -181,6 +188,7 @@ void GameManager::draw() {
         DrawText(TextFormat("LIVES: %d", lives), 1100, 950, 30, BLACK);
         DrawText(TextFormat("ENEMIES: %d", enemiesRemaining), 550, 1000, 30, BLACK);
         DrawText(TextFormat("WAVES: %d", waveRemaining), 850, 1000, 30, BLACK);
+        DrawText(TextFormat("TIME: %.2f", elapsedTime), 1300, 200, 30, BLACK);
 
         EndDrawing();
         update();

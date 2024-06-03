@@ -4,7 +4,6 @@
 #include <raylib.h>
 #include <vector>
 #include <chrono>
-
 #include "map.hpp"
 #include "enemy.hpp"
 #include "ui.hpp"
@@ -12,7 +11,6 @@
 #include "observer.hpp"
 #include "projectile.hpp"
 #include <fstream>
-#include <vector>
 using namespace std;
 
 class GameManager : public Observer
@@ -31,10 +29,6 @@ class GameManager : public Observer
         float cameraFovy;
         Map map;
         UI ui;
-        Font timerFont;
-        std::chrono::steady_clock::time_point startTime;
-        int minutes;
-        int seconds;
         Tower* hoveringTower;
         vector<Tower*> towers;
         vector<Enemy*> enemies;  
@@ -42,7 +36,6 @@ class GameManager : public Observer
 
         vector<Vector3> path;
         bool isPlacingTower;
-        ofstream debugLogFile;
 
         float enemySpawnTimer; 
         int enemiesToSpawn;
@@ -58,10 +51,12 @@ class GameManager : public Observer
         int score;
         int money;
         int lives;
+
+        float elapsedTime; 
+        bool timerStarted;
     public:
         GameManager();
         ~GameManager();
-        void createEnemies(int numEnemies, int waveNumber);
         void update();
         void draw();
         void updateCamera();

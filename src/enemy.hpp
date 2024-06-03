@@ -35,8 +35,8 @@ protected:
     Vector3 enemyPosition;
     float speed;
     int health;
-    bool isAlive;
-    int currentPoint;
+    int maxHealth;
+    int currentPoint = 0;
     int value;
 
     Enemy() {}
