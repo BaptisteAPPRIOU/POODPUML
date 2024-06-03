@@ -3,6 +3,8 @@
 
 #include <raylib.h>
 #include <vector>
+#include <chrono>
+
 #include "map.hpp"
 #include "enemy.hpp"
 #include "ui.hpp"
@@ -29,6 +31,10 @@ class GameManager : public Observer
         float cameraFovy;
         Map map;
         UI ui;
+        Font timerFont;
+        std::chrono::steady_clock::time_point startTime;
+        int minutes;
+        int seconds;
         Tower* hoveringTower;
         vector<Tower*> towers;
         vector<Enemy*> enemies;  
@@ -63,4 +69,5 @@ class GameManager : public Observer
         void checkTowersForEnemies();
         bool checkProjectileCollision(Projectile* projectile);
 };
+
 #endif // GAME_MANAGER_HPP

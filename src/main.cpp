@@ -1,15 +1,30 @@
 #include <raylib.h>
 #include <iostream>
 #include "gameManager.hpp"
-
-using namespace std;
+#include "menu.hpp"
 
 int main() {
-    GameManager gameManager;
+    InitWindow(1920, 1080, "Tower Defense Game");
+    InitAudioDevice(); // Initialize audio device
+    SetTargetFPS(60);
 
-    while(!WindowShouldClose()) {
-        gameManager.update();
-        gameManager.draw();
+    GameManager gameManager;
+    Menu menu;
+
+    while (!WindowShouldClose()) {
+        if (!menu.isGameStarted()) {
+            menu.update();
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            menu.draw();
+            EndDrawing();
+        } else {
+            gameManager.update();
+            gameManager.draw();
+        }
     }
+
+    CloseAudioDevice(); // Close audio device
+    CloseWindow();
     return 0;
 }
