@@ -3,8 +3,8 @@
 #include <iostream>
 
 BasicTower::BasicTower(Vector3 position) : Tower(position) {
-    tower = LoadModel("assets/models/tower.obj");
-    textureTower = LoadTexture("assets/textures/texture_tower.png");
+    tower = LoadModel("assets/models/basicTower.obj");
+    textureTower = LoadTexture("assets/textures/texture_basicTower.png");
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureTower;
     range = 10.0f;
     cost = 100;
