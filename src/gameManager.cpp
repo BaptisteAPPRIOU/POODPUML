@@ -57,7 +57,7 @@ void GameManager::initializeWaves() {
 }
 
 void GameManager::startNextWave() {
-    if (currentWave < waves.size()) {
+    if (currentWave < static_cast<int>(waves.size())) {
         enemiesToSpawn = waves[currentWave].first;
         enemyTypeToSpawn = waves[currentWave].second;
         enemiesRemaining = enemiesToSpawn;
