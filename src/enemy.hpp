@@ -7,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-class Enemy
+class Enemy                                                                // Class for the enemy
 {
 public:
     virtual void update(Camera camera) = 0;

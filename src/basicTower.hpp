@@ -3,11 +3,11 @@
 
 #include "tower.hpp"
 
-class BasicTower : public Tower
+class BasicTower : public Tower                                                                             // Class for the basic tower inherited from the tower class
 {
     public:
-        BasicTower(Vector3 position);
-        ~BasicTower() override;
+        BasicTower(Vector3 position);                                                                       // Constructor
+        ~BasicTower() override;                                                                             // Destructor
 
         void update() override;
         void hoverTower(Vector3 position) override;
@@ -20,8 +20,7 @@ class BasicTower : public Tower
 
     private:
         bool enemyInRange;
-        static constexpr float fireRate = 1.3f;
-        // Projectile* projectile;
+        static constexpr float fireRate = 1.3f;                                                             
 };
 
 #endif // BASIC_TOWER_HPP

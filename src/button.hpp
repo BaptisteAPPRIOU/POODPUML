@@ -4,7 +4,7 @@
 #include <raylib.h>
 #include <string>
 
-class Button {
+class Button {                                                                                          // Class for the button
 public:
     Rectangle bounds;
     Texture2D texture;
@@ -12,8 +12,8 @@ public:
     bool isHovered;
 
     // Button();
-    Button(float x, float y, float width, float height, Texture2D texture, Texture2D hoverTexture);
-    void update(Vector2 mousePoint);
+    Button(float x, float y, float width, float height, Texture2D texture, Texture2D hoverTexture);         // Constructor
+    void update(Vector2 mousePoint);                                                                    
     bool isClicked(Vector2 mousePoint);
 };
 

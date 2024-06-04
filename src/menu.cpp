@@ -65,9 +65,9 @@ void Menu::update() {
         } else if (optionsButton->isClicked(mousePoint)) {
             currentState = OPTIONS;
         } else if (quitButton->isClicked(mousePoint)) {
-            CloseWindow();
+            currentState = QUIT;
         }
-    } else if (currentState == LEADERBOARD || currentState == CREDITS || currentState == OPTIONS) {
+    } else if (currentState == LEADERBOARD || currentState == CREDITS || currentState == OPTIONS || currentState == GAME_OVER) {
         if (backButton->isClicked(mousePoint)) {
             currentState = MENU;
         }
@@ -115,9 +115,29 @@ void Menu::draw() {
         backButton->update(GetMousePosition());
         DrawTextEx(customFont, "Options", {860, 100}, customFont.baseSize, 2,  WHITE);
         DrawTextEx(customFont, "Back", {backButton->bounds.x + 110, backButton->bounds.y + 35}, customFont.baseSize, 2, BLACK);
+    } if (currentState == GAME_OVER) {
+        ClearBackground(RAYWHITE);
+        backButton->update(GetMousePosition());
+        DrawTextEx(customFont, "Game Over", {860, 100}, customFont.baseSize, 2, RED);
+        DrawTextEx(customFont, "Back", {backButton->bounds.x + 110, backButton->bounds.y + 35}, customFont.baseSize, 2, BLACK);
+    } else if (currentState == QUIT) {
+        CloseWindow();
     }
 }
 
 bool Menu::isGameStarted() {
     return currentState == GAME;
+}
+
+void Menu::setGameState(MenuState state) {
+    currentState = state;
+}
+
+void Menu::drawGameOverMenu() {
+    currentState = GAME_OVER;
+    ClearBackground(RAYWHITE);
+    backButton->update(GetMousePosition());
+    DrawTextEx(customFont, "Game Over", {860, 100}, customFont.baseSize, 2, RED);
+    DrawTextEx(customFont, "Back", {backButton->bounds.x + 110, backButton->bounds.y + 35}, customFont.baseSize, 2, BLACK);
+
 }

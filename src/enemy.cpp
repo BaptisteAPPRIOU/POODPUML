@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 
-Enemy* Enemy::createEnemy(const string& type, Vector3 position) {
+Enemy* Enemy::createEnemy(const string& type, Vector3 position) {                                       // Create enemy based on type
     if (type == "basic") {
         return new BasicEnemy(position);
     } else if (type == "medium") {
@@ -20,8 +20,8 @@ Enemy* Enemy::createEnemy(const string& type, Vector3 position) {
     return nullptr;
 }
 
-void Enemy::move(const std::vector<Vector3>& path) {
-    if (path.empty() || static_cast<std::vector<Vector3>::size_type>(currentPoint) >= path.size()) {
+void Enemy::move(const std::vector<Vector3>& path) {                                                    // Move enemy along the path
+    if (path.empty() || static_cast<std::vector<Vector3>::size_type>(currentPoint) >= path.size()) {    
         return;
     }
 
@@ -40,11 +40,11 @@ void Enemy::move(const std::vector<Vector3>& path) {
     }
 }
 
-Vector3 Enemy::getEnemyPosition() const {
+Vector3 Enemy::getEnemyPosition() const {                                                               // Get enemy position                  
     return enemyPosition;
 }
 
-void Enemy::takeDamage(int damage) {
+void Enemy::takeDamage(int damage) {                                                                    // Take damage
     health -= damage;
     cout << "Health: "<< health << endl;
     if (health <= 0) {
@@ -52,40 +52,35 @@ void Enemy::takeDamage(int damage) {
     }
 }
 
-bool Enemy::isEnemyAlive() const {
+bool Enemy::isEnemyAlive() const {                                                                       // Check if enemy is alive                    
     return isAlive;
 }
 
-void Enemy::drawLifeBar(Camera camera) {
-    // Define constants
-    const float lifeBarFixedWidth = 2.0f; // Fixed total width in world units
-    const float lifeBarHeight = 0.2f; // Height in world units
-    const float lifeBarDepth = 0.2f; // Depth in world units
+void Enemy::drawLifeBar(Camera camera) {                                                                // Draw life bar
+    const float lifeBarFixedWidth = 2.0f;                                                               // Fixed total width in world units
+    const float lifeBarHeight = 0.2f;                                                                   // Height in world units
+    const float lifeBarDepth = 0.2f;                                                                    // Depth in world units
 
-    // Calculate health percentage
-    float healthPercentage = (float)health / maxHealth; // Calculate health percentage based on max health
+    float healthPercentage = (float)health / maxHealth;                                                 // Calculate health percentage based on max health
 
-    // Calculate the position of the lifebar
-    Vector3 lifeBarPosition = Vector3Add(enemyPosition, Vector3{0, 4.5f, 0});
+    Vector3 lifeBarPosition = Vector3Add(enemyPosition, Vector3{0, 4.5f, 0});                           // Calculate the position of the lifebar
 
-    // Draw background bar (full width, representing the max health)
-    DrawCube(Vector3Add(lifeBarPosition, Vector3{0, 0, 0}), lifeBarFixedWidth, lifeBarHeight, lifeBarDepth, DARKGRAY);
+    DrawCube(Vector3Add(lifeBarPosition, Vector3{0, 0, 0}), lifeBarFixedWidth, lifeBarHeight, lifeBarDepth, DARKGRAY);      // Draw background bar (full width, representing the max health)
 
-    // Draw foreground (health) bar (width adjusted by health percentage within the fixed width)
     DrawCube(Vector3Add(lifeBarPosition, Vector3{-lifeBarFixedWidth * (1 - healthPercentage) / 2, 0, 0}), lifeBarFixedWidth * healthPercentage, lifeBarHeight, lifeBarDepth, GREEN);
 }
 
-void Enemy::setSpeed(float speed) {
+void Enemy::setSpeed(float speed) {                                                                     // Set speed
     this->speed = speed;
 }
 
-float Enemy::getSpeed() {
+float Enemy::getSpeed() {                                                                               // Get speed
     return speed;
 }
 
-int Enemy::getEnemyValue() const {
+int Enemy::getEnemyValue() const {                                                                      // Get enemy value                        
     return value;
 }
-bool Enemy::hasReachedEnd(std::vector<Vector3>& path) const {
+bool Enemy::hasReachedEnd(std::vector<Vector3>& path) const {                                           
     return static_cast<std::vector<Vector3>::size_type>(currentPoint) >= path.size();
 }

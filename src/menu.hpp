@@ -14,7 +14,9 @@ public:
         GAME,
         LEADERBOARD,
         CREDITS,
-        OPTIONS
+        OPTIONS,
+        GAME_OVER,
+        QUIT
     };
 
     MenuState currentState = MENU;
@@ -24,6 +26,8 @@ public:
     void update();
     void draw();
     bool isGameStarted();
+    void setGameState(MenuState state);
+    void drawGameOverMenu();
 
 private:
     Texture2D buttonTexture;
