@@ -9,7 +9,7 @@ using namespace std;
 
 class Enemy                                                                // Class for the enemy
 {
-public:
+public:                                                                    // Public members
     virtual void update(Camera camera) = 0;
 
     static Enemy* createEnemy(const string& type, Vector3 position);
@@ -29,7 +29,7 @@ public:
     virtual int getEnemyValue() const;
     virtual bool hasReachedEnd(std::vector<Vector3>& path) const;
 
-protected:
+protected:                                                                  // Protected members
     Model enemy;
     Texture2D textureEnemy;
     Vector3 enemyPosition;

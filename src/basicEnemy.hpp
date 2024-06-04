@@ -8,7 +8,7 @@ using namespace std;
 
 class BasicEnemy : public Enemy                                                 // Inheritance from the Enemy class
 {
-public:
+public:                                                                         // Public members
     BasicEnemy(Vector3 position);                                               // Constructor
     ~BasicEnemy() {}                                                            // Destructor       
 

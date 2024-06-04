@@ -8,10 +8,7 @@ BasicProjectile::BasicProjectile(Vector3 position, Vector3 targetPosition)      
     projectileModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureProjectile;
 }
 
-// BasicProjectile::~BasicProjectile() {                                                                       // Destructor          
-//     UnloadModel(projectileModel);
-//     UnloadTexture(textureProjectile);
-// }
+BasicProjectile::~BasicProjectile() {}                                                                      // Destructor
 
 void BasicProjectile::update() {                                                                            // Update function to move the projectile towards the target
     Vector3 direction = Vector3Normalize(Vector3Subtract(targetPosition, position));

@@ -6,9 +6,9 @@
 #include "observer.hpp"
 using namespace std;
 
-class Map : public Subject
+class Map : public Subject  
 {
-private:
+private:                                                                            // Private members
     Model tile;
     Model road;
     Texture2D textureTile;
@@ -19,11 +19,11 @@ private:
     vector<Vector3> path;
     vector<vector<bool>> buildableTiles;           
 
-public:
+public:                                                                             // Public members
     Vector3 hoveredTilePosition; 
     bool isTileHovered;          
-    Map();
-    ~Map();
+    Map();                                                                          // Constructor
+    ~Map();                                                                         // Destructor
 
     void drawMap(vector<Vector3> path);
     void drawTiles();

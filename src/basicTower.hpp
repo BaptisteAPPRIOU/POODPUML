@@ -5,7 +5,7 @@
 
 class BasicTower : public Tower                                                                             // Class for the basic tower inherited from the tower class
 {
-    public:
+    public:                                                                                                 // Public members
         BasicTower(Vector3 position);                                                                       // Constructor
         ~BasicTower() override;                                                                             // Destructor
 
@@ -18,7 +18,7 @@ class BasicTower : public Tower                                                 
         float getFireRate() override;
         int getCost() override;
 
-    private:
+    private:                                                                                                // Private members
         bool enemyInRange;
         static constexpr float fireRate = 1.3f;                                                             
 };
