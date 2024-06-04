@@ -81,6 +81,9 @@ float Enemy::getSpeed() {                                                       
 int Enemy::getEnemyValue() const {                                                                      // Get enemy value                        
     return value;
 }
-bool Enemy::hasReachedEnd(std::vector<Vector3>& path) const {                                           
+
+bool Enemy::hasReachedEnd(std::vector<Vector3>& path) const {                                           // Check if enemy has reached the end of the path                    
     return static_cast<std::vector<Vector3>::size_type>(currentPoint) >= path.size();
 }
+
+Enemy::~Enemy() {}                                                                                      // Destructor

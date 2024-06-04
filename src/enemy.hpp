@@ -15,7 +15,7 @@ public:
     static Enemy* createEnemy(const string& type, Vector3 position);
 
     virtual void move(const std::vector<Vector3>& path);
-    virtual ~Enemy() {}
+    virtual ~Enemy();
     virtual Vector3 getEnemyPosition() const;
     virtual void takeDamage(int damage);
     virtual bool isEnemyAlive() const;
@@ -41,7 +41,6 @@ protected:
 
     Enemy() {}
     Enemy(Vector3 position) : enemyPosition(position), speed(0.0f), currentPoint(0) {}
-
 };
 
 #endif // ENEMY_HPP

@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-HardEnemy::HardEnemy(Vector3 position) {
+HardEnemy::HardEnemy(Vector3 position) {                                    // Constructor for the hard enemy
     enemy = LoadModel("assets/models/enemy.obj");
     textureEnemy = LoadTexture("assets/textures/texture_enemy3.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
@@ -15,19 +15,25 @@ HardEnemy::HardEnemy(Vector3 position) {
     isAlive = true;
     value = 300;
 }
-void HardEnemy::update(Camera camera) {
+
+void HardEnemy::update(Camera camera) {                                     // Update the hard enemy
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);
     drawLifeBar(camera);
 }
 
-void HardEnemy::move(const vector<Vector3>& path) {
+void HardEnemy::move(const vector<Vector3>& path) {                         // Move the hard enemy
     Enemy::move(path);
 }
 
-int HardEnemy::getEnemyValue() const{
+int HardEnemy::getEnemyValue() const{                                       // Get the value of the hard enemy
     return value;
 }
 
-bool HardEnemy::hasReachedEnd(vector<Vector3>& path) const {
+bool HardEnemy::hasReachedEnd(vector<Vector3>& path) const {                // Check if the hard enemy has reached the end
     return Enemy::hasReachedEnd(path);
+}
+
+HardEnemy::~HardEnemy() {                                                   // Destructor for the hard enemy
+    UnloadModel(enemy);
+    UnloadTexture(textureEnemy);
 }
