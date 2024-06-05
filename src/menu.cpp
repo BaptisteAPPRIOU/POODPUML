@@ -66,7 +66,7 @@ void Menu::updateMenu() {
     switch (currentState) {
         case MAIN_MENU:
             if (ui->buttonStart->isClicked(mousePoint)) {
-                currentState = GAME;
+                currentState = DIFFICULTY_MENU;
             } else if (ui->buttonLeaderboard->isClicked(mousePoint)) {
                 currentState = LEADERBOARD;
             } else if (ui->buttonCredits->isClicked(mousePoint)) {
@@ -102,10 +102,18 @@ void Menu::updateMenu() {
             // Add game win update logic here
             break;
         case DIFFICULTY_MENU:
-            // Add difficulty menu update logic here
+            if (ui->buttonBackDifficulty->isClicked(mousePoint)) {
+                currentState = MAIN_MENU;
+            } else if (ui->buttonEasy->isClicked(mousePoint)) {
+                currentState = GAME;
+            } else if (ui->buttonMedium->isClicked(mousePoint)) {
+                currentState = GAME;
+            } else if (ui->buttonHard->isClicked(mousePoint)) {
+                currentState = GAME;
             break;
         case QUIT:
             CloseWindow();
             break;
+        }
     }
 }

@@ -15,6 +15,10 @@ UI::UI(){
     buttonBackLeaderboard = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonBackCredits = new Button(700, 850, 400, 120, buttonTexture2, buttonHoverTexture2, "BACK");
     buttonBackOptions = new Button(700, 850, 400, 120, buttonTexture3, buttonHoverTexture3, "BACK");
+    buttonEasy = new Button(700, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "EASY");
+    buttonMedium = new Button(700, 400, 400, 120, buttonTexture2, buttonHoverTexture2, "MEDIUM");
+    buttonHard = new Button(700, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "HARD");
+    buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture4, buttonHoverTexture4, "BACK");
 
 }
 
@@ -207,10 +211,14 @@ void UI::drawMainMenu(){
 }
 
 void UI::drawDifficultyMenu(){
-    DrawText("DIFFICULTY MENU", 700, 100, 50, BLACK);
-    DrawText("EASY", 700, 200, 30, BLACK);
-    DrawText("MEDIUM", 700, 250, 30, BLACK);
-    DrawText("HARD", 700, 300, 30, BLACK);
+    buttonEasy->update(GetMousePosition());
+    buttonMedium->update(GetMousePosition());
+    buttonHard->update(GetMousePosition());
+    buttonBackDifficulty->update(GetMousePosition());
+    buttonEasy->drawButton();
+    buttonMedium->drawButton();
+    buttonHard->drawButton();
+    buttonBackDifficulty->drawButton();
 }
 
 void UI::drawOptions(){

@@ -43,6 +43,10 @@ public:
     Button* buttonBackLeaderboard;
     Button* buttonBackCredits;
     Button* buttonBackOptions;
+    Button* buttonEasy;
+    Button* buttonMedium;
+    Button* buttonHard;
+    Button* buttonBackDifficulty;
 
     Menu* menu;
 private:
