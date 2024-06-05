@@ -15,10 +15,14 @@ int main() {
 
     while (!WindowShouldClose()) {
         menu.updateMenu();
+
         BeginDrawing();
-        ClearBackground(darkGreen);
-        ui.drawMainMenu();
+        ClearBackground(RAYWHITE);
+
+        menu.drawMenu(); // This ensures the current state is drawn
+
         EndDrawing();
     }
+    CloseWindow(); // Ensure window is closed properly
     return 0;
 }

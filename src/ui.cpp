@@ -174,7 +174,6 @@ void UI::drawCredits(){
     DrawText("Special thanks to: ", 700, 400, 30, BLACK);
     DrawText("Raylib", 700, 450, 30, BLACK);
     DrawText("Google", 700, 500, 30, BLACK);
-    DrawText("Back", 700, 850, 30, BLACK);
 }
 
 void UI::drawLeaderboard(){
@@ -191,7 +190,6 @@ void UI::drawLeaderboard(){
     DrawText("8. Jane Doe - 300", 700, 550, 30, BLACK);
     DrawText("9. John Doe - 200", 700, 600, 30, BLACK);
     DrawText("10. Jane Doe - 100", 700, 650, 30, BLACK);
-    DrawText("Back", 700, 850, 30, BLACK);
 }
 
 void UI::drawMainMenu(){
@@ -221,7 +219,6 @@ void UI::drawOptions(){
     DrawText("OPTIONS", 700, 100, 50, BLACK);
     DrawText("SOUND", 700, 200, 30, BLACK);
     DrawText("MUSIC", 700, 250, 30, BLACK);
-    DrawText("Back", 700, 850, 30, BLACK);
 }
 
 void UI::drawGameOver(){

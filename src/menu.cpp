@@ -57,40 +57,55 @@ void Menu::drawMenu(){
 }
 
 void Menu::updateMenu() {
-    if(ui == nullptr) {
+    if (ui == nullptr) {
         return;
     }
-    
-    Vector2 mousePoint = GetMousePosition();  
-    if (ui->buttonStart->isClicked(mousePoint)) {
-        currentState = GAME;
-        ui->drawGame();
-    }
-    else if (ui->buttonLeaderboard->isClicked(mousePoint)) {
-        currentState = LEADERBOARD;
-        ui->drawLeaderboard();
-    }
-    else if (ui->buttonCredits->isClicked(mousePoint)) {
-        currentState = CREDITS;
-        ui->drawCredits();
-    }
-    else if (ui->buttonOptions->isClicked(mousePoint)) {
-        currentState = OPTIONS;
-        ui->drawOptions();
-    }
-    else if (ui->buttonQuit->isClicked(mousePoint)) {
-        currentState = QUIT;
-    }
-    else if (ui->buttonBackLeaderboard->isClicked(mousePoint)) {
-        currentState = MAIN_MENU;
-        ui->drawMainMenu();
-    }
-    else if (ui->buttonBackCredits->isClicked(mousePoint)) {
-        currentState = MAIN_MENU;
-        ui->drawMainMenu();
-    }
-    else if (ui->buttonBackOptions->isClicked(mousePoint)) {
-        currentState = MAIN_MENU;
-        ui->drawMainMenu();
+
+    Vector2 mousePoint = GetMousePosition();
+
+    switch (currentState) {
+        case MAIN_MENU:
+            if (ui->buttonStart->isClicked(mousePoint)) {
+                currentState = GAME;
+            } else if (ui->buttonLeaderboard->isClicked(mousePoint)) {
+                currentState = LEADERBOARD;
+            } else if (ui->buttonCredits->isClicked(mousePoint)) {
+                currentState = CREDITS;
+            } else if (ui->buttonOptions->isClicked(mousePoint)) {
+                currentState = OPTIONS;
+            } else if (ui->buttonQuit->isClicked(mousePoint)) {
+                currentState = QUIT;
+            }
+            break;
+        case LEADERBOARD:
+            if (ui->buttonBackLeaderboard->isClicked(mousePoint)) {
+                currentState = MAIN_MENU;
+            }
+            break;
+        case CREDITS:
+            if (ui->buttonBackCredits->isClicked(mousePoint)) {
+                currentState = MAIN_MENU;
+            }
+            break;
+        case OPTIONS:
+            if (ui->buttonBackOptions->isClicked(mousePoint)) {
+                currentState = MAIN_MENU;
+            }
+            break;
+        case GAME:
+            // Add any game-specific update logic here
+            break;
+        case GAME_OVER:
+            // Add game over update logic here
+            break;
+        case GAME_WIN:
+            // Add game win update logic here
+            break;
+        case DIFFICULTY_MENU:
+            // Add difficulty menu update logic here
+            break;
+        case QUIT:
+            CloseWindow();
+            break;
     }
 }
