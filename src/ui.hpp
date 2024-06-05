@@ -6,20 +6,45 @@
 #include "map.hpp"
 #include "observer.hpp"
 
+class Menu;
+
 class UI : public Subject {
 public:
     UI();
     ~UI();
+    void drawGame();
+    void drawMainMenu();
+    void drawDifficultyMenu();
+    void drawLeaderboard();
+    void drawCredits();
+    void drawOptions();
+    void drawGameOver();
+    void drawGameWin();
 
     void drawGameButtons(int money);
     void updateButtons(int money);
     void loadTextures();
+    void loadButtons();
     bool isPlacingTower() const;
     string getSelectedTowerType() const;
     void resetPlacingTower();
     float getSelectedTowerFireRate() const;
     int getSelectedTowerCost() const;
 
+    Button* buttonTower1;
+    Button* buttonTower2;
+    Button* buttonTower3;
+    Button* buttonTower4;
+    Button* buttonStart;
+    Button* buttonLeaderboard;
+    Button* buttonCredits;
+    Button* buttonOptions;
+    Button* buttonQuit;
+    Button* buttonBackLeaderboard;
+    Button* buttonBackCredits;
+    Button* buttonBackOptions;
+
+    Menu* menu;
 private:
     Texture2D buttonTexture1;
     Texture2D buttonHoverTexture1;
@@ -30,10 +55,7 @@ private:
     Texture2D buttonTexture4;
     Texture2D buttonHoverTexture4;
 
-    Button* buttonTower1;
-    Button* buttonTower2;
-    Button* buttonTower3;
-    Button* buttonTower4;
+
 
     bool buttonTower1Active;
     bool buttonTower2Active;

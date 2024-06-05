@@ -1,29 +1,24 @@
 #include <raylib.h>
 #include <iostream>
-#include "gameManager.hpp"
 #include "menu.hpp"
+#include "ui.hpp"
 
 int main() {
     InitWindow(1920, 1080, "Tower Defense Game");
-    InitAudioDevice(); // Initialize audio device
     SetTargetFPS(60);
 
-    GameManager gameManager;
+    Color darkGreen = Color{20, 160, 133, 255}; 
     Menu menu;
+    UI ui;
+    ui.menu = &menu;
+    menu.setUI(&ui);
 
     while (!WindowShouldClose()) {
-        if (!menu.isGameStarted()) {
-            menu.update();
-            BeginDrawing();
-            ClearBackground(RAYWHITE);
-            menu.draw();
-            EndDrawing();
-        } else {
-            gameManager.update();
-            gameManager.draw();
-        }
+        menu.updateMenu();
+        BeginDrawing();
+        ClearBackground(darkGreen);
+        ui.drawMainMenu();
+        EndDrawing();
     }
-
-    CloseAudioDevice(); // Close audio device
     return 0;
 }

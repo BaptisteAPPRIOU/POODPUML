@@ -10,7 +10,6 @@
 #include "tower.hpp"
 #include "observer.hpp"
 #include "projectile.hpp"
-#include "menu.hpp"
 #include <fstream>
 using namespace std;
 
@@ -55,7 +54,6 @@ class GameManager : public Observer
 
         float elapsedTime; 
         bool timerStarted;
-        Menu menu;
     public:
         GameManager();
         ~GameManager();

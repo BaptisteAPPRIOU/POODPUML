@@ -33,7 +33,7 @@ bool HardEnemy::hasReachedEnd(vector<Vector3>& path) const {                // C
     return Enemy::hasReachedEnd(path);
 }
 
-HardEnemy::~HardEnemy() {                                                   // Destructor for the hard enemy
-    UnloadModel(enemy);
-    UnloadTexture(textureEnemy);
-}
+// HardEnemy::~HardEnemy() {                                                   // Destructor for the hard enemy
+//     UnloadModel(enemy);
+//     UnloadTexture(textureEnemy);
+// }

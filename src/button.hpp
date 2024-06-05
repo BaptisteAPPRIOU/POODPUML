@@ -9,9 +9,11 @@ public:                                                                         
     Rectangle bounds;
     Texture2D texture;
     Texture2D hoverTexture;
+    std::string text;
     bool isHovered;
 
-    Button(float x, float y, float width, float height, Texture2D texture, Texture2D hoverTexture);     // Constructor
+    Button(float x, float y, float width, float height, Texture2D texture, Texture2D hoverTexture, const char* text );     // Constructor
+    void drawButton();                                                                                   // Function to draw the button
     void update(Vector2 mousePoint);                                                                    
     bool isClicked(Vector2 mousePoint);
     ~Button();                                                                                          // Destructor

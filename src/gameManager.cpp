@@ -8,11 +8,12 @@ GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(),
-      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false), menu() {
+      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
-    ui.loadTextures();
+    ui.loadButtons();
+
 
     camera.position = cameraPosition;
     camera.target = cameraTarget;
@@ -31,8 +32,6 @@ GameManager::GameManager()
 
     initializeWaves();
     startNextWave();
-    menu = Menu();
-    menu.currentState = Menu::GAME;
 }
 
 GameManager::~GameManager() {
@@ -72,9 +71,6 @@ void GameManager::startNextWave() {
 
 void GameManager::update() {
     map.checkTileHover(camera);
-    if (menu.currentState == Menu::GAME_OVER) {
-        return; 
-    }
 
     // Update enemy spawning
     if (enemiesToSpawn > 0) {
@@ -101,7 +97,6 @@ void GameManager::update() {
             enemiesRemaining--;
             if (lives <= 0) {
                 std::cout << "Game Over" << std::endl;
-                menu.setGameState(Menu::GAME_OVER);
                 return;
             }
         } else if (!(*it)->isEnemyAlive()) {
@@ -197,11 +192,6 @@ void GameManager::draw() {
         DrawText(TextFormat("WAVES: %d", waveRemaining), 850, 1000, 30, BLACK);
         DrawText(TextFormat("TIME: %.2f", elapsedTime), 1300, 200, 30, BLACK);
 
-        if (menu.currentState == Menu::GAME_OVER) {
-            menu.draw();
-            
-            // DrawText("Game Over", 860, 100, 40, RED);
-        }
 
         EndDrawing();
         update();
@@ -221,9 +211,6 @@ void GameManager::updateCamera() {
 }
 
 void GameManager::onNotify(EventType eventType) {
-    if (menu.currentState == Menu::GAME_OVER) {
-        return; 
-    } else if (menu.currentState == Menu::GAME) {
     switch (eventType) {
         case EventType::TOWER_CREATION: {
             std::cout << "Notification received: Tower creation" << std::endl;
@@ -326,7 +313,7 @@ void GameManager::onNotify(EventType eventType) {
         default:
             break;
     }
-    } 
+    
 }
 
 void GameManager::checkTowersForEnemies() {
