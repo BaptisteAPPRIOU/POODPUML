@@ -2,6 +2,7 @@
 #include "pathLoader.hpp"
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 GameManager::GameManager()
@@ -58,6 +59,7 @@ void GameManager::initializeWaves() {
 
 void GameManager::startNextWave() {
     if (currentWave < static_cast<int>(waves.size())) {
+        enemyCount = 0;
         enemiesToSpawn = waves[currentWave].first;
         enemyTypeToSpawn = waves[currentWave].second;
         enemiesRemaining = enemiesToSpawn;
@@ -123,10 +125,8 @@ void GameManager::update() {
 
     // Update towers
     for (Tower* tower : towers) {
+        tower->checkEnemyInRange(enemies);
         tower->update();
-        for (Enemy* enemy : enemies) {
-            tower->checkEnemyInRange(enemies, enemy->getEnemyPosition());
-        }
     }
 
     // Update projectiles and check collisions
@@ -169,9 +169,7 @@ void GameManager::draw() {
             enemy->update(camera);
         }
         for (Tower* tower : towers) {
-            for (Enemy* enemy : enemies) {
-                tower->checkEnemyInRange(enemies, enemy->getEnemyPosition());
-            }
+            tower->checkEnemyInRange(enemies);
             tower->update();
         }
         if (isPlacingTower && hoveringTower) {
@@ -285,15 +283,24 @@ void GameManager::onNotify(EventType eventType) {
                         }
                     }
                     if(tower->getType() == "basic") {
+                        cout << "Basic tower" << endl;
+                        cout << "Tower in range: " << tower->getTowerPosition().x << ", " << tower->getTowerPosition().y << ", " << tower->getTowerPosition().z << endl;
                         if (tower->enemyInRange) {
-                            Vector3 towerPosition = tower->getTowerPosition();
-                            towerPosition.y = 6.0f;
-                            Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
-                            projectiles.push_back(newProjectile);
+                            for(int indexs : tower->getIndexOfEnemy()) {
+                                if(indexs == enemy->getIndex()) {
+                                    cout << "Already shot at this enemy" << endl;
+                                    Vector3 towerPosition = tower->getTowerPosition();
+                                    towerPosition.y = 6.0f;
+                                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                                    projectiles.push_back(newProjectile);
+                                }
+                            }
                         }
                     }
                     if(tower->getType() == "normal") {
+                        cout << "Normal tower" << endl;
                         if (tower->enemyInRange) {
+                            cout << "normal shoot" << endl;
                             Vector3 towerPosition = tower->getTowerPosition();
                             towerPosition.y = 6.0f;
                             Projectile* newProjectile = Projectile::createProjectile("normal", towerPosition, enemy->getEnemyPosition());
@@ -305,7 +312,7 @@ void GameManager::onNotify(EventType eventType) {
             break;
         }
         case EventType::ENEMY_OUT_OF_RANGE: {
-            std::cout << "Notification received: Enemy out of range" << std::endl;
+            // std::cout << "Notification received: Enemy out of range" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if (!enemy->isChecked) {
@@ -331,16 +338,19 @@ void GameManager::onNotify(EventType eventType) {
 
 void GameManager::checkTowersForEnemies() {
     for (Tower* tower : towers) {
-        for (Enemy* enemy : enemies) {
-            Vector3 enemyPosition = enemy->getEnemyPosition();
-            tower->checkEnemyInRange(enemies, enemyPosition);  
-        }
+        tower->checkEnemyInRange(enemies);  
     }
 }
 
 void GameManager::spawnEnemy() {
     if (enemiesToSpawn > 0) {
-        enemies.push_back(Enemy::createEnemy(enemyTypeToSpawn, Vector3{-25.0f, 0.0f, -10.0f}));
+        enemyCount++;
+        Enemy* Test1 = Enemy::createEnemy(enemyTypeToSpawn, Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
+        Test1->setIndex(enemyCount);
+        enemies.push_back(Test1);
+        cout << "Index de l'ennemi" << Test1->getIndex() << endl;
+        cout << "Index de l'ennemi" << enemies[enemyCount-1]->getIndex() << endl;
+        cout << "Nombre d'ennemis" << enemyCount << endl;
         enemiesToSpawn--;
     }
 }
