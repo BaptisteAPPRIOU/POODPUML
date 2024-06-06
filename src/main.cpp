@@ -27,3 +27,5 @@ int main() {
     CloseAudioDevice(); // Close audio device
     return 0;
 }
+
+// Visual Leak Detector pour tester les fuites de mémoire
