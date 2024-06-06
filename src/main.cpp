@@ -21,20 +21,20 @@ int main() {
         } else {
             if (!menu.gameManager) {
                 menu.resetGameManager();
+                menu.resetUI();
             }
             menu.gameManager->update();
             menu.gameManager->draw();
 
             if (menu.gameManager->isGameOver) {
                 menu.setGameState(GAME_OVER);
-                // ui.drawGameOver();
-                // ui.updateGameOver();
                 menu.isGameStarted = false;
             }
             if(menu.gameManager->closeGame) {
                 menu.setGameState(MAIN_MENU);
                 menu.isGameStarted = false;
                 menu.resetGameManager();
+                menu.resetUI();
             }
         }
 

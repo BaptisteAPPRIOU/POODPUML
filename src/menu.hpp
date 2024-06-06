@@ -27,14 +27,15 @@ class Menu
         void updateMenu();
         void setGameManager(GameManager* gameManager);
         void resetGameManager();
+        void resetUI();
         GameState currentState;
         bool isGameStarted=false;
         GameManager* gameManager;
+        UI* ui;
         void setFinalScore(int score);
         int getFinalScore();
 
     private:
-        UI* ui;
         int finalScore;
 
 

@@ -11,7 +11,7 @@ Menu::Menu() {
 }
 
 Menu::~Menu() {
-    ui = nullptr;
+    delete ui;
     delete gameManager;
 }
 
@@ -31,8 +31,13 @@ void Menu::setGameManager(GameManager* gameManager) {
 }
 
 void Menu::resetGameManager() {
-    delete gameManager; 
-    gameManager = new GameManager(); 
+    delete gameManager;
+    gameManager = new GameManager();
+}
+
+void Menu::resetUI() {
+    // delete ui;
+    ui = new UI();
 }
 
 void Menu::drawMenu(){
@@ -120,6 +125,7 @@ void Menu::updateMenu() {
                 currentState = MAIN_MENU;
                 isGameStarted = false;
                 resetGameManager();
+                resetUI();
             }
             break;
         case GAME_WIN:
@@ -131,12 +137,15 @@ void Menu::updateMenu() {
             } else if (ui->buttonEasy->isClicked(mousePoint)) {
                 currentState = GAME;
                 resetGameManager();
+                resetUI();
             } else if (ui->buttonMedium->isClicked(mousePoint)) {
                 currentState = GAME;
                 resetGameManager();
+                resetUI();
             } else if (ui->buttonHard->isClicked(mousePoint)) {
                 currentState = GAME;
                 resetGameManager();
+                resetUI();
             break;
         case QUIT:
             CloseWindow();
