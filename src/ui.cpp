@@ -1,7 +1,7 @@
 #include "ui.hpp"
 #include <iostream>
 
-UI::UI(): username(""), maxNameLength(20), typingUsername(false){
+UI::UI(): username(""){
     loadTextures();
     buttonTower1 = new Button(1420, 250, 400, 120, buttonTexture1, buttonHoverTexture1, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
@@ -79,7 +79,6 @@ void UI::drawGameButtons(int money) {
     buttonTower2Active = money >= 400; // Normal tower cost
     buttonTower3Active = money >= 500; // Slow tower cost
 
-    // Update buttons and draw them
     buttonTower1->update(GetMousePosition());
     buttonTower2->update(GetMousePosition());
     buttonTower3->update(GetMousePosition());
@@ -91,20 +90,14 @@ void UI::drawGameButtons(int money) {
     buttonTower4->drawButton();
     buttonCloseGame->drawButton();
 
-    // Draw button labels
-    // DrawText("BASIC TOWER", 1450, 285, 30, BLACK);
     if(buttonTower1Active) DrawText("COST: 200", 1450, 315, 20, BLACK);
-    // DrawText("NORMAL TOWER", 1450, 455, 30, BLACK);
     if(buttonTower2Active) DrawText("COST: 400", 1450, 485, 20, BLACK);
-    // DrawText("SLOW TOWER", 1450, 635, 30, BLACK);
     if(buttonTower3Active) DrawText("COST: 500", 1450, 665, 20, BLACK);
 
-    // Draw other UI elements
     DrawText("SCORE", 500, 950, 30, BLACK);
     DrawText("MONEY", 800, 950, 30, BLACK);
     DrawText("LIVES", 1100, 950, 30, BLACK);
 
-    // Draw "NOT ENOUGH MONEY" text if button is inactive
     if (!buttonTower1Active) DrawText("NOT ENOUGH MONEY", 1450, 320, 20, RED);
     if (!buttonTower2Active) DrawText("NOT ENOUGH MONEY", 1450, 490, 20, RED);
     if (!buttonTower3Active) DrawText("NOT ENOUGH MONEY", 1450, 670, 20, RED);
@@ -249,10 +242,10 @@ void UI::drawGameOver(){
     DrawText("YOU LOSE", 700, 200, 30, BLACK);
     DrawText("ENTER YOUR USERNAME:", 700, 300, 30, BLACK);
     
-    // Draw the text box
-    DrawRectangle(700, 350, 400, 50, LIGHTGRAY);
-    DrawRectangleLines(700, 350, 400, 50, BLACK);
-    DrawText(username.c_str(), 710, 360, 30, BLACK);
+    drawInputTextBox();
+    DrawText("SCORE: ", 700, 400, 30, BLACK);
+    // DrawText(TextFormat("FINAL SCORE: %d", menu.getFinalScore()), 700, 200, 30, BLACK);
+
 
     // Draw the buttons
     buttonBackGameOver->update(GetMousePosition());
@@ -264,44 +257,13 @@ void UI::drawGameWin(){
     DrawText("YOU WIN", 700, 200, 30, BLACK);
 }
 
-void UI::handleTextInput(){
-    if (typingUsername && IsKeyPressed(KEY_ENTER)) {
-        typingUsername = false;
-        // Save username logic here
-        std::cout << "Username entered: " << username << std::endl;
-    }
-    if (typingUsername && IsKeyPressed(KEY_BACKSPACE) && !username.empty()) {
-        username.pop_back();
-    }
-    if (typingUsername) {
-        int key = GetKeyPressed();
-        if (key >= 32 && key <= 125 && username.size() < maxNameLength) {
-            username += static_cast<char>(key);
-        }
-    }
-}
-
-// Call this function in your game loop to handle the text input
-void UI::updateGameOver(){
-    Vector2 mousePoint = GetMousePosition();
-    if (buttonBackGameOver->isClicked(mousePoint)) {
-        typingUsername = false;  // Stop typing when the button is clicked
-        notify(EventType::GAME_CLOSE);
-    }
-    if (CheckCollisionPointRec(mousePoint, {700, 350, 400, 50})) {
-        typingUsername = true;
-    }
-    // Handle text input for username
-    handleTextInput();
-}
-
 void UI::drawInputTextBox() {
     // Input box for username
-    int textBoxWidth = 300;
+    int textBoxWidth = 500;
     int textBoxHeight = 40;
     int textBoxX = (GetScreenWidth() - textBoxWidth) / 2;
-    int textBoxY = 300;
-    DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, WHITE);
+    int textBoxY = 500;
+    DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, LIGHTGRAY);
 
     // Draw the updated username input string
     DrawText(username.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);
@@ -314,6 +276,8 @@ void UI::drawInputTextBox() {
     if (IsKeyPressed(KEY_BACKSPACE) && username.size() > 0) {
         username.pop_back();
     }
+    if(IsKeyPressed(KEY_ENTER)){
+        std::cout<<"Username entered: "<<username<<std::endl;
+    }
 
-    // Update the actual username string if needed (e.g., when the user submits)
 }

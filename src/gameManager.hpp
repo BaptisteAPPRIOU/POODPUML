@@ -67,8 +67,7 @@ class GameManager : public Observer
         void onNotify(EventType eventType) override;
         void checkTowersForEnemies();
         bool checkProjectileCollision(Projectile* projectile);
-        void resetGame();
-        
+        int getScore() const;        
 };
 
 #endif // GAME_MANAGER_HPP

@@ -7,8 +7,8 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(), isGameOver(false),
-      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false) {
+      cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(), 
+      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false) ,isGameOver(false){
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -101,6 +101,7 @@ void GameManager::update() {
             if (lives <= 0) {
                 std::cout << "Game Over" << std::endl;
                 isGameOver = true;
+                menu.setFinalScore(score);
                 menu.isGameStarted = false;
                 menu.setGameState(GameState::GAME_OVER);
                 // menu.getCurrentState();
@@ -367,31 +368,6 @@ bool GameManager::checkProjectileCollision(Projectile* projectile) {
     return false;
 }
 
-void GameManager::resetGame() {
-    for (Enemy* enemy : enemies) {
-        delete enemy;
-    }
-    for (Tower* tower : towers) {
-        delete tower;
-    }
-    for (Projectile* projectile : projectiles) {
-        delete projectile;
-    }
-    enemies.clear();
-    towers.clear();
-    projectiles.clear();
-    isGameOver = false;
-    score = 0;
-    money = 500;
-    lives = 3;
-    elapsedTime = 0.0f;
-    timerStarted = false;
-    currentWave = 0;
-    enemiesToSpawn = 0;
-    enemiesRemaining = 0;
-    waveRemaining = 0;
-    startNextWave();
-    // map.resetMap();
-    menu.setGameState(GameState::GAME);
-    menu.isGameStarted = true;
+int GameManager::getScore() const{
+    return score;
 }

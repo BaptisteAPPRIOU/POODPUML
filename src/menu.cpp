@@ -144,3 +144,11 @@ void Menu::updateMenu() {
         }
     }
 }
+
+void Menu::setFinalScore(int score) {
+    finalScore = score;
+}
+
+int Menu::getFinalScore() {
+    return finalScore;
+}

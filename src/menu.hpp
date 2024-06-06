@@ -30,9 +30,12 @@ class Menu
         GameState currentState;
         bool isGameStarted=false;
         GameManager* gameManager;
+        void setFinalScore(int score);
+        int getFinalScore();
 
     private:
         UI* ui;
+        int finalScore;
 
 
 };
