@@ -30,6 +30,8 @@ public:
     virtual int getCost() = 0;
     virtual void addIndexOfEnemy(int index) = 0;
     virtual vector<int> getIndexOfEnemy() = 0;
+    virtual void deleteIndexOfEnemy(int index) = 0;
+    virtual void resetIndexOfEnemy() = 0;
 protected:
     Model tower;
     Texture2D textureTower;

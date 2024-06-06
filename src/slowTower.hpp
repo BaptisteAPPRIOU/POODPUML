@@ -2,6 +2,7 @@
 #define SLOW_TOWER_HPP
 
 #include "tower.hpp"
+#include <algorithm>
 
 class SlowTower : public Tower
 {
@@ -20,6 +21,8 @@ class SlowTower : public Tower
         vector<int> index_to_shoot = {};
         vector<int> getIndexOfEnemy() override;
         void addIndexOfEnemy(int index) override;
+        void deleteIndexOfEnemy(int index) override;
+        void resetIndexOfEnemy() override;
     private:
         bool enemyInRange;
         static constexpr float fireRate = 0.0f;

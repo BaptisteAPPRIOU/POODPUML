@@ -1,5 +1,4 @@
 #include "slowTower.hpp"
-// #include "projectile.hpp"
 #include <iostream>
 
 SlowTower::SlowTower(Vector3 position) : Tower(position) {
@@ -64,4 +63,16 @@ vector<int> SlowTower::getIndexOfEnemy() {
 
 void SlowTower::addIndexOfEnemy(int index) {
     index_to_shoot.push_back(index);
+}
+
+void SlowTower::deleteIndexOfEnemy(int index_to_delete) {
+    for (int indexs : index_to_shoot) {
+        if (indexs == index_to_delete) {
+            index_to_shoot.erase(std::remove(index_to_shoot.begin(), index_to_shoot.end(), index_to_delete), index_to_shoot.end());
+        }
+    }
+}
+
+void SlowTower::resetIndexOfEnemy() {
+    index_to_shoot.clear();
 }

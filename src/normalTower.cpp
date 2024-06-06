@@ -1,5 +1,4 @@
 #include "normalTower.hpp"
-// #include "projectile.hpp"
 #include <iostream>
 
 NormalTower::NormalTower(Vector3 position) : Tower(position)  {
@@ -64,4 +63,16 @@ vector<int> NormalTower::getIndexOfEnemy() {
 
 void NormalTower::addIndexOfEnemy(int index) {
     index_to_shoot.push_back(index);
+}
+
+void NormalTower::deleteIndexOfEnemy(int index_to_delete) {
+    for (int indexs : index_to_shoot) {
+        if (indexs == index_to_delete) {
+            index_to_shoot.erase(std::remove(index_to_shoot.begin(), index_to_shoot.end(), index_to_delete), index_to_shoot.end());
+        }
+    }
+}
+
+void NormalTower::resetIndexOfEnemy() {
+    index_to_shoot.clear();
 }
