@@ -10,6 +10,7 @@
 #include "tower.hpp"
 #include "observer.hpp"
 #include "projectile.hpp"
+#include "menu.hpp"
 #include <fstream>
 using namespace std;
 
@@ -29,10 +30,12 @@ class GameManager : public Observer
         float cameraFovy;
         Map map;
         UI ui;
+        Menu menu;
         Tower* hoveringTower;
         vector<Tower*> towers;
         vector<Enemy*> enemies;  
         vector<Projectile*> projectiles;
+        bool isGameOver;
 
         vector<Vector3> path;
         bool isPlacingTower;
@@ -63,6 +66,7 @@ class GameManager : public Observer
         void onNotify(EventType eventType) override;
         void checkTowersForEnemies();
         bool checkProjectileCollision(Projectile* projectile);
+        
 };
 
 #endif // GAME_MANAGER_HPP

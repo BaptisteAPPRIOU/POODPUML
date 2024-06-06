@@ -19,7 +19,7 @@ UI::UI(){
     buttonMedium = new Button(700, 400, 400, 120, buttonTexture2, buttonHoverTexture2, "MEDIUM");
     buttonHard = new Button(700, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "HARD");
     buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture4, buttonHoverTexture4, "BACK");
-
+    buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
 }
 
 UI::~UI() {
@@ -37,7 +37,19 @@ UI::~UI() {
     delete buttonTower2;
     delete buttonTower3;
     delete buttonTower4;
-
+    delete buttonStart;
+    delete buttonLeaderboard;
+    delete buttonCredits;
+    delete buttonOptions;
+    delete buttonQuit;
+    delete buttonBackLeaderboard;
+    delete buttonBackCredits;
+    delete buttonBackOptions;
+    delete buttonEasy;
+    delete buttonMedium;
+    delete buttonHard;
+    delete buttonBackDifficulty;
+    delete buttonBackGameOver;
 }
 
 void UI::loadButtons() {
@@ -46,14 +58,14 @@ void UI::loadButtons() {
     buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
     buttonTower3 = new Button(1420, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "SLOW TOWER");
     buttonTower4 = new Button(1420, 780, 400, 120, buttonTexture4, buttonHoverTexture4, "SPECIAL TOWER");
-    buttonStart = new Button(1250, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
-    buttonLeaderboard = new Button(1250, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
-    buttonCredits = new Button(1250, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
-    buttonOptions = new Button(1250, 650, 400, 120, buttonTexture4, buttonHoverTexture4, "OPTIONS");
-    buttonQuit = new Button(1250, 800, 400, 120, buttonTexture1, buttonHoverTexture1, "QUIT");
-    buttonBackLeaderboard = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
-    buttonBackCredits = new Button(700, 850, 400, 120, buttonTexture2, buttonHoverTexture2, "BACK");
-    buttonBackOptions = new Button(700, 850, 400, 120, buttonTexture3, buttonHoverTexture3, "BACK");
+    // buttonStart = new Button(1250, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
+    // buttonLeaderboard = new Button(1250, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
+    // buttonCredits = new Button(1250, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
+    // buttonOptions = new Button(1250, 650, 400, 120, buttonTexture4, buttonHoverTexture4, "OPTIONS");
+    // buttonQuit = new Button(1250, 800, 400, 120, buttonTexture1, buttonHoverTexture1, "QUIT");
+    // buttonBackLeaderboard = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
+    // buttonBackCredits = new Button(700, 850, 400, 120, buttonTexture2, buttonHoverTexture2, "BACK");
+    // buttonBackOptions = new Button(700, 850, 400, 120, buttonTexture3, buttonHoverTexture3, "BACK");
 }
 
 void UI::loadTextures() {
@@ -230,8 +242,11 @@ void UI::drawOptions(){
 }
 
 void UI::drawGameOver(){
+    ClearBackground(RAYWHITE);
     DrawText("GAME OVER", 700, 100, 50, BLACK);
     DrawText("YOU LOSE", 700, 200, 30, BLACK);
+    buttonBackGameOver->update(GetMousePosition());
+    buttonBackGameOver->drawButton();
 }
 
 void UI::drawGameWin(){

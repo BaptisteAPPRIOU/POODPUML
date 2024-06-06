@@ -47,6 +47,7 @@ public:
     Button* buttonMedium;
     Button* buttonHard;
     Button* buttonBackDifficulty;
+    Button* buttonBackGameOver;
 
     Menu* menu;
 private:
@@ -59,12 +60,10 @@ private:
     Texture2D buttonTexture4;
     Texture2D buttonHoverTexture4;
 
-
-
     bool buttonTower1Active;
     bool buttonTower2Active;
     bool buttonTower3Active;
-    bool buttonTower4Active;
+    // bool buttonTower4Active;
 
     bool placingTower;
     string selectedTowerType;

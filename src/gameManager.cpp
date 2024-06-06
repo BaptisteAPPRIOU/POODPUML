@@ -7,7 +7,7 @@ using namespace std;
 GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
-      cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(),
+      cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(), isGameOver(false),
       enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false) {
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
@@ -32,6 +32,9 @@ GameManager::GameManager()
 
     initializeWaves();
     startNextWave();
+    menu = Menu();
+    menu.setGameState(GameState::GAME);
+    menu.isGameStarted = true;   
 }
 
 GameManager::~GameManager() {
@@ -44,7 +47,6 @@ GameManager::~GameManager() {
     for (Projectile* projectile : projectiles) {
         delete projectile;
     }
-    CloseWindow();
 }
 
 void GameManager::initializeWaves() {
@@ -70,6 +72,7 @@ void GameManager::startNextWave() {
 }
 
 void GameManager::update() {
+    if (isGameOver) return;
     map.checkTileHover(camera);
 
     // Update enemy spawning
@@ -97,7 +100,9 @@ void GameManager::update() {
             enemiesRemaining--;
             if (lives <= 0) {
                 std::cout << "Game Over" << std::endl;
-                return;
+                isGameOver = true;
+                menu.isGameStarted = false;
+                menu.setGameState(GameState::GAME_OVER);
             }
         } else if (!(*it)->isEnemyAlive()) {
             int enemyValue = (*it)->getEnemyValue();
@@ -147,10 +152,10 @@ void GameManager::update() {
 
     updateCamera();
     ui.updateButtons(money);
+    cout<< "Current state "<<menu.getCurrentState()<<endl;
 }
 
 void GameManager::draw() {
-    while (!WindowShouldClose()) {
         map.checkTileHover(camera);
 
         BeginDrawing();
@@ -191,11 +196,14 @@ void GameManager::draw() {
         DrawText(TextFormat("ENEMIES: %d", enemiesRemaining), 550, 1000, 30, BLACK);
         DrawText(TextFormat("WAVES: %d", waveRemaining), 850, 1000, 30, BLACK);
         DrawText(TextFormat("TIME: %.2f", elapsedTime), 1300, 200, 30, BLACK);
-
+        
+        // if(isGameOver) {
+        //     menu.currentState = GameState::GAME_OVER;
+        //     ui.drawGameOver();
+        // }
 
         EndDrawing();
         update();
-    }
 }
 
 void GameManager::updateCamera() {

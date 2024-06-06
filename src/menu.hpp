@@ -26,6 +26,7 @@ class Menu
         void updateMenu();
 
         GameState currentState;
+        bool isGameStarted=false;
 
     private:
         UI* ui;

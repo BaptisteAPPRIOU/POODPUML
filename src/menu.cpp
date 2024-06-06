@@ -43,6 +43,7 @@ void Menu::drawMenu(){
             break;
         case GAME:
             ui->drawGame();
+            isGameStarted = true;
             break;
         case GAME_OVER:
             ui->drawGameOver();
@@ -93,10 +94,12 @@ void Menu::updateMenu() {
             }
             break;
         case GAME:
-            // Add any game-specific update logic here
+            
             break;
         case GAME_OVER:
-            // Add game over update logic here
+            if (ui->buttonBackGameOver->isClicked(mousePoint)) {
+                currentState = MAIN_MENU;
+            }
             break;
         case GAME_WIN:
             // Add game win update logic here
