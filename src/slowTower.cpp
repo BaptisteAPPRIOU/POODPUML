@@ -33,8 +33,8 @@ void SlowTower::draw(Vector3 towerPosition) {
     );
 }
 
-void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+    cout << "Checking enemy in range" << endl;
 }
 
 SlowTower::~SlowTower() {
@@ -56,4 +56,12 @@ float SlowTower::getFireRate() {
 
 int SlowTower::getCost() {
     return cost;
+}
+
+vector<int> SlowTower::getIndexOfEnemy() {
+    return index_to_shoot;
+}
+
+void SlowTower::addIndexOfEnemy(int index) {
+    index_to_shoot.push_back(index);
 }

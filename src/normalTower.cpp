@@ -33,8 +33,8 @@ void NormalTower::draw(Vector3 towerPosition) {
     );
 }
 
-void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+    cout << "Checking enemy in range" << endl;
 }
 
 NormalTower::~NormalTower() {
@@ -56,4 +56,12 @@ float NormalTower::getFireRate() {
 
 int NormalTower::getCost() {
     return cost;
+}
+
+vector<int> NormalTower::getIndexOfEnemy() {
+    return index_to_shoot;
+}
+
+void NormalTower::addIndexOfEnemy(int index) {
+    index_to_shoot.push_back(index);
 }
