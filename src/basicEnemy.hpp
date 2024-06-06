@@ -16,8 +16,8 @@ public:                                                                         
     void move(const std::vector<Vector3>& path) override;
     int getEnemyValue() const override;
     bool hasReachedEnd(std::vector<Vector3>& path) const override;
-    int getIndex() const;
-    void setIndex(int index);
+    int getIndex() const override;
+    void setIndex(int index) override;
 };
 
 #endif // BASIC_ENEMY_HPP
