@@ -25,7 +25,7 @@ class NormalTower : public Tower
         void resetIndexOfEnemy() override;
     private:
         bool enemyInRange;
-        static constexpr float fireRate = 2.0f;
+        static constexpr float fireRate = 0.3f;
         // Projectile* projectile;
 };
 
