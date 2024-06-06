@@ -10,33 +10,37 @@ int main() {
 
     Menu menu;
     UI ui;
-    GameManager gameManager;
-    ui.menu = &menu;
+
     menu.setUI(&ui);
+    ui.menu = &menu;
 
     while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-
         if (!menu.isGameStarted) {
             menu.updateMenu();
             menu.drawMenu();
         } else {
-            gameManager.update();
-            gameManager.draw();
-
-            if (gameManager.isGameOver) {
-                menu.setGameState(GAME_OVER);
-                menu.isGameStarted = false;  
+            if (!menu.gameManager) {
+                menu.resetGameManager();
             }
-            if (gameManager.closeGame) {
+            menu.gameManager->update();
+            menu.gameManager->draw();
+
+            if (menu.gameManager->isGameOver) {
+                menu.setGameState(GAME_OVER);
+                menu.isGameStarted = false;
+                menu.resetGameManager(); 
+            }
+            if(menu.gameManager->closeGame) {
                 menu.setGameState(MAIN_MENU);
-                menu.isGameStarted = false;  
+                menu.isGameStarted = false;
+                menu.resetGameManager();
             }
         }
 
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
         EndDrawing();
     }
-    CloseWindow(); 
+    CloseWindow();
     return 0;
 }

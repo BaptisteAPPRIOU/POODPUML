@@ -22,14 +22,19 @@ Button::~Button() {                                                             
     UnloadTexture(hoverTexture);
 }
 
-void Button::drawButton() {                                                                                 // Function to draw the button
+void Button::drawButton() {
     update(GetMousePosition());
 
+    Rectangle sourceRect = {0, 0, static_cast<float>(texture.width), static_cast<float>(texture.height)};
+    Rectangle destRect = {bounds.x, bounds.y, bounds.width, bounds.height};
+    Vector2 origin = {0, 0};
+
     if (isHovered) {
-        DrawTexture(hoverTexture, bounds.x, bounds.y, WHITE);
+        DrawTexturePro(hoverTexture, sourceRect, destRect, origin, 0.0f, WHITE);
     } else {
-        DrawTexture(texture, bounds.x, bounds.y, WHITE);
+        DrawTexturePro(texture, sourceRect, destRect, origin, 0.0f, WHITE);
     }
+
     const char* buttonText = text.c_str();
     int fontSize = 20;  // Assuming a font size of 20
     int textWidth = MeasureText(buttonText, fontSize);
@@ -40,3 +45,4 @@ void Button::drawButton() {                                                     
 
     DrawText(buttonText, bounds.x + textSizeX, bounds.y + textSizeY, fontSize, BLACK);
 }
+

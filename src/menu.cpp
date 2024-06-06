@@ -1,14 +1,18 @@
 #include "menu.hpp"
+#include "gameManager.hpp"
 #include "ui.hpp"
 #include <iostream>
 
 Menu::Menu() {
     ui = nullptr;
+    gameManager = nullptr;
     currentState = MAIN_MENU;
+    isGameStarted = false;
 }
 
 Menu::~Menu() {
     ui = nullptr;
+    delete gameManager;
 }
 
 void Menu::setGameState(GameState state) {
@@ -20,6 +24,15 @@ GameState Menu::getCurrentState() {
 }
 void Menu::setUI(UI* ui) {
     this->ui = ui;
+}
+
+void Menu::setGameManager(GameManager* gameManager) {
+    this->gameManager = gameManager;
+}
+
+void Menu::resetGameManager() {
+    delete gameManager; 
+    gameManager = new GameManager(); 
 }
 
 void Menu::drawMenu(){
@@ -106,6 +119,7 @@ void Menu::updateMenu() {
                 std::cout<<"back to main menu"<<std::endl;
                 currentState = MAIN_MENU;
                 isGameStarted = false;
+                resetGameManager();
             }
             break;
         case GAME_WIN:
@@ -116,10 +130,13 @@ void Menu::updateMenu() {
                 currentState = MAIN_MENU;
             } else if (ui->buttonEasy->isClicked(mousePoint)) {
                 currentState = GAME;
+                resetGameManager();
             } else if (ui->buttonMedium->isClicked(mousePoint)) {
                 currentState = GAME;
+                resetGameManager();
             } else if (ui->buttonHard->isClicked(mousePoint)) {
                 currentState = GAME;
+                resetGameManager();
             break;
         case QUIT:
             CloseWindow();

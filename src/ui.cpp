@@ -20,7 +20,7 @@ UI::UI(){
     buttonHard = new Button(700, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "HARD");
     buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture4, buttonHoverTexture4, "BACK");
     buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
-    buttonCloseGame = new Button(700, 850, 400, 120, buttonTexture2, buttonHoverTexture2, "CLOSE");
+    buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
 }
 
 UI::~UI() {

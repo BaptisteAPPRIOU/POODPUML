@@ -1,6 +1,7 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
+class GameManager;
 class UI;
 enum GameState {
     MAIN_MENU,
@@ -24,9 +25,11 @@ class Menu
         GameState getCurrentState();
         void setUI(UI* ui);
         void updateMenu();
-
+        void setGameManager(GameManager* gameManager);
+        void resetGameManager();
         GameState currentState;
         bool isGameStarted=false;
+        GameManager* gameManager;
 
     private:
         UI* ui;
