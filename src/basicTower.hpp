@@ -12,15 +12,17 @@ class BasicTower : public Tower                                                 
         void update() override;
         void hoverTower(Vector3 position) override;
         void draw(Vector3 position) override;
-        void checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) override;
+        void checkEnemyInRange(const std::vector<Enemy*>& enemies) override;
         Vector3 getTowerPosition() override;
         string getType() override;
         float getFireRate() override;
         int getCost() override;
-
+        vector<int> index_to_shoot = {};
+        vector<int> getIndexOfEnemy();
+        void addIndexOfEnemy(int index);
     private:                                                                                                // Private members
         bool enemyInRange;
-        static constexpr float fireRate = 1.3f;                                                             
+        static constexpr float fireRate = 2.5f;
 };
 
 #endif // BASIC_TOWER_HPP
