@@ -1,5 +1,4 @@
 #include "basicTower.hpp"
-// #include "projectile.hpp"
 #include <iostream>
 
 BasicTower::BasicTower(Vector3 position) : Tower(position) {                                            // Constructor
@@ -42,19 +41,22 @@ void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {        
         if (distance <= range) {
             enemyInRange = true;
             timer += GetFrameTime();  // Increment the timer by the frame time
-            addIndexOfEnemy(enemy->getIndex());
             if (timer >= getFireRate()) {
-                Subject::notify(EventType::ENEMY_IN_RANGE);  // Notify observers to fire
-                std::cout << "Firing projectile!" << std::endl;  // Debug print
-                timer = 0.0f;  // Reset the timer after firing
+                if (std::find(index_to_shoot.begin(), index_to_shoot.end(), enemy->getIndex()) == index_to_shoot.end()) {
+                    addIndexOfEnemy(enemy->getIndex());
+                }
+                cout << "Index size dans le check " << getIndexOfEnemy().size() << endl;
+                Subject::notify(EventType::ENEMY_IN_RANGE);
+                std::cout << "Firing projectile!" << std::endl;
+                timer = 0.0f;
             }
-            return; // Exit the loop if any enemy is in range
+            return;
         }
+        deleteIndexOfEnemy(enemy->getIndex());
     }
-    // If no enemy is in range
     enemyInRange = false;
-    timer = 0.0f;  // Reset the timer if the enemy is out of range
-    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);  // Notify observers that the enemy is out of range
+    timer = 0.0f;
+    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);
 }
 
 BasicTower::~BasicTower() {                                                                             // Destructor
@@ -84,4 +86,16 @@ vector<int> BasicTower::getIndexOfEnemy() {
 
 void BasicTower::addIndexOfEnemy(int index) {
     index_to_shoot.push_back(index);
+}
+
+void BasicTower::deleteIndexOfEnemy(int index_to_delete) {
+    for (int indexs : index_to_shoot) {
+        if (indexs == index_to_delete) {
+            index_to_shoot.erase(std::remove(index_to_shoot.begin(), index_to_shoot.end(), index_to_delete), index_to_shoot.end());
+        }
+    }
+}
+
+void BasicTower::resetIndexOfEnemy() {
+    index_to_shoot.clear();
 }
