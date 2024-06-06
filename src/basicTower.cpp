@@ -46,7 +46,7 @@ void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {        
                     addIndexOfEnemy(enemy->getIndex());
                 }
                 cout << "Index size dans le check " << getIndexOfEnemy().size() << endl;
-                Subject::notify(EventType::ENEMY_IN_RANGE);
+                Subject::notify(EventType::ENEMY_IN_RANGE_BT);
                 std::cout << "Firing projectile!" << std::endl;
                 timer = 0.0f;
             }
