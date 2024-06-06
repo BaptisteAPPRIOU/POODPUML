@@ -32,8 +32,3 @@ int HardEnemy::getEnemyValue() const{                                       // G
 bool HardEnemy::hasReachedEnd(vector<Vector3>& path) const {                // Check if the hard enemy has reached the end
     return Enemy::hasReachedEnd(path);
 }
-
-HardEnemy::~HardEnemy() {                                                   // Destructor for the hard enemy
-    UnloadModel(enemy);
-    UnloadTexture(textureEnemy);
-}
