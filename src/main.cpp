@@ -27,7 +27,11 @@ int main() {
 
             if (gameManager.isGameOver) {
                 menu.setGameState(GAME_OVER);
-                menu.isGameStarted = false;  // Ensure to set this to false
+                menu.isGameStarted = false;  
+            }
+            if (gameManager.closeGame) {
+                menu.setGameState(MAIN_MENU);
+                menu.isGameStarted = false;  
             }
         }
 

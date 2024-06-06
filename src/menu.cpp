@@ -96,7 +96,10 @@ void Menu::updateMenu() {
             }
             break;
         case GAME:
-            
+            if(ui->buttonCloseGame->isClicked(mousePoint)){
+                currentState = MAIN_MENU;
+                isGameStarted = false;
+            }
             break;
         case GAME_OVER:
             if (ui->buttonBackGameOver->isClicked(mousePoint)) {

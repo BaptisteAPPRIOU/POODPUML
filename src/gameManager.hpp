@@ -58,6 +58,7 @@ class GameManager : public Observer
         bool timerStarted;
     public:
         bool isGameOver;
+        bool closeGame = false;
         GameManager();
         ~GameManager();
         void update();
@@ -66,6 +67,7 @@ class GameManager : public Observer
         void onNotify(EventType eventType) override;
         void checkTowersForEnemies();
         bool checkProjectileCollision(Projectile* projectile);
+        void resetGame();
         
 };
 

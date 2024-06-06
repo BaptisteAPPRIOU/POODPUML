@@ -198,11 +198,6 @@ void GameManager::draw() {
         DrawText(TextFormat("ENEMIES: %d", enemiesRemaining), 550, 1000, 30, BLACK);
         DrawText(TextFormat("WAVES: %d", waveRemaining), 850, 1000, 30, BLACK);
         DrawText(TextFormat("TIME: %.2f", elapsedTime), 1300, 200, 30, BLACK);
-        
-        // if(isGameOver) {
-        //     menu.currentState = GameState::GAME_OVER;
-        //     ui.drawGameOver();
-        // }
 
         EndDrawing();
         update();
@@ -320,6 +315,11 @@ void GameManager::onNotify(EventType eventType) {
                 enemy->isChecked = false;
             }
             break;
+        } case EventType::GAME_CLOSE: {
+            std::cout << "Notification received: Game close" << std::endl;
+            menu.setGameState(GameState::MAIN_MENU);
+            closeGame = true;
+            break;
         }
         default:
             break;
@@ -365,4 +365,33 @@ bool GameManager::checkProjectileCollision(Projectile* projectile) {
         }
     }
     return false;
+}
+
+void GameManager::resetGame() {
+    for (Enemy* enemy : enemies) {
+        delete enemy;
+    }
+    for (Tower* tower : towers) {
+        delete tower;
+    }
+    for (Projectile* projectile : projectiles) {
+        delete projectile;
+    }
+    enemies.clear();
+    towers.clear();
+    projectiles.clear();
+    isGameOver = false;
+    score = 0;
+    money = 500;
+    lives = 3;
+    elapsedTime = 0.0f;
+    timerStarted = false;
+    currentWave = 0;
+    enemiesToSpawn = 0;
+    enemiesRemaining = 0;
+    waveRemaining = 0;
+    startNextWave();
+    // map.resetMap();
+    menu.setGameState(GameState::GAME);
+    menu.isGameStarted = true;
 }

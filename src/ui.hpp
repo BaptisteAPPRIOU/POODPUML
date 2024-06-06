@@ -48,6 +48,7 @@ public:
     Button* buttonHard;
     Button* buttonBackDifficulty;
     Button* buttonBackGameOver;
+    Button* buttonCloseGame;
 
     Menu* menu;
 private:
