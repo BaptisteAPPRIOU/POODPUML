@@ -267,18 +267,10 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
-        case EventType::ENEMY_IN_RANGE: {
-            std::cout << "Notification received: Enemy in range" << std::endl;
+        case EventType::ENEMY_IN_RANGE_BT: {
+            std::cout << "Notification received: Enemy in range for a basic tower" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
-                    if(tower->getType() == "slow") {
-                        if (tower->enemyInRange && !enemy->slowed && !enemy->isChecked) {                        
-                            enemy->setSpeed(enemy->getSpeed() * 0.5f);
-                            enemy->slowed = true;
-                            enemy->isChecked = true;
-                        }
-                    }
-
                     if(tower->getType() == "basic") {
                         if (tower->enemyInRange) {
                             for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
@@ -295,15 +287,49 @@ void GameManager::onNotify(EventType eventType) {
                             }
                         }
                     }
-
+                }
+            }
+            break;
+        }
+        case EventType::ENEMY_IN_RANGE_NT:{
+            std::cout << "Notification received: Enemy in range for a normal tower" << std::endl;
+            for (Tower* tower : towers) {
+                for (Enemy* enemy : enemies) {
                     if(tower->getType() == "normal") {
-                        cout << "Normal tower" << endl;
                         if (tower->enemyInRange) {
-                            cout << "normal shoot" << endl;
-                            Vector3 towerPosition = tower->getTowerPosition();
-                            towerPosition.y = 6.0f;
-                            Projectile* newProjectile = Projectile::createProjectile("normal", towerPosition, enemy->getEnemyPosition());
-                            projectiles.push_back(newProjectile);
+                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                                if (indexs == enemy->getIndex()) {
+                                    cout << "basic shoot" << endl;
+                                    Vector3 towerPosition = tower->getTowerPosition();
+                                    towerPosition.y = 6.0f;
+                                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                                    projectiles.push_back(newProjectile);
+                                }
+                                else {
+                                    cout << "Not in range" << endl;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case EventType::ENEMY_IN_RANGE_ST: {
+            std::cout << "Notification received: Enemy in range for a slow tower" << std::endl;
+            for (Tower* tower : towers) {
+                for (Enemy* enemy : enemies) {
+                    if(tower->getType() == "slow") {
+                        if (tower->enemyInRange) {
+                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                                if (indexs == enemy->getIndex()) {  
+                                    if (!enemy->slowed) {
+                                        enemy->setSpeed(enemy->getSpeed() * 0.5f);
+                                        enemy->slowed = true;
+                                        enemy->isChecked = true;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
