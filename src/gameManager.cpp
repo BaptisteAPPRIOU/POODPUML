@@ -60,6 +60,9 @@ void GameManager::initializeWaves() {
 void GameManager::startNextWave() {
     if (currentWave < static_cast<int>(waves.size())) {
         enemyCount = 0;
+        for (Tower* tower : towers) {
+            tower->resetIndexOfEnemy();
+        }
         enemiesToSpawn = waves[currentWave].first;
         enemyTypeToSpawn = waves[currentWave].second;
         enemiesRemaining = enemiesToSpawn;
@@ -277,22 +280,19 @@ void GameManager::onNotify(EventType eventType) {
                     }
 
                     if(tower->getType() == "basic") {
-                        cout << "Basic tower" << endl;
-                        cout << "Tower in range: " << tower->getTowerPosition().x << ", " << tower->getTowerPosition().y << ", " << tower->getTowerPosition().z << endl;
                         if (tower->enemyInRange) {
-                            cout << (tower->getIndexOfEnemy()).size() << endl;
-                            // for(int indexs : tower->getIndexOfEnemy()) {
-                            //     if (indexs == enemy->getIndex()) {
-                            //         cout << "basic shoot" << endl;
-                            //         Vector3 towerPosition = tower->getTowerPosition();
-                            //         towerPosition.y = 6.0f;
-                            //         Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
-                            //         projectiles.push_back(newProjectile);
-                            //     }
-                            //     else {
-                            //         cout << "No enemy in range" << endl;
-                            //     }
-                            // }
+                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                                if (indexs == enemy->getIndex()) {
+                                    cout << "basic shoot" << endl;
+                                    Vector3 towerPosition = tower->getTowerPosition();
+                                    towerPosition.y = 6.0f;
+                                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                                    projectiles.push_back(newProjectile);
+                                }
+                                else {
+                                    cout << "Not in range" << endl;
+                                }
+                            }
                         }
                     }
 
@@ -311,7 +311,6 @@ void GameManager::onNotify(EventType eventType) {
             break;
         }
         case EventType::ENEMY_OUT_OF_RANGE: {
-            // std::cout << "Notification received: Enemy out of range" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if (!enemy->isChecked) {
