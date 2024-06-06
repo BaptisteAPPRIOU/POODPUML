@@ -224,26 +224,20 @@ void GameManager::onNotify(EventType eventType) {
     } else if (menu.currentState == Menu::GAME) {
     switch (eventType) {
         case EventType::TOWER_CREATION: {
-            std::cout << "Notification received: Tower creation" << std::endl;
             int selectedTowerCost = ui.getSelectedTowerCost();
             if (money >= selectedTowerCost) {
                 isPlacingTower = true;
                 Vector3 initialHoverPosition = map.getHoveredTilePosition();
-                std::cout << "Initial hover position: " << initialHoverPosition.x << ", " << initialHoverPosition.y << ", " << initialHoverPosition.z << std::endl;
                 hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
-                std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << std::endl;
             } else {
                 std::cout << "Not enough money to create the tower." << std::endl;
             }
             break;
         }
         case EventType::TILE_CLICKED: {
-            std::cout << "Notification received: Tile clicked" << std::endl;
             if (isPlacingTower) {
                 if (hoveringTower) {
                     Vector3 hoveredPosition = map.getHoveredTilePosition();
-                    std::cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << std::endl;
-
                     if (map.isTileBuildable(hoveredPosition, path)) {
                         int towerCost = hoveringTower->getCost();
                         if (money >= towerCost) {
@@ -251,7 +245,6 @@ void GameManager::onNotify(EventType eventType) {
                             newTower->addObserver(this);
                             towers.push_back(newTower);
                             newTower->draw(hoveredPosition);
-                            std::cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << std::endl;
                             map.setTileBuildable(hoveredPosition, false); 
                             isPlacingTower = false;
                             delete hoveringTower;
@@ -282,21 +275,27 @@ void GameManager::onNotify(EventType eventType) {
                             enemy->isChecked = true;
                         }
                     }
+
                     if(tower->getType() == "basic") {
                         cout << "Basic tower" << endl;
                         cout << "Tower in range: " << tower->getTowerPosition().x << ", " << tower->getTowerPosition().y << ", " << tower->getTowerPosition().z << endl;
                         if (tower->enemyInRange) {
-                            for(int indexs : tower->getIndexOfEnemy()) {
-                                if(indexs == enemy->getIndex()) {
-                                    cout << "Already shot at this enemy" << endl;
-                                    Vector3 towerPosition = tower->getTowerPosition();
-                                    towerPosition.y = 6.0f;
-                                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
-                                    projectiles.push_back(newProjectile);
-                                }
-                            }
+                            cout << (tower->getIndexOfEnemy()).size() << endl;
+                            // for(int indexs : tower->getIndexOfEnemy()) {
+                            //     if (indexs == enemy->getIndex()) {
+                            //         cout << "basic shoot" << endl;
+                            //         Vector3 towerPosition = tower->getTowerPosition();
+                            //         towerPosition.y = 6.0f;
+                            //         Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                            //         projectiles.push_back(newProjectile);
+                            //     }
+                            //     else {
+                            //         cout << "No enemy in range" << endl;
+                            //     }
+                            // }
                         }
                     }
+
                     if(tower->getType() == "normal") {
                         cout << "Normal tower" << endl;
                         if (tower->enemyInRange) {
@@ -348,9 +347,6 @@ void GameManager::spawnEnemy() {
         Enemy* Test1 = Enemy::createEnemy(enemyTypeToSpawn, Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
         Test1->setIndex(enemyCount);
         enemies.push_back(Test1);
-        cout << "Index de l'ennemi" << Test1->getIndex() << endl;
-        cout << "Index de l'ennemi" << enemies[enemyCount-1]->getIndex() << endl;
-        cout << "Nombre d'ennemis" << enemyCount << endl;
         enemiesToSpawn--;
     }
 }

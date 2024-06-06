@@ -43,7 +43,6 @@ void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {        
             enemyInRange = true;
             timer += GetFrameTime();  // Increment the timer by the frame time
             addIndexOfEnemy(enemy->getIndex());
-            cout << "Index de l'ennemi3    " << enemy->getIndex() << endl;
             if (timer >= getFireRate()) {
                 Subject::notify(EventType::ENEMY_IN_RANGE);  // Notify observers to fire
                 std::cout << "Firing projectile!" << std::endl;  // Debug print
