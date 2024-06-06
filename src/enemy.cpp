@@ -9,9 +9,9 @@
 #include <iostream>
 using namespace std;
 
-Enemy* Enemy::createEnemy(const string& type, Vector3 position) {                                       // Create enemy based on type
+Enemy* Enemy::createEnemy(const string& type, Vector3 position, int index_chosen) {                                       // Create enemy based on type
     if (type == "basic") {
-        return new BasicEnemy(position);
+        return new BasicEnemy(position, index_chosen);
     } else if (type == "medium") {
         return new MediumEnemy(position);
     } else if (type == "hard") {
@@ -84,6 +84,14 @@ int Enemy::getEnemyValue() const {                                              
 
 bool Enemy::hasReachedEnd(std::vector<Vector3>& path) const {                                           // Check if enemy has reached the end of the path                    
     return static_cast<std::vector<Vector3>::size_type>(currentPoint) >= path.size();
+}
+
+int Enemy::getIndex() const {                                                                           // Get the index of the enemy
+    return index;
+}
+
+void Enemy::setIndex(int index) {                                                                       // Set the index of the enemy
+    this->index = index;
 }
 
 Enemy::~Enemy() {}                                                                                      // Destructor
