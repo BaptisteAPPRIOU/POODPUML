@@ -32,8 +32,3 @@ int MediumEnemy::getEnemyValue() const{                                     // G
 bool MediumEnemy::hasReachedEnd(vector<Vector3>& path) const {              // Check if the medium enemy has reached the end
     return Enemy::hasReachedEnd(path);
 }
-
-// MediumEnemy::~MediumEnemy() {                                               // Destructor for the medium enemy
-//     UnloadModel(enemy);
-//     UnloadTexture(textureEnemy);
-// }

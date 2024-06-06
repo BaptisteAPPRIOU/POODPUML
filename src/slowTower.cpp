@@ -1,5 +1,4 @@
 #include "slowTower.hpp"
-// #include "projectile.hpp"
 #include <iostream>
 
 SlowTower::SlowTower(Vector3 position) : Tower(position) {
@@ -33,8 +32,29 @@ void SlowTower::draw(Vector3 towerPosition) {
     );
 }
 
-void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+    for (Enemy* enemy : enemies) {
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+        float distance = Vector3Distance(enemyPosition, towerPosition);
+        if (distance <= range) {
+            enemyInRange = true;
+            timer += GetFrameTime();  // Increment the timer by the frame time
+            if (timer >= getFireRate()) {
+                if (std::find(index_to_shoot.begin(), index_to_shoot.end(), enemy->getIndex()) == index_to_shoot.end()) {
+                    addIndexOfEnemy(enemy->getIndex());
+                }
+                cout << "Index size dans le check " << getIndexOfEnemy().size() << endl;
+                Subject::notify(EventType::ENEMY_IN_RANGE_ST);
+                std::cout << "Firing projectile!" << std::endl;
+                timer = 0.0f;
+            }
+            continue;
+        }
+        deleteIndexOfEnemy(enemy->getIndex());
+    }
+    enemyInRange = false;
+    timer = 0.0f;
+    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);
 }
 
 SlowTower::~SlowTower() {
@@ -56,4 +76,24 @@ float SlowTower::getFireRate() {
 
 int SlowTower::getCost() {
     return cost;
+}
+
+vector<int> SlowTower::getIndexOfEnemy() {
+    return index_to_shoot;
+}
+
+void SlowTower::addIndexOfEnemy(int index) {
+    index_to_shoot.push_back(index);
+}
+
+void SlowTower::deleteIndexOfEnemy(int index_to_delete) {
+    for (int indexs : index_to_shoot) {
+        if (indexs == index_to_delete) {
+            index_to_shoot.erase(std::remove(index_to_shoot.begin(), index_to_shoot.end(), index_to_delete), index_to_shoot.end());
+        }
+    }
+}
+
+void SlowTower::resetIndexOfEnemy() {
+    index_to_shoot.clear();
 }

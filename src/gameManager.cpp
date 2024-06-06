@@ -2,6 +2,7 @@
 #include "pathLoader.hpp"
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 GameManager::GameManager()
@@ -59,6 +60,10 @@ void GameManager::initializeWaves() {
 
 void GameManager::startNextWave() {
     if (currentWave < static_cast<int>(waves.size())) {
+        enemyCount = 0;
+        for (Tower* tower : towers) {
+            tower->resetIndexOfEnemy();
+        }
         enemiesToSpawn = waves[currentWave].first;
         enemyTypeToSpawn = waves[currentWave].second;
         enemiesRemaining = enemiesToSpawn;
@@ -125,10 +130,8 @@ void GameManager::update() {
 
     // Update towers
     for (Tower* tower : towers) {
+        tower->checkEnemyInRange(enemies);
         tower->update();
-        for (Enemy* enemy : enemies) {
-            tower->checkEnemyInRange(enemies, enemy->getEnemyPosition());
-        }
     }
 
     // Update projectiles and check collisions
@@ -172,9 +175,7 @@ void GameManager::draw() {
             enemy->update(camera);
         }
         for (Tower* tower : towers) {
-            for (Enemy* enemy : enemies) {
-                tower->checkEnemyInRange(enemies, enemy->getEnemyPosition());
-            }
+            tower->checkEnemyInRange(enemies);
             tower->update();
         }
         if (isPlacingTower && hoveringTower) {
@@ -220,26 +221,20 @@ void GameManager::updateCamera() {
 void GameManager::onNotify(EventType eventType) {
     switch (eventType) {
         case EventType::TOWER_CREATION: {
-            std::cout << "Notification received: Tower creation" << std::endl;
             int selectedTowerCost = ui.getSelectedTowerCost();
             if (money >= selectedTowerCost) {
                 isPlacingTower = true;
                 Vector3 initialHoverPosition = map.getHoveredTilePosition();
-                std::cout << "Initial hover position: " << initialHoverPosition.x << ", " << initialHoverPosition.y << ", " << initialHoverPosition.z << std::endl;
                 hoveringTower = Tower::createTower(ui.getSelectedTowerType(), initialHoverPosition);
-                std::cout << "Tower creation notified: " << ui.getSelectedTowerType() << std::endl;
             } else {
                 std::cout << "Not enough money to create the tower." << std::endl;
             }
             break;
         }
         case EventType::TILE_CLICKED: {
-            std::cout << "Notification received: Tile clicked" << std::endl;
             if (isPlacingTower) {
                 if (hoveringTower) {
                     Vector3 hoveredPosition = map.getHoveredTilePosition();
-                    std::cout << "Attempting to place tower at: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << std::endl;
-
                     if (map.isTileBuildable(hoveredPosition, path)) {
                         int towerCost = hoveringTower->getCost();
                         if (money >= towerCost) {
@@ -247,7 +242,6 @@ void GameManager::onNotify(EventType eventType) {
                             newTower->addObserver(this);
                             towers.push_back(newTower);
                             newTower->draw(hoveredPosition);
-                            std::cout << "Tower placed at position: " << hoveredPosition.x << ", " << hoveredPosition.y << ", " << hoveredPosition.z << std::endl;
                             map.setTileBuildable(hoveredPosition, false); 
                             isPlacingTower = false;
                             delete hoveringTower;
@@ -267,31 +261,69 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
-        case EventType::ENEMY_IN_RANGE: {
-            std::cout << "Notification received: Enemy in range" << std::endl;
+        case EventType::ENEMY_IN_RANGE_BT: {
+            std::cout << "Notification received: Enemy in range for a basic tower" << std::endl;
+            for (Tower* tower : towers) {
+                for (Enemy* enemy : enemies) {
+                    if(tower->getType() == "basic") {
+                        if (tower->enemyInRange) {
+                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                                if (indexs == enemy->getIndex()) {
+                                    cout << "basic shoot" << endl;
+                                    Vector3 towerPosition = tower->getTowerPosition();
+                                    towerPosition.y = 6.0f;
+                                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                                    projectiles.push_back(newProjectile);
+                                }
+                                else {
+                                    cout << "Not in range" << endl;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case EventType::ENEMY_IN_RANGE_NT:{
+            std::cout << "Notification received: Enemy in range for a normal tower" << std::endl;
+            for (Tower* tower : towers) {
+                for (Enemy* enemy : enemies) {
+                    if(tower->getType() == "normal") {
+                        if (tower->enemyInRange) {
+                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                                if (indexs == enemy->getIndex()) {
+                                    cout << "basic shoot" << endl;
+                                    Vector3 towerPosition = tower->getTowerPosition();
+                                    towerPosition.y = 6.0f;
+                                    Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
+                                    projectiles.push_back(newProjectile);
+                                }
+                                else {
+                                    cout << "Not in range" << endl;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case EventType::ENEMY_IN_RANGE_ST: {
+            std::cout << "Notification received: Enemy in range for a slow tower" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if(tower->getType() == "slow") {
-                        if (tower->enemyInRange && !enemy->slowed && !enemy->isChecked) {                        
-                            enemy->setSpeed(enemy->getSpeed() * 0.5f);
-                            enemy->slowed = true;
-                            enemy->isChecked = true;
-                        }
-                    }
-                    if(tower->getType() == "basic") {
                         if (tower->enemyInRange) {
-                            Vector3 towerPosition = tower->getTowerPosition();
-                            towerPosition.y = 6.0f;
-                            Projectile* newProjectile = Projectile::createProjectile("basic", towerPosition, enemy->getEnemyPosition());
-                            projectiles.push_back(newProjectile);
-                        }
-                    }
-                    if(tower->getType() == "normal") {
-                        if (tower->enemyInRange) {
-                            Vector3 towerPosition = tower->getTowerPosition();
-                            towerPosition.y = 6.0f;
-                            Projectile* newProjectile = Projectile::createProjectile("normal", towerPosition, enemy->getEnemyPosition());
-                            projectiles.push_back(newProjectile);
+                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                                if (indexs == enemy->getIndex()) {  
+                                    if (!enemy->slowed) {
+                                        enemy->setSpeed(enemy->getSpeed() * 0.5f);
+                                        enemy->slowed = true;
+                                        enemy->isChecked = true;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -299,7 +331,6 @@ void GameManager::onNotify(EventType eventType) {
             break;
         }
         case EventType::ENEMY_OUT_OF_RANGE: {
-            std::cout << "Notification received: Enemy out of range" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if (!enemy->isChecked) {
@@ -330,16 +361,16 @@ void GameManager::onNotify(EventType eventType) {
 
 void GameManager::checkTowersForEnemies() {
     for (Tower* tower : towers) {
-        for (Enemy* enemy : enemies) {
-            Vector3 enemyPosition = enemy->getEnemyPosition();
-            tower->checkEnemyInRange(enemies, enemyPosition);  
-        }
+        tower->checkEnemyInRange(enemies);  
     }
 }
 
 void GameManager::spawnEnemy() {
     if (enemiesToSpawn > 0) {
-        enemies.push_back(Enemy::createEnemy(enemyTypeToSpawn, Vector3{-25.0f, 0.0f, -10.0f}));
+        enemyCount++;
+        Enemy* Test1 = Enemy::createEnemy(enemyTypeToSpawn, Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
+        Test1->setIndex(enemyCount);
+        enemies.push_back(Test1);
         enemiesToSpawn--;
     }
 }

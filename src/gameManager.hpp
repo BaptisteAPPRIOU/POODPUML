@@ -53,7 +53,7 @@ class GameManager : public Observer
         int score;
         int money;
         int lives;
-
+        int enemyCount = 0; // Add on claass diagram
         float elapsedTime; 
         bool timerStarted;
     public:

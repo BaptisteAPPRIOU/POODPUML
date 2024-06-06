@@ -4,13 +4,13 @@
 #include <iostream>
 using namespace std;
 
-BasicEnemy::BasicEnemy(Vector3 position) {                                                  // Constructor
+BasicEnemy::BasicEnemy(Vector3 position, int index_chosen) {                                                  // Constructor
     enemy = LoadModel("assets/models/soldier1.obj");
     textureEnemy = LoadTexture("assets/textures/texture_soldier1.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
-
+    index = 0;
     enemyPosition = position;
-    speed = 1.5f;
+    speed = 0.05f;
     maxHealth = health = 500;
     isAlive = true;
     value = 100;
@@ -31,4 +31,12 @@ int BasicEnemy::getEnemyValue() const{                                          
 
 bool BasicEnemy::hasReachedEnd(vector<Vector3>& path) const {                               // Check if the enemy has reached the end of the path
     return Enemy::hasReachedEnd(path);
+}
+
+int BasicEnemy::getIndex() const {                                                          // Get the index of the enemy
+    return index;
+}
+
+void BasicEnemy::setIndex(int index) {                                                      // Set the index of the enemy
+    this->index = index;
 }

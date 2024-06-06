@@ -1,5 +1,4 @@
 #include "basicTower.hpp"
-// #include "projectile.hpp"
 #include <iostream>
 
 BasicTower::BasicTower(Vector3 position) : Tower(position) {                                            // Constructor
@@ -35,8 +34,29 @@ void BasicTower::draw(Vector3 towerPosition) {                                  
     );
 }
 
-void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {         // Function to check if an enemy is in range
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {         // Function to check if an enemy is in range
+    for (Enemy* enemy : enemies) {
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+        float distance = Vector3Distance(enemyPosition, towerPosition);
+        if (distance <= range) {
+            enemyInRange = true;
+            timer += GetFrameTime();  // Increment the timer by the frame time
+            if (timer >= getFireRate()) {
+                if (std::find(index_to_shoot.begin(), index_to_shoot.end(), enemy->getIndex()) == index_to_shoot.end()) {
+                    addIndexOfEnemy(enemy->getIndex());
+                }
+                cout << "Index size dans le check " << getIndexOfEnemy().size() << endl;
+                Subject::notify(EventType::ENEMY_IN_RANGE_BT);
+                std::cout << "Firing projectile!" << std::endl;
+                timer = 0.0f;
+            }
+            return;
+        }
+        deleteIndexOfEnemy(enemy->getIndex());
+    }
+    enemyInRange = false;
+    timer = 0.0f;
+    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);
 }
 
 BasicTower::~BasicTower() {                                                                             // Destructor
@@ -58,4 +78,24 @@ float BasicTower::getFireRate() {                                               
 
 int BasicTower::getCost() {                                                                             // Function to get the tower cost
     return cost;
+}
+
+vector<int> BasicTower::getIndexOfEnemy() {
+    return index_to_shoot;
+}
+
+void BasicTower::addIndexOfEnemy(int index) {
+    index_to_shoot.push_back(index);
+}
+
+void BasicTower::deleteIndexOfEnemy(int index_to_delete) {
+    for (int indexs : index_to_shoot) {
+        if (indexs == index_to_delete) {
+            index_to_shoot.erase(std::remove(index_to_shoot.begin(), index_to_shoot.end(), index_to_delete), index_to_shoot.end());
+        }
+    }
+}
+
+void BasicTower::resetIndexOfEnemy() {
+    index_to_shoot.clear();
 }

@@ -1,5 +1,4 @@
 #include "normalTower.hpp"
-// #include "projectile.hpp"
 #include <iostream>
 
 NormalTower::NormalTower(Vector3 position) : Tower(position)  {
@@ -33,8 +32,29 @@ void NormalTower::draw(Vector3 towerPosition) {
     );
 }
 
-void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+    for (Enemy* enemy : enemies) {
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+        float distance = Vector3Distance(enemyPosition, towerPosition);
+        if (distance <= range) {
+            enemyInRange = true;
+            timer += GetFrameTime();  // Increment the timer by the frame time
+            if (timer >= getFireRate()) {
+                if (std::find(index_to_shoot.begin(), index_to_shoot.end(), enemy->getIndex()) == index_to_shoot.end()) {
+                    addIndexOfEnemy(enemy->getIndex());
+                }
+                cout << "Index size dans le check " << getIndexOfEnemy().size() << endl;
+                Subject::notify(EventType::ENEMY_IN_RANGE_NT);
+                std::cout << "Firing projectile!" << std::endl;
+                timer = 0.0f;
+            }
+            return;
+        }
+        deleteIndexOfEnemy(enemy->getIndex());
+    }
+    enemyInRange = false;
+    timer = 0.0f;
+    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);
 }
 
 NormalTower::~NormalTower() {
@@ -56,4 +76,24 @@ float NormalTower::getFireRate() {
 
 int NormalTower::getCost() {
     return cost;
+}
+
+vector<int> NormalTower::getIndexOfEnemy() {
+    return index_to_shoot;
+}
+
+void NormalTower::addIndexOfEnemy(int index) {
+    index_to_shoot.push_back(index);
+}
+
+void NormalTower::deleteIndexOfEnemy(int index_to_delete) {
+    for (int indexs : index_to_shoot) {
+        if (indexs == index_to_delete) {
+            index_to_shoot.erase(std::remove(index_to_shoot.begin(), index_to_shoot.end(), index_to_delete), index_to_shoot.end());
+        }
+    }
+}
+
+void NormalTower::resetIndexOfEnemy() {
+    index_to_shoot.clear();
 }
