@@ -35,7 +35,6 @@ class GameManager : public Observer
         vector<Tower*> towers;
         vector<Enemy*> enemies;  
         vector<Projectile*> projectiles;
-        bool isGameOver;
 
         vector<Vector3> path;
         bool isPlacingTower;
@@ -58,6 +57,7 @@ class GameManager : public Observer
         float elapsedTime; 
         bool timerStarted;
     public:
+        bool isGameOver;
         GameManager();
         ~GameManager();
         void update();

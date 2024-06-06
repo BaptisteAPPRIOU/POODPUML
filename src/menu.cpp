@@ -1,5 +1,6 @@
 #include "menu.hpp"
 #include "ui.hpp"
+#include <iostream>
 
 Menu::Menu() {
     ui = nullptr;
@@ -58,6 +59,7 @@ void Menu::drawMenu(){
 }
 
 void Menu::updateMenu() {
+    getCurrentState();
     if (ui == nullptr) {
         return;
     }
@@ -98,7 +100,9 @@ void Menu::updateMenu() {
             break;
         case GAME_OVER:
             if (ui->buttonBackGameOver->isClicked(mousePoint)) {
+                std::cout<<"back to main menu"<<std::endl;
                 currentState = MAIN_MENU;
+                isGameStarted = false;
             }
             break;
         case GAME_WIN:

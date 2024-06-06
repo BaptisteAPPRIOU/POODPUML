@@ -103,6 +103,7 @@ void GameManager::update() {
                 isGameOver = true;
                 menu.isGameStarted = false;
                 menu.setGameState(GameState::GAME_OVER);
+                // menu.getCurrentState();
             }
         } else if (!(*it)->isEnemyAlive()) {
             int enemyValue = (*it)->getEnemyValue();
@@ -156,6 +157,7 @@ void GameManager::update() {
 }
 
 void GameManager::draw() {
+    while(GameManager::menu.getCurrentState() == GameState::GAME){
         map.checkTileHover(camera);
 
         BeginDrawing();
@@ -204,6 +206,7 @@ void GameManager::draw() {
 
         EndDrawing();
         update();
+    }
 }
 
 void GameManager::updateCamera() {

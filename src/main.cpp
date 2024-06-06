@@ -24,6 +24,11 @@ int main() {
         } else {
             gameManager.update();
             gameManager.draw();
+
+            if (gameManager.isGameOver) {
+                menu.setGameState(GAME_OVER);
+                menu.isGameStarted = false;  // Ensure to set this to false
+            }
         }
 
         EndDrawing();
