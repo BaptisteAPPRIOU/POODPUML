@@ -25,10 +25,10 @@ public:                                                                    // Pu
     float getSpeed();
     bool slowed = false;
     bool isChecked = false;
-    int getIndex() const; // Add on class diagram
-    void setIndex(int index); // Add on class diagram
-    virtual int getEnemyValue() const;
-    virtual bool hasReachedEnd(std::vector<Vector3>& path) const;
+    virtual int getIndex() const =0; // Add on class diagram
+    virtual void setIndex(int index) =0; // Add on class diagram
+    virtual int getEnemyValue() const =0;
+    virtual bool hasReachedEnd(std::vector<Vector3>& path) const =0;
 
 protected:                                                                  // Protected members
     Model enemy;
