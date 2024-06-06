@@ -33,7 +33,28 @@ void NormalTower::draw(Vector3 towerPosition) {
 }
 
 void NormalTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
-    cout << "Checking enemy in range" << endl;
+    for (Enemy* enemy : enemies) {
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+        float distance = Vector3Distance(enemyPosition, towerPosition);
+        if (distance <= range) {
+            enemyInRange = true;
+            timer += GetFrameTime();  // Increment the timer by the frame time
+            if (timer >= getFireRate()) {
+                if (std::find(index_to_shoot.begin(), index_to_shoot.end(), enemy->getIndex()) == index_to_shoot.end()) {
+                    addIndexOfEnemy(enemy->getIndex());
+                }
+                cout << "Index size dans le check " << getIndexOfEnemy().size() << endl;
+                Subject::notify(EventType::ENEMY_IN_RANGE_NT);
+                std::cout << "Firing projectile!" << std::endl;
+                timer = 0.0f;
+            }
+            return;
+        }
+        deleteIndexOfEnemy(enemy->getIndex());
+    }
+    enemyInRange = false;
+    timer = 0.0f;
+    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);
 }
 
 NormalTower::~NormalTower() {
