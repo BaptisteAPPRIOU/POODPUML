@@ -27,8 +27,9 @@ int main() {
 
             if (menu.gameManager->isGameOver) {
                 menu.setGameState(GAME_OVER);
+                ui.drawGameOver();
+                ui.updateGameOver();
                 menu.isGameStarted = false;
-                menu.resetGameManager(); 
             }
             if(menu.gameManager->closeGame) {
                 menu.setGameState(MAIN_MENU);

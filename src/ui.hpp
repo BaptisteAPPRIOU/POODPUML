@@ -30,6 +30,8 @@ public:
     void resetPlacingTower();
     float getSelectedTowerFireRate() const;
     int getSelectedTowerCost() const;
+    void updateGameOver();
+    void drawInputTextBox();
 
     Button* buttonTower1;
     Button* buttonTower2;
@@ -71,6 +73,11 @@ private:
     float selectedTowerFireRate;
     bool towerShopClicked;
     int selectedTowerCost;
+
+    void handleTextInput();
+    std::string username;
+    const int maxNameLength;
+    bool typingUsername;
 };
 
 #endif // UI_HPP
