@@ -101,10 +101,9 @@ void GameManager::update() {
             if (lives <= 0) {
                 std::cout << "Game Over" << std::endl;
                 isGameOver = true;
-                menu.setFinalScore(score);
                 menu.isGameStarted = false;
                 menu.setGameState(GameState::GAME_OVER);
-                // menu.getCurrentState();
+                getScore();   
             }
         } else if (!(*it)->isEnemyAlive()) {
             int enemyValue = (*it)->getEnemyValue();

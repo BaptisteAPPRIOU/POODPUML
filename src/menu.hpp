@@ -32,8 +32,6 @@ class Menu
         bool isGameStarted=false;
         GameManager* gameManager;
         UI* ui;
-        void setFinalScore(int score);
-        int getFinalScore();
 
     private:
         int finalScore;

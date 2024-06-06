@@ -143,8 +143,6 @@ void UI::updateButtons(int money) {
         std::cout << "Close Game clicked" << std::endl;
         notify(EventType::GAME_CLOSE);
     }
-    
-
 }
 
 bool UI::isPlacingTower() const {
@@ -244,8 +242,6 @@ void UI::drawGameOver(){
     
     drawInputTextBox();
     DrawText("SCORE: ", 700, 400, 30, BLACK);
-    // DrawText(TextFormat("FINAL SCORE: %d", menu.getFinalScore()), 700, 200, 30, BLACK);
-
 
     // Draw the buttons
     buttonBackGameOver->update(GetMousePosition());

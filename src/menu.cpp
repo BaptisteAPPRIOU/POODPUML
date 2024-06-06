@@ -31,12 +31,12 @@ void Menu::setGameManager(GameManager* gameManager) {
 }
 
 void Menu::resetGameManager() {
+    // CloseWindow();
     delete gameManager;
     gameManager = new GameManager();
 }
 
 void Menu::resetUI() {
-    // delete ui;
     ui = new UI();
 }
 
@@ -129,7 +129,6 @@ void Menu::updateMenu() {
             }
             break;
         case GAME_WIN:
-            // Add game win update logic here
             break;
         case DIFFICULTY_MENU:
             if (ui->buttonBackDifficulty->isClicked(mousePoint)) {
@@ -152,12 +151,4 @@ void Menu::updateMenu() {
             break;
         }
     }
-}
-
-void Menu::setFinalScore(int score) {
-    finalScore = score;
-}
-
-int Menu::getFinalScore() {
-    return finalScore;
 }
