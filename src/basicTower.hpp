@@ -2,6 +2,7 @@
 #define BASIC_TOWER_HPP
 
 #include "tower.hpp"
+#include <algorithm>
 
 class BasicTower : public Tower                                                                             // Class for the basic tower inherited from the tower class
 {
@@ -18,11 +19,13 @@ class BasicTower : public Tower                                                 
         float getFireRate() override;
         int getCost() override;
         vector<int> index_to_shoot = {};
-        vector<int> getIndexOfEnemy();
-        void addIndexOfEnemy(int index);
+        vector<int> getIndexOfEnemy() override;
+        void addIndexOfEnemy(int index) override;
+        void deleteIndexOfEnemy(int index) override;
+        void resetIndexOfEnemy() override;
     private:                                                                                                // Private members
         bool enemyInRange;
-        static constexpr float fireRate = 2.5f;
+        static constexpr float fireRate = 1.5f;
 };
 
 #endif // BASIC_TOWER_HPP
