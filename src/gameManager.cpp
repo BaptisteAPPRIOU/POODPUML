@@ -52,9 +52,10 @@ GameManager::~GameManager() {
 
 void GameManager::initializeWaves() {
     waves = {
-        {10, "basic"},
-        {15, "medium"},
-        {20, "hard"}
+        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
+        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
+        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
+        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},        
     };
 }
 
@@ -372,6 +373,24 @@ void GameManager::spawnEnemy() {
         Test1->setIndex(enemyCount);
         enemies.push_back(Test1);
         enemiesToSpawn--;
+        if (currentWave % 4 == 0 && enemiesToSpawn == 0) {
+            for (int i=0; i<mediumEnemyCount; i++) {
+                enemyCount++;
+                Enemy* Test2 = Enemy::createEnemy("medium", Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
+                Test2->setIndex(enemyCount);
+                enemies.push_back(Test2);
+            }
+            mediumEnemyCount++;
+        }
+        if (currentWave % 5 == 0 && enemiesToSpawn == 0) {
+            for (int i=0; i<hardEnemyCount; i++) {
+                enemyCount++;
+                Enemy* Test3 = Enemy::createEnemy("hard", Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
+                Test3->setIndex(enemyCount);
+                enemies.push_back(Test3);
+            }
+            hardEnemyCount++;
+        }
     }
 }
 
