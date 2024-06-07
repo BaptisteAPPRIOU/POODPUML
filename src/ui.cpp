@@ -103,35 +103,26 @@ void UI::drawGameButtons(int money) {
     if (!buttonTower3Active) DrawText("NOT ENOUGH MONEY", 1450, 670, 20, RED);
 }
 
-
 void UI::updateButtons(int money) {
 
     Vector2 mousePoint = GetMousePosition();
     if (buttonTower1->isClicked(mousePoint)) {
-        std::cout << "Button 1 clicked" << std::endl;
         selectedTowerType = "basic";
         selectedTowerCost = 200;
-        // selectedTowerFireRate = 1.3f;
-        std::cout << "Selected Tower Fire Rate: " << selectedTowerFireRate << std::endl; // Add this line
         placingTower = true;
         towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
     }
-
     else if (buttonTower2->isClicked(mousePoint)) {
-        std::cout << "Button 2 clicked" << std::endl;
         selectedTowerType = "normal";
         selectedTowerCost = 400;
-        // selectedTowerFireRate = 2.0f;
         placingTower = true;
         towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
     }
     else if (buttonTower3->isClicked(mousePoint)) {
-        std::cout << "Button 3 clicked" << std::endl;
         selectedTowerType = "slow";
         selectedTowerCost = 500;
-        // selectedTowerFireRate = 0.0f;
         placingTower = true;
         towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
@@ -143,8 +134,6 @@ void UI::updateButtons(int money) {
         std::cout << "Close Game clicked" << std::endl;
         notify(EventType::GAME_CLOSE);
     }
-    
-
 }
 
 bool UI::isPlacingTower() const {
@@ -246,7 +235,6 @@ void UI::drawGameOver(){
     DrawText("SCORE: ", 700, 400, 30, BLACK);
     // DrawText(TextFormat("FINAL SCORE: %d", menu.getFinalScore()), 700, 200, 30, BLACK);
 
-
     // Draw the buttons
     buttonBackGameOver->update(GetMousePosition());
     buttonBackGameOver->drawButton();
@@ -279,5 +267,4 @@ void UI::drawInputTextBox() {
     if(IsKeyPressed(KEY_ENTER)){
         std::cout<<"Username entered: "<<username<<std::endl;
     }
-
 }
