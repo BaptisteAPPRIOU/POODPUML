@@ -56,6 +56,9 @@ class GameManager : public Observer
         int enemyCount = 0; // Add on claass diagram
         float elapsedTime; 
         bool timerStarted;
+
+        int mediumEnemyCount = 1;
+        int hardEnemyCount = 1;
     public:
         bool isGameOver;
         bool closeGame = false;
