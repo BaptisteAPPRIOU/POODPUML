@@ -22,6 +22,7 @@ void Menu::setGameState(GameState state) {
 GameState Menu::getCurrentState() {
     return currentState;
 }
+
 void Menu::setUI(UI* ui) {
     this->ui = ui;
 }
@@ -31,6 +32,7 @@ void Menu::setGameManager(GameManager* gameManager) {
 }
 
 void Menu::resetGameManager() {
+    CloseWindow();
     delete gameManager;
     gameManager = new GameManager();
 }
