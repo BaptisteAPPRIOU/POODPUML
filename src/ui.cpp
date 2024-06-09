@@ -23,7 +23,9 @@ UI::UI(): username(""){                                                         
     buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
 
     backgroundImage = LoadImage("assets/images/background.png");
+    backgroundCredits = LoadImage("assets/images/backgroundCredits.png");
     backgroundTexture = LoadTextureFromImage(backgroundImage);
+    backgroundCreditsTexture = LoadTextureFromImage(backgroundCredits);
 }
 
 UI::~UI() {                                                                                                     // Destructor for the UI class
@@ -169,15 +171,15 @@ void UI::drawGame() {                                                           
 }
 
 void UI::drawCredits(){                                                                                         // Function to draw the credits
+    DrawTexture(backgroundCreditsTexture, 0, 0, WHITE);
     buttonBackCredits->update(GetMousePosition());
     buttonBackCredits->drawButton();
-    DrawText("CREDITS", 700, 100, 50, BLACK);
-    DrawText("Developed by: ", 700, 200, 30, BLACK);
-    DrawText("Oussema FATNASSI", 700, 250, 30, BLACK);
-    DrawText("Baptiste APPRIOU", 700, 300, 30, BLACK);
-    DrawText("Ali ABAKAR ISSA", 700, 350, 30, BLACK);
-    DrawText("Grafics: ", 700, 400, 30, BLACK);
-    DrawText("Oussema FATNASSI", 700, 450, 30, BLACK);
+    DrawText("Developed by: ", 300, 100, 30, BLACK);
+    DrawText("Oussema FATNASSI", 800, 140, 30, BLACK);
+    DrawText("Baptiste APPRIOU", 300, 140, 30, BLACK);
+    DrawText("Ali ABAKAR ISSA", 1300, 140, 30, BLACK);
+    DrawText("Graphics by: ", 300, 200, 30, BLACK);
+    DrawText("Oussema FATNASSI", 800, 200, 30, BLACK);
 }
 
 void UI::drawLeaderboard(){                                                                                     // Function to draw the leaderboard
