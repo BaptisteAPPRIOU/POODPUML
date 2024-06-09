@@ -20,7 +20,7 @@ int main() {
             menu.drawMenu();
         } else {
             if (!menu.gameManager) {
-                menu.resetGameManager("easy");
+                menu.resetGameManager("closed");
                 menu.resetUI();
             }
             menu.gameManager->update();
@@ -33,7 +33,7 @@ int main() {
             if(menu.gameManager->closeGame) {
                 menu.setGameState(MAIN_MENU);
                 menu.isGameStarted = false;
-                menu.resetGameManager("easy");
+                menu.resetGameManager("closed");
                 menu.resetUI();
             }
         }
