@@ -134,7 +134,7 @@ void Menu::updateMenu() {
             if (ui->buttonBackGameWin->isClicked(mousePoint)) {
                 currentState = MAIN_MENU;
                 isGameStarted = false;
-                resetGameManager();
+                resetGameManager("easy");
                 resetUI();
             }
 
