@@ -64,6 +64,9 @@ private:
     Texture2D buttonHoverTexture3;
     Texture2D buttonTexture4;
     Texture2D buttonHoverTexture4;
+    Texture2D backgroundTexture;
+
+    Image backgroundImage;
 
     bool buttonTower1Active;
     bool buttonTower2Active;

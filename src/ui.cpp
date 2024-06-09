@@ -7,11 +7,11 @@ UI::UI(): username(""){
     buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
     buttonTower3 = new Button(1420, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "SLOW TOWER");
     buttonTower4 = new Button(1420, 780, 400, 120, buttonTexture4, buttonHoverTexture4, "SPECIAL TOWER");
-    buttonStart = new Button(1250, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
-    buttonLeaderboard = new Button(1250, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
-    buttonCredits = new Button(1250, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
-    buttonOptions = new Button(1250, 650, 400, 120, buttonTexture4, buttonHoverTexture4, "OPTIONS");
-    buttonQuit = new Button(1250, 800, 400, 120, buttonTexture1, buttonHoverTexture1, "QUIT");
+    buttonStart = new Button(1450, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
+    buttonLeaderboard = new Button(1450, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
+    buttonCredits = new Button(1450, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
+    buttonOptions = new Button(1450, 650, 400, 120, buttonTexture4, buttonHoverTexture4, "OPTIONS");
+    buttonQuit = new Button(1450, 800, 400, 120, buttonTexture1, buttonHoverTexture1, "QUIT");
     buttonBackLeaderboard = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonBackCredits = new Button(700, 850, 400, 120, buttonTexture2, buttonHoverTexture2, "BACK");
     buttonBackOptions = new Button(700, 850, 400, 120, buttonTexture3, buttonHoverTexture3, "BACK");
@@ -22,6 +22,8 @@ UI::UI(): username(""){
     buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonBackGameWin = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
+    backgroundImage = LoadImage("assets/images/background.png");
+    backgroundTexture = LoadTextureFromImage(backgroundImage);
 }
 
 UI::~UI() {
@@ -202,6 +204,7 @@ void UI::drawLeaderboard(){
 
 
 void UI::drawMainMenu(){
+    DrawTexture(backgroundTexture, 0, 0, WHITE);
     buttonStart->update(GetMousePosition());
     buttonLeaderboard->update(GetMousePosition());
     buttonCredits->update(GetMousePosition());
@@ -212,7 +215,6 @@ void UI::drawMainMenu(){
     buttonCredits->drawButton();
     buttonOptions->drawButton();
     buttonQuit->drawButton();
-    DrawText("TOWER DEFENSE", 700, 100, 50, BLACK);
 }
 
 void UI::drawDifficultyMenu(){
