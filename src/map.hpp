@@ -6,7 +6,7 @@
 #include "observer.hpp"
 using namespace std;
 
-class Map : public Subject  
+class Map : public Subject                                                          // Map class inherits from Subject        
 {
 private:                                                                            // Private members
     Model tile;
@@ -15,7 +15,6 @@ private:                                                                        
     Texture2D textureRoad;
     Vector3 tilePosition;
     Vector3 roadPosition;
-    // bool buildable;  
     vector<Vector3> path;
     vector<vector<bool>> buildableTiles;           
 
@@ -33,7 +32,6 @@ public:                                                                         
     void drawBoundingBox(vector<Vector3> path);            
     void loadModelsTextures(); 
     bool isTileBuildable(Vector3 position, const vector<Vector3>& path) const;
-    // void setTileNotBuildable(Vector3 position, bool buildable);
     Vector3 getHoveredTilePosition() const;
     void setPath(const std::vector<Vector3>& newPath);
     void setTileBuildable(Vector3 position, bool buildable); 

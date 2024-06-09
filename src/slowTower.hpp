@@ -4,11 +4,11 @@
 #include "tower.hpp"
 #include <algorithm>
 
-class SlowTower : public Tower
+class SlowTower : public Tower                                                                              // Class for the slow tower inherited from the tower class     
 {
-    public:
-        SlowTower(Vector3 position);
-        ~SlowTower() override;
+    public:                                                                                                 // Public members            
+        SlowTower(Vector3 position);                                                                        // Constructor    
+        ~SlowTower() override;                                                                              // Destructor
 
         void update() override;
         void hoverTower(Vector3 position) override;
@@ -23,10 +23,10 @@ class SlowTower : public Tower
         void addIndexOfEnemy(int index) override;
         void deleteIndexOfEnemy(int index) override;
         void resetIndexOfEnemy() override;
-    private:
+
+    private:                                                                                                // Private members  
         bool enemyInRange;
         static constexpr float fireRate = 0.0f;
-        // Projectile* projectile;
 };
 
 #endif // SLOW_TOWER_HPP

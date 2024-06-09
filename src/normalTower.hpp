@@ -4,11 +4,11 @@
 #include "tower.hpp"
 #include <algorithm>
 
-class NormalTower : public Tower
+class NormalTower : public Tower                                                                            // Class for the normal tower inherited from the tower class       
 {
-    public:
-        NormalTower(Vector3 position);
-        ~NormalTower() override;
+    public:                                                                                                 // Public members        
+        NormalTower(Vector3 position);                                                                      // Constructor      
+        ~NormalTower() override;                                                                            // Destructor           
 
         void update() override;
         void hoverTower(Vector3 position) override;
@@ -23,10 +23,10 @@ class NormalTower : public Tower
         void addIndexOfEnemy(int index) override;
         void deleteIndexOfEnemy(int index) override;
         void resetIndexOfEnemy() override;
-    private:
+
+    private:                                                                                                // Private members  
         bool enemyInRange;
         static constexpr float fireRate = 0.3f;
-        // Projectile* projectile;
 };
 
 #endif // NORMAL_TOWER_HPP

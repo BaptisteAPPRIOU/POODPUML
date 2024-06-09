@@ -22,7 +22,7 @@ Button::~Button() {                                                             
     UnloadTexture(hoverTexture);
 }
 
-void Button::drawButton() {
+void Button::drawButton() {                                                                                 // Function to draw the button with centered text
     update(GetMousePosition());
 
     Rectangle sourceRect = {0, 0, static_cast<float>(texture.width), static_cast<float>(texture.height)};
@@ -36,10 +36,9 @@ void Button::drawButton() {
     }
 
     const char* buttonText = text.c_str();
-    int fontSize = 20;  // Assuming a font size of 20
+    int fontSize = 20;  
     int textWidth = MeasureText(buttonText, fontSize);
-    int textHeight = fontSize;  // The text height is usually approximately equal to the font size
-
+    int textHeight = fontSize;  
     int textSizeX = (bounds.width - textWidth) / 2;
     int textSizeY = (bounds.height - textHeight) / 2;
 

@@ -8,18 +8,18 @@ int main() {
     InitWindow(1920, 1080, "Tower Defense Game");
     SetTargetFPS(60);
 
-    Menu menu;
-    UI ui;
+    Menu menu;                                                                      // Create a menu object
+    UI ui;                                                                          // Create a UI object  
 
-    menu.setUI(&ui);
-    ui.menu = &menu;
+    menu.setUI(&ui);                                                                // Set the UI of the menu    
+    ui.menu = &menu;                                                                // Set the menu of the UI
 
     while (!WindowShouldClose()) {
-        if (!menu.isGameStarted) {
+        if (!menu.isGameStarted) {                                                  // If the game is not started     
             menu.updateMenu();
             menu.drawMenu();
         } else {
-            if (!menu.gameManager) {
+            if (!menu.gameManager) {                                                // If the game manager is not created
                 menu.resetGameManager("easy");
                 menu.resetUI();
             }
@@ -49,6 +49,3 @@ int main() {
     CloseWindow();
     return 0;
 }
-
-
-// Visual Leak Detector pour tester les fuites de mémoire

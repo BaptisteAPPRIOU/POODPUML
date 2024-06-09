@@ -15,9 +15,9 @@
 #include "leaderboard.hpp"
 using namespace std;
 
-class GameManager : public Observer
+class GameManager : public Observer                                                             // GameManager class inherits from Observer
 {
-    private:
+    private:                                                                                    // Private members     
         Camera3D camera;
         const int screenWidth;
         const int screenHeight;
@@ -60,20 +60,20 @@ class GameManager : public Observer
 
         int mediumEnemyCount = 1;
         int hardEnemyCount = 1;
-    public:
+
+    public:                                                                                     // Public members                
         bool isGameOver;
         bool isGameWin;
         bool closeGame = false;
-        GameManager();
-        ~GameManager();
+        GameManager();                                                                          // Constructor      
+        ~GameManager();                                                                         // Destructor            
         void update();
         void draw();
         void updateCamera();
         void onNotify(EventType eventType) override;
         void checkTowersForEnemies();
         bool checkProjectileCollision(Projectile* projectile);
-        int getScore() const;
-
+        int getScore() const;   
 };
 
 #endif // GAME_MANAGER_HPP

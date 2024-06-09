@@ -5,7 +5,7 @@
 #include <algorithm>
 using namespace std;
 
-GameManager::GameManager()
+GameManager::GameManager()                                                                                          // Constructor
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(), 
@@ -16,13 +16,13 @@ GameManager::GameManager()
     ui.loadButtons();
 
 
-    camera.position = cameraPosition;
+    camera.position = cameraPosition;                                                                               // Camera values
     camera.target = cameraTarget;
     camera.up = cameraUp;
     camera.fovy = cameraFovy;
     camera.projection = CAMERA_PERSPECTIVE;
 
-    path = loadPathFromJSON("assets/paths/pathMedium.json");
+    path = loadPathFromJSON("assets/paths/pathMedium.json");                                                        // Load the path from a JSON file
 
     map.drawMap(path);
 
@@ -38,7 +38,7 @@ GameManager::GameManager()
     menu.isGameStarted = true;   
 }
 
-GameManager::~GameManager() {
+GameManager::~GameManager() {                                                                                       // Destructor
     for (Enemy* enemy : enemies) {
         delete enemy;
     }
@@ -50,7 +50,7 @@ GameManager::~GameManager() {
     }
 }
 
-void GameManager::initializeWaves() {
+void GameManager::initializeWaves() {                                                                               // Function to initialize the waves
     waves = {
         {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
         {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
@@ -59,7 +59,7 @@ void GameManager::initializeWaves() {
     };
 }
 
-void GameManager::startNextWave() {
+void GameManager::startNextWave() {                                                                                 // Function to start the next wave of enemies
     if (currentWave < static_cast<int>(waves.size())) {
         enemyCount = 0;
         for (Tower* tower : towers) {
@@ -82,11 +82,10 @@ void GameManager::startNextWave() {
     }
 }
 
-void GameManager::update() {
+void GameManager::update() {                                                                                        // Update function                   
     if (isGameOver || isGameWin) return;
     map.checkTileHover(camera);
 
-    // Update enemy spawning
     if (enemiesToSpawn > 0) {
         enemySpawnTimer += GetFrameTime();
         if (enemySpawnTimer >= 5.0f) {
@@ -98,24 +97,23 @@ void GameManager::update() {
         }
     }
 
-    // Update all enemies
-    for (auto it = enemies.begin(); it != enemies.end();) {
+    for (auto it = enemies.begin(); it != enemies.end();) {                                                         // Update enemies
         (*it)->move(path);
         (*it)->update(camera);
 
-        if ((*it)->hasReachedEnd(path)) {
+        if ((*it)->hasReachedEnd(path)) {                                                                           // Check if an enemy has reached the end of the path
             std::cout << "An enemy has reached the end of the path!" << std::endl;
             delete *it;
             it = enemies.erase(it);
             lives -= 1;
             enemiesRemaining--;
-            if (lives <= 0) {
+            if (lives <= 0) {                                                                                       // Check if the player has lost all lives
                 std::cout << "Game Over" << std::endl;
                 isGameOver = true;
                 menu.isGameStarted = false;
                 menu.setGameState(GameState::GAME_OVER);
             }
-        } else if (!(*it)->isEnemyAlive()) {
+        } else if (!(*it)->isEnemyAlive()) {                                                                        // Check if an enemy is dead
             int enemyValue = (*it)->getEnemyValue();
             score += enemyValue;
             money += enemyValue / 2;
@@ -127,19 +125,16 @@ void GameManager::update() {
         }
     }
 
-    // Check if wave is completed
-    if (enemiesToSpawn == 0 && enemies.empty()) {
+    if (enemiesToSpawn == 0 && enemies.empty()) {                                                                   // Check if all enemies have been spawned and defeated to start the next wave
         startNextWave();
     }
 
-    // Update towers
-    for (Tower* tower : towers) {
+    for (Tower* tower : towers) {                                                                                   // Update towers
         tower->checkEnemyInRange(enemies);
         tower->update();
     }
 
-    // Update projectiles and check collisions
-    for (auto it = projectiles.begin(); it != projectiles.end();) {
+    for (auto it = projectiles.begin(); it != projectiles.end();) {                                                 // Update projectiles and check for collisions
         (*it)->update();
         bool collided = checkProjectileCollision(*it);
         if (collided) {
@@ -155,16 +150,15 @@ void GameManager::update() {
         }
     }
 
-    if (timerStarted) {
+    if (timerStarted) {                                                                                             // Update the timer
         elapsedTime += GetFrameTime();
     }
 
     updateCamera();
     ui.updateButtons(money);
-    cout<< "Current state "<<menu.getCurrentState()<<endl;
 }
 
-void GameManager::draw() {
+void GameManager::draw() {                                                                                          // Draw function                  
     while(GameManager::menu.getCurrentState() == GameState::GAME){
         map.checkTileHover(camera);
 
@@ -174,18 +168,18 @@ void GameManager::draw() {
 
         BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
         BeginMode3D(camera);
-        for (Enemy* enemy : enemies) {
+        for (Enemy* enemy : enemies) {                                                                              // Draw enemies
             enemy->move(path);
             enemy->update(camera);
         }
-        for (Tower* tower : towers) {
+        for (Tower* tower : towers) {                                                                               // Draw towers
             tower->checkEnemyInRange(enemies);
             tower->update();
         }
-        if (isPlacingTower && hoveringTower) {
+        if (isPlacingTower && hoveringTower) {                                                                      // Draw hovering tower                        
             hoveringTower->hoverTower(map.getHoveredTilePosition());
         }
-        for (Projectile* projectile : projectiles) {
+        for (Projectile* projectile : projectiles) {                                                                // Draw projectiles             
             projectile->draw();
         }
         map.drawMap(path);
@@ -193,7 +187,6 @@ void GameManager::draw() {
         EndMode3D();
         EndScissorMode();
 
-        DrawText("Welcome to the Tower Defense Game", 910, 10, 20, DARKGRAY);
         DrawFPS(10, 10);
         DrawRectangleLines(regionX, regionY, regionWidth, regionHeight, BLACK);
         ui.drawGameButtons(money);
@@ -210,7 +203,7 @@ void GameManager::draw() {
     }
 }
 
-void GameManager::updateCamera() {
+void GameManager::updateCamera() {                                                                                  // Update camera function based on user input             
     int mouseX = GetMouseX();
     int mouseY = GetMouseY();
     if (mouseX >= regionX && mouseX <= regionX + regionWidth &&
@@ -222,9 +215,9 @@ void GameManager::updateCamera() {
     }
 }
 
-void GameManager::onNotify(EventType eventType) {
+void GameManager::onNotify(EventType eventType) {                                                                   // Notify function for the observer pattern           
     switch (eventType) {
-        case EventType::TOWER_CREATION: {
+        case EventType::TOWER_CREATION: {                                                                           // Check if a tower is being placed
             int selectedTowerCost = ui.getSelectedTowerCost();
             if (money >= selectedTowerCost) {
                 isPlacingTower = true;
@@ -235,7 +228,7 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
-        case EventType::TILE_CLICKED: {
+        case EventType::TILE_CLICKED: {                                                                             // Check if a tile is clicked
             if (isPlacingTower) {
                 if (hoveringTower) {
                     Vector3 hoveredPosition = map.getHoveredTilePosition();
@@ -265,13 +258,13 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
-        case EventType::ENEMY_IN_RANGE_BT: {
+        case EventType::ENEMY_IN_RANGE_BT: {                                                                        // Check if an enemy is in range for a basic tower
             std::cout << "Notification received: Enemy in range for a basic tower" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if(tower->getType() == "basic") {
-                        if (tower->enemyInRange) {
-                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                        if (tower->enemyInRange) {                                                                  // Check if an enemy is in range and initialize the projectile
+                            for(int indexs : tower->getIndexOfEnemy()) {            
                                 if (indexs == enemy->getIndex()) {
                                     cout << "basic shoot" << endl;
                                     Vector3 towerPosition = tower->getTowerPosition();
@@ -289,13 +282,13 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
-        case EventType::ENEMY_IN_RANGE_NT:{
+        case EventType::ENEMY_IN_RANGE_NT:{                                                                         // Check if an enemy is in range for a normal tower
             std::cout << "Notification received: Enemy in range for a normal tower" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if(tower->getType() == "normal") {
                         if (tower->enemyInRange) {
-                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                            for(int indexs : tower->getIndexOfEnemy()) {                                            // Check if the index is already in the array and if so, shoot
                                 if (indexs == enemy->getIndex()) {
                                     cout << "basic shoot" << endl;
                                     Vector3 towerPosition = tower->getTowerPosition();
@@ -313,13 +306,13 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
-        case EventType::ENEMY_IN_RANGE_ST: {
+        case EventType::ENEMY_IN_RANGE_ST: {                                                                        // Check if an enemy is in range for a slow tower
             std::cout << "Notification received: Enemy in range for a slow tower" << std::endl;
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if(tower->getType() == "slow") {
                         if (tower->enemyInRange) {
-                            for(int indexs : tower->getIndexOfEnemy()) {            // Check si l'index est déjà dans le tableau et si oui on tire
+                            for(int indexs : tower->getIndexOfEnemy()) {            
                                 if (indexs == enemy->getIndex()) {  
                                     if (!enemy->slowed) {
                                         enemy->setSpeed(enemy->getSpeed() * 0.5f);
@@ -334,7 +327,7 @@ void GameManager::onNotify(EventType eventType) {
             }
             break;
         }
-        case EventType::ENEMY_OUT_OF_RANGE: {
+        case EventType::ENEMY_OUT_OF_RANGE: {                                                                       // Check if an enemy is out of range for a slow tower and reset the speed
             for (Tower* tower : towers) {
                 for (Enemy* enemy : enemies) {
                     if (!enemy->isChecked) {
@@ -351,7 +344,7 @@ void GameManager::onNotify(EventType eventType) {
                 enemy->isChecked = false;
             }
             break;
-        } case EventType::GAME_CLOSE: {
+        } case EventType::GAME_CLOSE: {                                                                             // Check if the game is closed
             std::cout << "Notification received: Game close" << std::endl;
             menu.setGameState(GameState::MAIN_MENU);
             closeGame = true;
@@ -363,13 +356,13 @@ void GameManager::onNotify(EventType eventType) {
     
 }
 
-void GameManager::checkTowersForEnemies() {
+void GameManager::checkTowersForEnemies() {                                                                         // Function to check if an enemy is in range for a tower
     for (Tower* tower : towers) {
         tower->checkEnemyInRange(enemies);  
     }
 }
 
-void GameManager::spawnEnemy() {
+void GameManager::spawnEnemy() {                                                                                    // Function to spawn an enemy based on the wave and enemy type
     if (enemiesToSpawn > 0) {
         enemyCount++;
         Enemy* Test1 = Enemy::createEnemy(enemyTypeToSpawn, Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
@@ -397,7 +390,7 @@ void GameManager::spawnEnemy() {
     }
 }
 
-bool GameManager::checkProjectileCollision(Projectile* projectile) {
+bool GameManager::checkProjectileCollision(Projectile* projectile) {                                                // Function to check if a projectile has collided with an enemy
     Vector3 projectilePosition = projectile->getPosition();
     int projectileDamage = projectile->getDamage();
     for (auto it = enemies.begin(); it != enemies.end();) {
@@ -421,6 +414,6 @@ bool GameManager::checkProjectileCollision(Projectile* projectile) {
     return false;
 }
 
-int GameManager::getScore() const{
+int GameManager::getScore() const{                                                                                  // Function to get the score
     return score;
 }

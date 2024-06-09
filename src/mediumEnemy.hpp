@@ -6,11 +6,11 @@
 #include <iostream>
 using namespace std;
 
-class MediumEnemy : public Enemy                                // MediumEnemy class inherits from Enemy class
+class MediumEnemy : public Enemy                                            // MediumEnemy class inherits from Enemy class
 {
-public:                                                         // Public members
-    MediumEnemy(Vector3 position, int index_chosen);                              // Constructor for the medium enemy
-    ~MediumEnemy() {}                                           // Destructor for the medium enemy
+public:                                                                     // Public members
+    MediumEnemy(Vector3 position, int index_chosen);                        // Constructor for the medium enemy
+    ~MediumEnemy() {}                                                       // Destructor for the medium enemy
     int index = 0; // Add on class diagram
     void update(Camera camera) override;
     void move(const vector<Vector3>& path) override;

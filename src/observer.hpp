@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-enum class EventType {
+enum class EventType {                                                                  // Enum class for the event types 
     TOWER_CREATION,
     TILE_CLICKED,
     ENEMY_IN_RANGE_BT,
@@ -15,18 +15,18 @@ enum class EventType {
     GAME_CLOSE
 };
 
-class Observer
+class Observer                                                                          // Observer class          
 {
-    public:
-        virtual ~Observer() {}
-        virtual void onNotify(EventType eventType) = 0;
+    public:                                                                             // Public members
+        virtual ~Observer() {}                                                          // Virtual destructor     
+        virtual void onNotify(EventType eventType) = 0;                                 // Virtual function to notify the observer       
 };
 
-class Subject
+class Subject                                                                           // Subject class   
 {
-    private:
+    private:                                                                            // Private members      
         vector<Observer*> observers;
-    public:
+    public:                                                                             // Public members        
         void addObserver(Observer* observer);
         void removeObserver(Observer* observer);
         void notify(EventType eventType);

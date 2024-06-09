@@ -1,11 +1,12 @@
 #ifndef MENU_HPP
 #define MENU_HPP
-#include <string> // Add this line to include the <string> header file
+#include <string> 
 using namespace std;
 
-class GameManager;
-class UI;
-enum GameState {
+class GameManager;                                                  // Forward declaration of GameManager class
+class UI;                                                           // Forward declaration of UI class     
+
+enum GameState {                                                    // Enum class for the game state            
     MAIN_MENU,
     DIFFICULTY_MENU,
     LEADERBOARD,
@@ -17,11 +18,11 @@ enum GameState {
     QUIT
 };
 
-class Menu
+class Menu                                                          // Menu class         
 {
     public:
-        Menu();
-        ~Menu();
+        Menu();                                                     // Constructor    
+        ~Menu();                                                    // Destructor 
         void setGameState(GameState state);
         void drawMenu();
         GameState getCurrentState();

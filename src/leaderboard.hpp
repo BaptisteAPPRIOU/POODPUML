@@ -5,11 +5,11 @@
 #include <fstream>
 #include <iostream>
 
-class Leaderboard
+class Leaderboard                                                                   // Leaderboard class                            
 {
-public:
-    Leaderboard();
-    ~Leaderboard();
+public:                                                                             // Public members            
+    Leaderboard();                                                                  // Constructor        
+    ~Leaderboard();                                                                 // Destructor    
 
     void setScore(int score);
     void setUsername(const std::string& username);
@@ -19,7 +19,7 @@ public:
     static void displayLeaderboard();
     std::vector<std::pair<std::string, int>> loadFromTxt() const;
 
-private:
+private:                                                                            // Private members  
     std::string username;
     int score;
 };

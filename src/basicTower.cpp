@@ -34,13 +34,13 @@ void BasicTower::draw(Vector3 towerPosition) {                                  
     );
 }
 
-void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {         // Function to check if an enemy is in range
+void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {                                // Function to check if an enemy is in range
     for (Enemy* enemy : enemies) {
         Vector3 enemyPosition = enemy->getEnemyPosition();
         float distance = Vector3Distance(enemyPosition, towerPosition);
         if (distance <= range) {
             enemyInRange = true;
-            timer += GetFrameTime();  // Increment the timer by the frame time
+            timer += GetFrameTime();  
             if (timer >= getFireRate()) {
                 if (std::find(index_to_shoot.begin(), index_to_shoot.end(), enemy->getIndex()) == index_to_shoot.end()) {
                     addIndexOfEnemy(enemy->getIndex());

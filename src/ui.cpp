@@ -1,12 +1,11 @@
 #include "ui.hpp"
 #include <iostream>
 
-UI::UI(): username(""){
+UI::UI(): username(""){                                                                                         // Constructor for the UI class
     loadTextures();
     buttonTower1 = new Button(1420, 250, 400, 120, buttonTexture1, buttonHoverTexture1, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
     buttonTower3 = new Button(1420, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "SLOW TOWER");
-    buttonTower4 = new Button(1420, 780, 400, 120, buttonTexture4, buttonHoverTexture4, "SPECIAL TOWER");
     buttonStart = new Button(1450, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
     buttonLeaderboard = new Button(1450, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
     buttonCredits = new Button(1450, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
@@ -26,21 +25,17 @@ UI::UI(): username(""){
     backgroundTexture = LoadTextureFromImage(backgroundImage);
 }
 
-UI::~UI() {
-    // Unload textures
+UI::~UI() {                                                                                                     // Destructor for the UI class
     UnloadTexture(buttonTexture1);
     UnloadTexture(buttonHoverTexture1);
     UnloadTexture(buttonTexture2);
     UnloadTexture(buttonHoverTexture2);
     UnloadTexture(buttonTexture3);
     UnloadTexture(buttonHoverTexture3);
-    UnloadTexture(buttonTexture4);
-    UnloadTexture(buttonHoverTexture4);
 
     delete buttonTower1;
     delete buttonTower2;
     delete buttonTower3;
-    delete buttonTower4;
     delete buttonStart;
     delete buttonLeaderboard;
     delete buttonCredits;
@@ -58,40 +53,35 @@ UI::~UI() {
     delete buttonBackGameWin;
 }
 
-void UI::loadButtons() {
+void UI::loadButtons() {                                                                                        // Function to load the buttons
     loadTextures();
     buttonTower1 = new Button(1420, 250, 400, 120, buttonTexture1, buttonHoverTexture1, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
     buttonTower3 = new Button(1420, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "SLOW TOWER");
-    buttonTower4 = new Button(1420, 780, 400, 120, buttonTexture4, buttonHoverTexture4, "SPECIAL TOWER");
     buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
 }
 
-void UI::loadTextures() {
+void UI::loadTextures() {                                                                                       // Function to load the textures
     buttonTexture1 = LoadTexture("assets/images/button.png");
     buttonHoverTexture1 = LoadTexture("assets/images/buttonHover.png");
     buttonTexture2 = LoadTexture("assets/images/button.png");
     buttonHoverTexture2 = LoadTexture("assets/images/buttonHover.png");
     buttonTexture3 = LoadTexture("assets/images/button.png");
     buttonHoverTexture3 = LoadTexture("assets/images/buttonHover.png");
-    buttonTexture4 = LoadTexture("assets/images/button.png");
-    buttonHoverTexture4 = LoadTexture("assets/images/buttonHover.png");
 }
 
-void UI::drawGameButtons(int money) {
-    buttonTower1Active = money >= 200; // Basic tower cost
-    buttonTower2Active = money >= 400; // Normal tower cost
-    buttonTower3Active = money >= 500; // Slow tower cost
+void UI::drawGameButtons(int money) {                                                                           // Function to draw the game buttons
+    buttonTower1Active = money >= 200; 
+    buttonTower2Active = money >= 400; 
+    buttonTower3Active = money >= 500; 
 
     buttonTower1->update(GetMousePosition());
     buttonTower2->update(GetMousePosition());
     buttonTower3->update(GetMousePosition());
-    buttonTower4->update(GetMousePosition());
     buttonCloseGame->update(GetMousePosition());
     buttonTower1->drawButton();
     buttonTower2->drawButton();
     buttonTower3->drawButton();
-    buttonTower4->drawButton();
     buttonCloseGame->drawButton();
 
     if(buttonTower1Active) DrawText("COST: 200", 1450, 315, 20, BLACK);
@@ -107,8 +97,7 @@ void UI::drawGameButtons(int money) {
     if (!buttonTower3Active) DrawText("NOT ENOUGH MONEY", 1450, 670, 20, RED);
 }
 
-void UI::updateButtons(int money) {
-
+void UI::updateButtons(int money) {                                                                             // Function to update the buttons based on the money
     Vector2 mousePoint = GetMousePosition();
     if (buttonTower1->isClicked(mousePoint)) {
         selectedTowerType = "basic";
@@ -140,59 +129,58 @@ void UI::updateButtons(int money) {
     }
 }
 
-bool UI::isPlacingTower() const {
+bool UI::isPlacingTower() const {                                                                               // Function to check if a tower is being placed
     return placingTower;
 }
 
-string UI::getSelectedTowerType() const {
+string UI::getSelectedTowerType() const {                                                                       // Function to get the selected tower type
     if (towerShopClicked) {
         return selectedTowerType;
     }
     return "";
 }
 
-void UI::resetPlacingTower() {
+void UI::resetPlacingTower() {                                                                                  // Function to reset the placing tower
     placingTower = false;
     selectedTowerType.clear();
 }
 
-float UI::getSelectedTowerFireRate() const {
+float UI::getSelectedTowerFireRate() const {                                                                    // Function to get the selected tower fire rate             
     return selectedTowerFireRate;
 }
 
-int UI::getSelectedTowerCost() const {
+int UI::getSelectedTowerCost() const {                                                                          // Function to get the selected tower cost
     return selectedTowerCost;
 }
 
-void UI::drawGame() {
+void UI::drawGame() {                                                                                           // Function to draw the game               
     drawGameButtons(500);
 }
 
-void UI::drawCredits(){
+void UI::drawCredits(){                                                                                         // Function to draw the credits
     buttonBackCredits->update(GetMousePosition());
     buttonBackCredits->drawButton();
     DrawText("CREDITS", 700, 100, 50, BLACK);
     DrawText("Developed by: ", 700, 200, 30, BLACK);
-    DrawText("John Doe", 700, 250, 30, BLACK);
-    DrawText("Jane Doe", 700, 300, 30, BLACK);
-    DrawText("Special thanks to: ", 700, 400, 30, BLACK);
-    DrawText("Raylib", 700, 450, 30, BLACK);
-    DrawText("Google", 700, 500, 30, BLACK);
+    DrawText("Oussema FATNASSI", 700, 250, 30, BLACK);
+    DrawText("Baptiste APPRIOU", 700, 300, 30, BLACK);
+    DrawText("Ali ABAKAR ISSA", 700, 350, 30, BLACK);
+    DrawText("Grafics: ", 700, 400, 30, BLACK);
+    DrawText("Oussema FATNASSI", 700, 450, 30, BLACK);
 }
 
-void UI::drawLeaderboard(){
+void UI::drawLeaderboard(){                                                                                     // Function to draw the leaderboard
     buttonBackLeaderboard->update(GetMousePosition());
     buttonBackLeaderboard->drawButton();
     DrawText("LEADERBOARD", 700, 100, 50, BLACK);
     
-    Leaderboard leaderboard; // Create an instance of the Leaderboard class
+    Leaderboard leaderboard; 
 
-    // Load and display leaderboard data from file
-    std::vector<std::pair<std::string, int>> leaderboardData = leaderboard.loadFromTxt();
+    std::vector<std::pair<std::string, int>> leaderboardData = leaderboard.loadFromTxt();                       // Load the leaderboard data from the file
     int yPosition = 200;
     int rank = 1;
     int scoreXPosition = 900; 
-    int maxEntries = std::min(10, static_cast<int>(leaderboardData.size())); // Display top 10 entries
+    int maxEntries = std::min(10, static_cast<int>(leaderboardData.size()));                                    // Display top 10 entries
     for (int i = 0; i < maxEntries; ++i) {
         const auto& entry = leaderboardData[i];
         std::string entryText = TextFormat("%d. %-20s", rank++, entry.first.c_str());
@@ -202,8 +190,7 @@ void UI::drawLeaderboard(){
     }
 }
 
-
-void UI::drawMainMenu(){
+void UI::drawMainMenu(){                                                                                        // Function to draw the main menu                   
     DrawTexture(backgroundTexture, 0, 0, WHITE);
     buttonStart->update(GetMousePosition());
     buttonLeaderboard->update(GetMousePosition());
@@ -217,7 +204,7 @@ void UI::drawMainMenu(){
     buttonQuit->drawButton();
 }
 
-void UI::drawDifficultyMenu(){
+void UI::drawDifficultyMenu(){                                                                                  // Function to draw the difficulty menu
     buttonEasy->update(GetMousePosition());
     buttonMedium->update(GetMousePosition());
     buttonHard->update(GetMousePosition());
@@ -228,7 +215,7 @@ void UI::drawDifficultyMenu(){
     buttonBackDifficulty->drawButton();
 }
 
-void UI::drawOptions(){
+void UI::drawOptions(){                                                                                         // Function to draw the options
     buttonBackOptions->update(GetMousePosition());
     buttonBackOptions->drawButton();
     DrawText("OPTIONS", 700, 100, 50, BLACK);
@@ -236,7 +223,7 @@ void UI::drawOptions(){
     DrawText("MUSIC", 700, 250, 30, BLACK);
 }
 
-void UI::drawGameOver(int finalScore){
+void UI::drawGameOver(int finalScore){                                                                          // Function to draw the game over screen                 
     ClearBackground(RAYWHITE);
     DrawText("GAME OVER", 700, 100, 50, BLACK);
     DrawText("YOU LOSE", 700, 200, 30, BLACK);
@@ -245,7 +232,6 @@ void UI::drawGameOver(int finalScore){
     drawInputTextBox();
     DrawText(TextFormat("SCORE: %d", finalScore), 700, 400, 30, BLACK);
 
-    // Draw the buttons
     buttonBackGameOver->update(GetMousePosition());
     buttonBackGameOver->drawButton();
 
@@ -257,7 +243,7 @@ void UI::drawGameOver(int finalScore){
     }
 }
 
-void UI::drawGameWin(int finalScore){
+void UI::drawGameWin(int finalScore){                                                                           // Function to draw the game win screen                
     ClearBackground(RAYWHITE);
     DrawText("YOU WON", 700, 200, 30, BLACK);
     DrawText("ENTER YOUR USERNAME AND PRESS ENTER:", 700, 300, 30, BLACK);
@@ -265,7 +251,6 @@ void UI::drawGameWin(int finalScore){
     drawInputTextBox();
     DrawText(TextFormat("SCORE: %d", finalScore), 700, 400, 30, BLACK);
 
-    // Draw the buttons
     buttonBackGameWin->update(GetMousePosition());
     buttonBackGameWin->drawButton();
 
@@ -277,19 +262,16 @@ void UI::drawGameWin(int finalScore){
     }
 }
 
-void UI::drawInputTextBox() {
-    // Input box for username
+void UI::drawInputTextBox() {                                                                                   // Function to draw the input text box             
     int textBoxWidth = 500;
     int textBoxHeight = 40;
     int textBoxX = (GetScreenWidth() - textBoxWidth) / 2;
     int textBoxY = 500;
     DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, LIGHTGRAY);
 
-    // Draw the updated username input string
-    DrawText(username.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);
+    DrawText(username.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);                                          // Draw the updated username input string
 
-    // Get input from user
-    int key = GetCharPressed();
+    int key = GetCharPressed();                                                                                 // Get the key pressed by the user               
     if (key > 0 && key != 127) {
         username += (char)key;
     }

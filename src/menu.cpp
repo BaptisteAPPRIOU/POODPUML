@@ -5,45 +5,45 @@
 #include <string>
 using namespace std;
 
-Menu::Menu() {
+Menu::Menu() {                                                                  // Constructor for the Menu class
     ui = nullptr;
     gameManager = nullptr;
     currentState = MAIN_MENU;
     isGameStarted = false;
 }
 
-Menu::~Menu() {
+Menu::~Menu() {                                                                 // Destructor for the Menu class
     delete ui;
     delete gameManager;
 }
 
-void Menu::setGameState(GameState state) {
+void Menu::setGameState(GameState state) {                                      // Set the game state     
     currentState = state;
 }
 
-GameState Menu::getCurrentState() {
+GameState Menu::getCurrentState() {                                             // Get the current game state        
     return currentState;
 }
 
-void Menu::setUI(UI* ui) {
+void Menu::setUI(UI* ui) {                                                      // Set the UI of the menu     
     this->ui = ui;
 }
 
-void Menu::setGameManager(GameManager* gameManager) {
+void Menu::setGameManager(GameManager* gameManager) {                           // Set the game manager of the menu    
     this->gameManager = gameManager;
 }
 
-void Menu::resetGameManager(string difficulty) {
+void Menu::resetGameManager(string difficulty) {                                // Reset the game manager   
     CloseWindow();
     delete gameManager;
     gameManager = new GameManager();
 }
 
-void Menu::resetUI() {
+void Menu::resetUI() {                                                          // Reset the UI
     ui = new UI();
 }
 
-void Menu::drawMenu(){
+void Menu::drawMenu(){                                                          // Draw the menu based on the current game state
     if(ui == nullptr) {
         return;
     }
@@ -79,7 +79,7 @@ void Menu::drawMenu(){
     }
 }
 
-void Menu::updateMenu() {
+void Menu::updateMenu() {                                                       // Update the menu based on the current game state         
     getCurrentState();
     if (ui == nullptr) {
         return;
@@ -87,7 +87,7 @@ void Menu::updateMenu() {
 
     Vector2 mousePoint = GetMousePosition();
 
-    switch (currentState) {
+    switch (currentState) {                                                     // Switch statement to check the current game state
         case MAIN_MENU:
             if (ui->buttonStart->isClicked(mousePoint)) {
                 currentState = DIFFICULTY_MENU;

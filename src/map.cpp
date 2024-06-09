@@ -54,8 +54,8 @@ void Map::checkTileHover(Camera3D& camera) {                                    
     float step = 3.0f;
     isTileHovered = false;
 
-    for (float z = start; z < end; z += step) {
-        for (float x = start; x < end; x += step) {
+    for (float z = start; z < end; z += step) {                                         // For each tile, check if the ray intersects with the tile
+        for (float x = start; x < end; x += step) {                                     // If the ray intersects with the tile, set the hovered tile position
             BoundingBox tileBounds = {
                 (Vector3){ x - step / 2, 0, z - step / 2 },
                 (Vector3){ x + step / 2, 1, z + step / 2 }

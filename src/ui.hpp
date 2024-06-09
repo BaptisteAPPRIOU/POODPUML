@@ -7,12 +7,12 @@
 #include "observer.hpp"
 #include "leaderboard.hpp"
 
-class Menu;
+class Menu;                                                             // Forward declaration of the Menu class
 
-class UI : public Subject {
-public:
-    UI();
-    ~UI();
+class UI : public Subject {                                             // UI class inherits from Subject       
+public:                                                                 // Public members
+    UI();                                                               // Constructor     
+    ~UI();                                                              // Destructor     
     void drawGame();
     void drawMainMenu();
     void drawDifficultyMenu();
@@ -55,7 +55,8 @@ public:
 
     Menu* menu;
     Leaderboard leaderboard;
-private:
+
+private:                                                                // Private members      
     Texture2D buttonTexture1;
     Texture2D buttonHoverTexture1;
     Texture2D buttonTexture2;
@@ -79,7 +80,6 @@ private:
     int selectedTowerCost;
 
     std::string username;
-
 };
 
 #endif // UI_HPP

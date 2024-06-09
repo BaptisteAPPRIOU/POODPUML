@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-MediumEnemy::MediumEnemy(Vector3 position, int index_chosen) {                                // Constructor for the medium enemy
+MediumEnemy::MediumEnemy(Vector3 position, int index_chosen) {                                  // Constructor for the medium enemy
     enemy = LoadModel("assets/models/enemy.obj");
     textureEnemy = LoadTexture("assets/textures/texture_enemy2.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
@@ -16,27 +16,27 @@ MediumEnemy::MediumEnemy(Vector3 position, int index_chosen) {                  
     value = 200;
 }
 
-void MediumEnemy::update(Camera camera) {                                   // Update the medium enemy
+void MediumEnemy::update(Camera camera) {                                                       // Update the medium enemy
     DrawModel(enemy, enemyPosition, 1.0f, WHITE);
     drawLifeBar(camera);
 }
 
-void MediumEnemy::move(const std::vector<Vector3>& path) {                  // Move the medium enemy
+void MediumEnemy::move(const std::vector<Vector3>& path) {                                      // Move the medium enemy
     Enemy::move(path);
 }
 
-int MediumEnemy::getEnemyValue() const{                                     // Get the value of the medium enemy
+int MediumEnemy::getEnemyValue() const{                                                         // Get the value of the medium enemy
     return value;
 }
 
-bool MediumEnemy::hasReachedEnd(vector<Vector3>& path) const {              // Check if the medium enemy has reached the end
+bool MediumEnemy::hasReachedEnd(vector<Vector3>& path) const {                                  // Check if the medium enemy has reached the end
     return Enemy::hasReachedEnd(path);
 }
 
-int MediumEnemy::getIndex() const {                                                          // Get the index of the enemy
+int MediumEnemy::getIndex() const {                                                             // Get the index of the enemy
     return index;
 }
 
-void MediumEnemy::setIndex(int index) {                                                      // Set the index of the enemy
+void MediumEnemy::setIndex(int index) {                                                         // Set the index of the enemy
     this->index = index;
 }
