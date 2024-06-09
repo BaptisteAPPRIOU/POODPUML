@@ -1,5 +1,7 @@
 #ifndef MENU_HPP
 #define MENU_HPP
+#include <string> // Add this line to include the <string> header file
+using namespace std;
 
 class GameManager;
 class UI;
@@ -26,7 +28,7 @@ class Menu
         void setUI(UI* ui);
         void updateMenu();
         void setGameManager(GameManager* gameManager);
-        void resetGameManager();
+        void resetGameManager(string difficulty);
         void resetUI();
         GameState currentState;
         bool isGameStarted=false;

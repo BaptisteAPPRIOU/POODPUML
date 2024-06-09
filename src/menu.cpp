@@ -2,6 +2,8 @@
 #include "gameManager.hpp"
 #include "ui.hpp"
 #include <iostream>
+#include <string>
+using namespace std;
 
 Menu::Menu() {
     ui = nullptr;
@@ -31,7 +33,7 @@ void Menu::setGameManager(GameManager* gameManager) {
     this->gameManager = gameManager;
 }
 
-void Menu::resetGameManager() {
+void Menu::resetGameManager(string difficulty) {
     CloseWindow();
     delete gameManager;
     gameManager = new GameManager();
@@ -126,7 +128,7 @@ void Menu::updateMenu() {
                 std::cout<<"back to main menu"<<std::endl;
                 currentState = MAIN_MENU;
                 isGameStarted = false;
-                resetGameManager();
+                resetGameManager("easy");
                 resetUI();
             }
             break;
@@ -138,15 +140,15 @@ void Menu::updateMenu() {
                 currentState = MAIN_MENU;
             } else if (ui->buttonEasy->isClicked(mousePoint)) {
                 currentState = GAME;
-                resetGameManager();
+                resetGameManager("easy");
                 resetUI();
             } else if (ui->buttonMedium->isClicked(mousePoint)) {
                 currentState = GAME;
-                resetGameManager();
+                resetGameManager("medium");
                 resetUI();
             } else if (ui->buttonHard->isClicked(mousePoint)) {
                 currentState = GAME;
-                resetGameManager();
+                resetGameManager("hard");
                 resetUI();
             break;
         case QUIT:
