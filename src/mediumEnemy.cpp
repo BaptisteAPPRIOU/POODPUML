@@ -4,13 +4,13 @@
 #include <iostream>
 using namespace std;
 
-MediumEnemy::MediumEnemy(Vector3 position) {                                // Constructor for the medium enemy
+MediumEnemy::MediumEnemy(Vector3 position, int index_chosen) {                                // Constructor for the medium enemy
     enemy = LoadModel("assets/models/enemy.obj");
     textureEnemy = LoadTexture("assets/textures/texture_enemy2.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
-
+    index = 0;
     enemyPosition = position;
-    speed = 0.15f;
+    speed = 0.07f;
     maxHealth = health = 100;
     isAlive = true;
     value = 200;
@@ -33,7 +33,10 @@ bool MediumEnemy::hasReachedEnd(vector<Vector3>& path) const {              // C
     return Enemy::hasReachedEnd(path);
 }
 
-// MediumEnemy::~MediumEnemy() {                                               // Destructor for the medium enemy
-//     UnloadModel(enemy);
-//     UnloadTexture(textureEnemy);
-// }
+int MediumEnemy::getIndex() const {                                                          // Get the index of the enemy
+    return index;
+}
+
+void MediumEnemy::setIndex(int index) {                                                      // Set the index of the enemy
+    this->index = index;
+}

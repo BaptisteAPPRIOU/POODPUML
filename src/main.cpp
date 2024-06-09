@@ -49,3 +49,6 @@ int main() {
     CloseWindow();
     return 0;
 }
+
+
+// Visual Leak Detector pour tester les fuites de mémoire

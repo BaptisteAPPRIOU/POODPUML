@@ -9,13 +9,13 @@
 #include <iostream>
 using namespace std;
 
-Enemy* Enemy::createEnemy(const string& type, Vector3 position) {                                       // Create enemy based on type
+Enemy* Enemy::createEnemy(const string& type, Vector3 position, int index_chosen) {                                       // Create enemy based on type
     if (type == "basic") {
-        return new BasicEnemy(position);
+        return new BasicEnemy(position, index_chosen);
     } else if (type == "medium") {
-        return new MediumEnemy(position);
+        return new MediumEnemy(position, index_chosen);
     } else if (type == "hard") {
-        return new HardEnemy(position);
+        return new HardEnemy(position, index_chosen);
     }
     return nullptr;
 }

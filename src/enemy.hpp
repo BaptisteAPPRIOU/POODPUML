@@ -12,7 +12,7 @@ class Enemy                                                                // Cl
 public:                                                                    // Public members
     virtual void update(Camera camera) = 0;
 
-    static Enemy* createEnemy(const string& type, Vector3 position);
+    static Enemy* createEnemy(const string& type, Vector3 position, int index_chosen); // Add on class diagram
 
     virtual void move(const std::vector<Vector3>& path);
     virtual ~Enemy();
@@ -25,9 +25,10 @@ public:                                                                    // Pu
     float getSpeed();
     bool slowed = false;
     bool isChecked = false;
-
-    virtual int getEnemyValue() const;
-    virtual bool hasReachedEnd(std::vector<Vector3>& path) const;
+    virtual int getIndex() const =0; // Add on class diagram
+    virtual void setIndex(int index) =0; // Add on class diagram
+    virtual int getEnemyValue() const =0;
+    virtual bool hasReachedEnd(std::vector<Vector3>& path) const =0;
 
 protected:                                                                  // Protected members
     Model enemy;
@@ -38,7 +39,7 @@ protected:                                                                  // P
     int maxHealth;
     int currentPoint = 0;
     int value;
-
+    int index = 15; // Add on class diagram
     Enemy() {}
     Enemy(Vector3 position) : enemyPosition(position), speed(0.0f), currentPoint(0) {}
 };

@@ -22,6 +22,7 @@ void Menu::setGameState(GameState state) {
 GameState Menu::getCurrentState() {
     return currentState;
 }
+
 void Menu::setUI(UI* ui) {
     this->ui = ui;
 }
