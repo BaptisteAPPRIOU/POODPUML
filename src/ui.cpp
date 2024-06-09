@@ -9,7 +9,7 @@ UI::UI(): username(""){                                                         
     buttonStart = new Button(1450, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
     buttonLeaderboard = new Button(1450, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
     buttonCredits = new Button(1450, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
-    buttonOptions = new Button(1450, 650, 400, 120, buttonTexture4, buttonHoverTexture4, "OPTIONS");
+    buttonOptions = new Button(1450, 650, 400, 120, buttonTexture3, buttonHoverTexture3, "OPTIONS");
     buttonQuit = new Button(1450, 800, 400, 120, buttonTexture1, buttonHoverTexture1, "QUIT");
     buttonBackLeaderboard = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonBackCredits = new Button(700, 850, 400, 120, buttonTexture2, buttonHoverTexture2, "BACK");
@@ -17,7 +17,7 @@ UI::UI(): username(""){                                                         
     buttonEasy = new Button(700, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "EASY");
     buttonMedium = new Button(700, 400, 400, 120, buttonTexture2, buttonHoverTexture2, "MEDIUM");
     buttonHard = new Button(700, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "HARD");
-    buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture4, buttonHoverTexture4, "BACK");
+    buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture3, buttonHoverTexture3, "BACK");
     buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonBackGameWin = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
@@ -119,9 +119,6 @@ void UI::updateButtons(int money) {                                             
         placingTower = true;
         towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
-    }
-    if (buttonTower4->isClicked(mousePoint)) {
-        std::cout << "Button 4 clicked" << std::endl;
     }
     if (buttonCloseGame->isClicked(mousePoint)) {
         std::cout << "Close Game clicked" << std::endl;

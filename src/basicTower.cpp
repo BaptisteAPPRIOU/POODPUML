@@ -13,7 +13,6 @@ BasicTower::BasicTower(Vector3 position) : Tower(position) {                    
 }
 
 void BasicTower::update() {                                                                             // Update function
-    Tower::update();
     draw(towerPosition);
 }
 

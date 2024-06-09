@@ -137,7 +137,6 @@ void Menu::updateMenu() {                                                       
                 resetGameManager("easy");
                 resetUI();
             }
-
             break;
         case DIFFICULTY_MENU:
             if (ui->buttonBackDifficulty->isClicked(mousePoint)) {

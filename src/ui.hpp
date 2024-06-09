@@ -36,7 +36,6 @@ public:                                                                 // Publi
     Button* buttonTower1;
     Button* buttonTower2;
     Button* buttonTower3;
-    Button* buttonTower4;
     Button* buttonStart;
     Button* buttonLeaderboard;
     Button* buttonCredits;
@@ -63,8 +62,6 @@ private:                                                                // Priva
     Texture2D buttonHoverTexture2;
     Texture2D buttonTexture3;
     Texture2D buttonHoverTexture3;
-    Texture2D buttonTexture4;
-    Texture2D buttonHoverTexture4;
     Texture2D backgroundTexture;
 
     Image backgroundImage;
