@@ -27,9 +27,11 @@ GameManager::GameManager(string difficulty_chosen)
         cout << "Normally easy path loaded" << endl;
         path = loadPathFromJSON("assets/paths/pathEasy.json");
     } else if (difficulty == "medium") {
+        money = 700;
         cout << "Normally medium path loaded" << endl;
         path = loadPathFromJSON("assets/paths/pathMedium.json");
     } else if (difficulty == "hard") {
+        money = 900;
         cout << "Normally hard path loaded" << endl;
         path = loadPathFromJSON("assets/paths/pathHard.json");
     } else {
@@ -413,24 +415,6 @@ void GameManager::spawnEnemy() {
         Test1->setIndex(enemyCount);
         enemies.push_back(Test1);
         enemiesToSpawn--;
-        if (currentWave % 4 == 0 && enemiesToSpawn == 0) {
-            for (int i=0; i<mediumEnemyCount; i++) {
-                enemyCount++;
-                Enemy* Test2 = Enemy::createEnemy("medium", Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
-                Test2->setIndex(enemyCount);
-                enemies.push_back(Test2);
-            }
-            mediumEnemyCount++;
-        }
-        if (currentWave % 5 == 0 && enemiesToSpawn == 0) {
-            for (int i=0; i<hardEnemyCount; i++) {
-                enemyCount++;
-                Enemy* Test3 = Enemy::createEnemy("hard", Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
-                Test3->setIndex(enemyCount);
-                enemies.push_back(Test3);
-            }
-            hardEnemyCount++;
-        }
     }
 }
 

@@ -58,8 +58,6 @@ class GameManager : public Observer
         float elapsedTime; 
         bool timerStarted;
 
-        int mediumEnemyCount = 1;
-        int hardEnemyCount = 1;
         string difficulty = "";
     public:
         bool isGameOver;
