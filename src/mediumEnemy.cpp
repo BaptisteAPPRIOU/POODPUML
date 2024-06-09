@@ -11,7 +11,7 @@ MediumEnemy::MediumEnemy(Vector3 position, int index_chosen) {                  
     index = 0;
     enemyPosition = position;
     speed = 0.07f;
-    maxHealth = health = 100;
+    maxHealth = health = 300;
     isAlive = true;
     value = 200;
 }

@@ -19,8 +19,8 @@ int main() {
             menu.updateMenu();
             menu.drawMenu();
         } else {
-            if (!menu.gameManager) {                                                // If the game manager is not created
-                menu.resetGameManager("easy");
+            if (!menu.gameManager) {
+                menu.resetGameManager("closed");
                 menu.resetUI();
             }
             menu.gameManager->update();
@@ -37,7 +37,7 @@ int main() {
             if(menu.gameManager->closeGame) {
                 menu.setGameState(MAIN_MENU);
                 menu.isGameStarted = false;
-                menu.resetGameManager("easy");
+                menu.resetGameManager("closed");
                 menu.resetUI();
             }
         }

@@ -3,9 +3,10 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include <string>
 using namespace std;
 
-GameManager::GameManager()                                                                                          // Constructor
+GameManager::GameManager(string difficulty_chosen)
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(), 
@@ -15,14 +16,28 @@ GameManager::GameManager()                                                      
     map.loadModelsTextures();
     ui.loadButtons();
 
-
-    camera.position = cameraPosition;                                                                               // Camera values
+    setDifficulty(difficulty_chosen);
+    camera.position = cameraPosition;
     camera.target = cameraTarget;
     camera.up = cameraUp;
     camera.fovy = cameraFovy;
     camera.projection = CAMERA_PERSPECTIVE;
 
-    path = loadPathFromJSON("assets/paths/pathMedium.json");                                                        // Load the path from a JSON file
+    if (difficulty == "easy") {
+        cout << "Normally easy path loaded" << endl;
+        path = loadPathFromJSON("assets/paths/pathEasy.json");
+    } else if (difficulty == "medium") {
+        money = 700;
+        cout << "Normally medium path loaded" << endl;
+        path = loadPathFromJSON("assets/paths/pathMedium.json");
+    } else if (difficulty == "hard") {
+        money = 900;
+        cout << "Normally hard path loaded" << endl;
+        path = loadPathFromJSON("assets/paths/pathHard.json");
+    } else {
+        cout << "Problem with the difficulty choice" << endl;
+        path = loadPathFromJSON("assets/paths/pathMedium.json");
+    }
 
     map.drawMap(path);
 
@@ -50,13 +65,40 @@ GameManager::~GameManager() {                                                   
     }
 }
 
-void GameManager::initializeWaves() {                                                                               // Function to initialize the waves
-    waves = {
-        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
-        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
-        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
-        {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},        
-    };
+void GameManager::initializeWaves() {
+    if (difficulty == "easy") {
+        cout << "Easy waves and easy enemies" << endl;
+        waves = {
+            {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},
+            {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},
+            {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},
+            {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},        
+        };
+    } else if (difficulty == "medium") {
+        cout << "Medium waves and medium enemies" << endl;
+        waves = {
+            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
+            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
+            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
+            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},        
+        };
+    } else if (difficulty == "hard") {
+        cout << "Hard waves and hard enemies" << endl;
+        waves = {
+            {6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},
+            {6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},
+            {6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},
+            {6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},{6, "hard"},        
+        };
+    } else {
+        cout << "Problem with difficulty and waves" << endl;
+        waves = {
+            {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
+            {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
+            {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},
+            {10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},{10, "basic"},        
+        };
+    }
 }
 
 void GameManager::startNextWave() {                                                                                 // Function to start the next wave of enemies
@@ -371,28 +413,10 @@ void GameManager::spawnEnemy() {                                                
         Test1->setIndex(enemyCount);
         enemies.push_back(Test1);
         enemiesToSpawn--;
-        if (currentWave % 4 == 0 && enemiesToSpawn == 0) {
-            for (int i=0; i<mediumEnemyCount; i++) {
-                enemyCount++;
-                Enemy* Test2 = Enemy::createEnemy("medium", Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
-                Test2->setIndex(enemyCount);
-                enemies.push_back(Test2);
-            }
-            mediumEnemyCount++;
-        }
-        if (currentWave % 5 == 0 && enemiesToSpawn == 0) {
-            for (int i=0; i<hardEnemyCount; i++) {
-                enemyCount++;
-                Enemy* Test3 = Enemy::createEnemy("hard", Vector3{-25.0f, 0.0f, -10.0f}, enemyCount);
-                Test3->setIndex(enemyCount);
-                enemies.push_back(Test3);
-            }
-            hardEnemyCount++;
-        }
     }
 }
 
-bool GameManager::checkProjectileCollision(Projectile* projectile) {                                                // Function to check if a projectile has collided with an enemy
+bool GameManager::checkProjectileCollision(Projectile* projectile) {
     Vector3 projectilePosition = projectile->getPosition();
     int projectileDamage = projectile->getDamage();
     for (auto it = enemies.begin(); it != enemies.end();) {
@@ -418,4 +442,8 @@ bool GameManager::checkProjectileCollision(Projectile* projectile) {            
 
 int GameManager::getScore() const{                                                                                  // Function to get the score
     return score;
+}
+
+void GameManager::setDifficulty(string difficulty_chosen) {
+    difficulty = difficulty_chosen;
 }
