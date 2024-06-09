@@ -51,7 +51,7 @@ GameManager::~GameManager() {
 
 void GameManager::initializeWaves() {
     waves = {
-        {1, "basic"}
+        {2, "basic"}
         // {15, "basic"},
         // {20, "hard"}
     };

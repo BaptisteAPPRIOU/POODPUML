@@ -83,6 +83,15 @@
 		"semaphore": "cpp",
 		"span": "cpp",
 		"stop_token": "cpp",
-		"thread": "cpp"
+		"thread": "cpp",
+		"__tree": "cpp",
+		"any": "cpp",
+		"forward_list": "cpp",
+		"list": "cpp",
+		"map": "cpp",
+		"set": "cpp",
+		"stack": "cpp",
+		"unordered_set": "cpp",
+		"valarray": "cpp"
 	}
 }

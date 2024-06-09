@@ -17,6 +17,7 @@ public:
     void saveToTxt() const;
     void reorderLeaderboard();
     static void displayLeaderboard();
+    std::vector<std::pair<std::string, int>> loadFromTxt() const;
 
 private:
     std::string username;

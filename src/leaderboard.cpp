@@ -39,35 +39,6 @@ void Leaderboard::saveToTxt() const
     }
 }
 
-void Leaderboard::displayLeaderboard()
-{
-    // Get the path to the src directory
-    std::string srcPath = "src/";
-
-    // Concatenate the path with the file name
-    std::string filePath = srcPath + "leaderboard.txt";
-
-    // Open the file using the full or relative path
-    std::ifstream file(filePath);
-    if (file.is_open())
-    {
-        std::string line;
-        int rank = 1;
-        std::cout << "Leaderboard:\n";
-        while (std::getline(file, line))
-        {
-            std::cout << rank << ". " << line << '\n';
-            ++rank;
-        }
-        file.close();
-    }
-    else
-    {
-        std::cerr << "Error: Unable to open leaderboard file for reading." << std::endl;
-    }
-}
-
-
 void Leaderboard::reorderLeaderboard()
 {
     // Read usernames and scores from the file
@@ -114,4 +85,29 @@ void Leaderboard::reorderLeaderboard()
     {
         std::cerr << "Error: Unable to open leaderboard file for writing." << std::endl;
     }
+}
+
+std::vector<std::pair<std::string, int>> Leaderboard::loadFromTxt() const {
+    std::vector<std::pair<std::string, int>> leaderboardData;
+
+    // Read usernames and scores from the file
+    std::string srcPath = "src/";
+    std::string filePath = srcPath + "leaderboard.txt";
+    std::ifstream file(filePath);
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::istringstream iss(line);
+            std::string username;
+            int score;
+            if (iss >> username >> score) {
+                leaderboardData.push_back({username, score});
+            }
+        }
+        file.close();
+    } else {
+        std::cerr << "Error: Unable to open leaderboard file for reading." << std::endl;
+    }
+
+    return leaderboardData;
 }

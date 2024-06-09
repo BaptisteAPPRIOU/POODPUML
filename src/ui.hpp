@@ -67,7 +67,6 @@ private:
     bool buttonTower1Active;
     bool buttonTower2Active;
     bool buttonTower3Active;
-    // bool buttonTower4Active;
 
     bool placingTower;
     string selectedTowerType;
@@ -76,7 +75,6 @@ private:
     int selectedTowerCost;
 
     std::string username;
-    int finalScore;
 
 };
 

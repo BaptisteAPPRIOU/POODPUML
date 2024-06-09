@@ -1,7 +1,7 @@
 #include "ui.hpp"
 #include <iostream>
 
-UI::UI(): username(""), finalScore(0){
+UI::UI(): username(""){
     loadTextures();
     buttonTower1 = new Button(1420, 250, 400, 120, buttonTexture1, buttonHoverTexture1, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
@@ -189,17 +189,24 @@ void UI::drawLeaderboard(){
     buttonBackLeaderboard->update(GetMousePosition());
     buttonBackLeaderboard->drawButton();
     DrawText("LEADERBOARD", 700, 100, 50, BLACK);
-    DrawText("1. John Doe - 1000", 700, 200, 30, BLACK);
-    DrawText("2. Jane Doe - 900", 700, 250, 30, BLACK);
-    DrawText("3. John Doe - 800", 700, 300, 30, BLACK);
-    DrawText("4. Jane Doe - 700", 700, 350, 30, BLACK);
-    DrawText("5. John Doe - 600", 700, 400, 30, BLACK);
-    DrawText("6. Jane Doe - 500", 700, 450, 30, BLACK);
-    DrawText("7. John Doe - 400", 700, 500, 30, BLACK);
-    DrawText("8. Jane Doe - 300", 700, 550, 30, BLACK);
-    DrawText("9. John Doe - 200", 700, 600, 30, BLACK);
-    DrawText("10. Jane Doe - 100", 700, 650, 30, BLACK);
+    
+    Leaderboard leaderboard; // Create an instance of the Leaderboard class
+
+    // Load and display leaderboard data from file
+    std::vector<std::pair<std::string, int>> leaderboardData = leaderboard.loadFromTxt();
+    int yPosition = 200;
+    int rank = 1;
+    int scoreXPosition = 900; 
+    int maxEntries = std::min(10, static_cast<int>(leaderboardData.size())); // Display top 10 entries
+    for (int i = 0; i < maxEntries; ++i) {
+        const auto& entry = leaderboardData[i];
+        std::string entryText = TextFormat("%d. %-20s", rank++, entry.first.c_str());
+        DrawText(entryText.c_str(), 700, yPosition, 30, BLACK);
+        DrawText(TextFormat("%d", entry.second), scoreXPosition, yPosition, 30, BLACK); 
+        yPosition += 50; 
+    }
 }
+
 
 void UI::drawMainMenu(){
     buttonStart->update(GetMousePosition());
