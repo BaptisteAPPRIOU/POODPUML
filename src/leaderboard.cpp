@@ -1,5 +1,8 @@
 #include "leaderboard.hpp"
-#include <filesystem> // Include the filesystem header for path manipulation
+#include <filesystem>
+#include <vector>
+#include <algorithm>
+#include <sstream>
 
 Leaderboard::Leaderboard() : score(0) {}
 
@@ -61,5 +64,54 @@ void Leaderboard::displayLeaderboard()
     else
     {
         std::cerr << "Error: Unable to open leaderboard file for reading." << std::endl;
+    }
+}
+
+
+void Leaderboard::reorderLeaderboard()
+{
+    // Read usernames and scores from the file
+    std::vector<std::pair<std::string, int>> leaderboardData;
+    std::string srcPath = "src/";
+    std::string filePath = srcPath + "leaderboard.txt";
+    std::ifstream file(filePath);
+    if (file.is_open())
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::istringstream iss(line);
+            std::string username;
+            int score;
+            if (iss >> username >> score)
+            {
+                leaderboardData.push_back({username, score});
+            }
+        }
+        file.close();
+    }
+    else
+    {
+        std::cerr << "Error: Unable to open leaderboard file for reading." << std::endl;
+        return;
+    }
+
+    // Sort leaderboard data based on scores (in descending order)
+    std::sort(leaderboardData.begin(), leaderboardData.end(),
+              [](const auto& a, const auto& b) { return a.second > b.second; });
+
+    // Write the sorted leaderboard data back to the file
+    std::ofstream outFile(filePath);
+    if (outFile.is_open())
+    {
+        for (const auto& entry : leaderboardData)
+        {
+            outFile << entry.first << " " << entry.second << std::endl;
+        }
+        outFile.close();
+    }
+    else
+    {
+        std::cerr << "Error: Unable to open leaderboard file for writing." << std::endl;
     }
 }

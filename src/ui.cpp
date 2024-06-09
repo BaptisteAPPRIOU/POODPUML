@@ -251,6 +251,7 @@ void UI::drawGameOver(int finalScore){
         leaderboard.setScore(finalScore);
         leaderboard.setUsername(username);
         leaderboard.saveToTxt();
+        leaderboard.reorderLeaderboard();
     }
 }
 

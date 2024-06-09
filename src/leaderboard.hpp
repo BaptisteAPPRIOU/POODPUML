@@ -15,6 +15,7 @@ public:
     void setUsername(const std::string& username);
 
     void saveToTxt() const;
+    void reorderLeaderboard();
     static void displayLeaderboard();
 
 private:
