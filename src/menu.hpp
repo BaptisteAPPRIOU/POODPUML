@@ -33,9 +33,5 @@ class Menu
         GameManager* gameManager;
         UI* ui;
 
-    private:
-        int finalScore;
-
-
 };
 #endif // MENU_HPP

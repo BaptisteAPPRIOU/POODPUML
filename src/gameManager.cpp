@@ -51,9 +51,9 @@ GameManager::~GameManager() {
 
 void GameManager::initializeWaves() {
     waves = {
-        {10, "basic"},
-        {15, "basic"},
-        {20, "hard"}
+        {10, "basic"}
+        // {15, "basic"},
+        // {20, "hard"}
     };
 }
 
@@ -68,6 +68,9 @@ void GameManager::startNextWave() {
         std::cout << "Wave " << currentWave << " started with " << enemiesToSpawn << " " << enemyTypeToSpawn << " enemies." << std::endl;
     } else {
         std::cout << "All waves completed!" << std::endl;
+        isGameOver = true;
+        menu.isGameStarted = false;
+        menu.setGameState(GameState::GAME_OVER);
     }
 }
 
@@ -103,7 +106,6 @@ void GameManager::update() {
                 isGameOver = true;
                 menu.isGameStarted = false;
                 menu.setGameState(GameState::GAME_OVER);
-                getScore();   
             }
         } else if (!(*it)->isEnemyAlive()) {
             int enemyValue = (*it)->getEnemyValue();

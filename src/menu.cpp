@@ -65,7 +65,7 @@ void Menu::drawMenu(){
             isGameStarted = true;
             break;
         case GAME_OVER:
-            ui->drawGameOver();
+            ui->drawGameOver(gameManager->getScore());
             break;
         case GAME_WIN:
             ui->drawGameWin();

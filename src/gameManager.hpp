@@ -12,6 +12,7 @@
 #include "projectile.hpp"
 #include "menu.hpp"
 #include <fstream>
+#include "leaderboard.hpp"
 using namespace std;
 
 class GameManager : public Observer
@@ -67,7 +68,8 @@ class GameManager : public Observer
         void onNotify(EventType eventType) override;
         void checkTowersForEnemies();
         bool checkProjectileCollision(Projectile* projectile);
-        int getScore() const;        
+        int getScore() const;
+
 };
 
 #endif // GAME_MANAGER_HPP

@@ -5,6 +5,7 @@
 #include "button.hpp"
 #include "map.hpp"
 #include "observer.hpp"
+#include "leaderboard.hpp"
 
 class Menu;
 
@@ -18,7 +19,7 @@ public:
     void drawLeaderboard();
     void drawCredits();
     void drawOptions();
-    void drawGameOver();
+    void drawGameOver(int finalScore);
     void drawGameWin();
 
     void drawGameButtons(int money);
@@ -31,6 +32,7 @@ public:
     float getSelectedTowerFireRate() const;
     int getSelectedTowerCost() const;
     void drawInputTextBox();
+    void setFinalScore(int score);
 
     Button* buttonTower1;
     Button* buttonTower2;
@@ -74,6 +76,8 @@ private:
     int selectedTowerCost;
 
     std::string username;
+    int finalScore;
+
 };
 
 #endif // UI_HPP

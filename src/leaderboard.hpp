@@ -3,20 +3,23 @@
 
 #include <string>
 #include <fstream>
+#include <iostream>
 
 class Leaderboard
 {
-    public:
-        Leaderboard(std::string username, int score);
-        ~Leaderboard();
+public:
+    Leaderboard();
+    ~Leaderboard();
 
-        std::string getUsername() const;
-        int getScore() const;
-        void saveScoreToJSON();
-        
-    private:
-        std::string username;
-        int score;
+    void setScore(int score);
+    void setUsername(const std::string& username);
+
+    void saveToTxt() const;
+    static void displayLeaderboard();
+
+private:
+    std::string username;
+    int score;
 };
 
 #endif // LEADERBOARD_HPP

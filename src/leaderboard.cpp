@@ -1,26 +1,50 @@
 #include "leaderboard.hpp"
 
-Leaderboard::Leaderboard(std::string username, int score) {
-    this->username = username;
-    this->score = score;
-}
+Leaderboard::Leaderboard() : score(0) {}
 
 Leaderboard::~Leaderboard() {}
 
-std::string Leaderboard::getUsername() const {
-    return username;
+void Leaderboard::setScore(int score)
+{
+    this->score = score;
 }
 
-int Leaderboard::getScore() const {
-    return score;
+void Leaderboard::setUsername(const std::string& username)
+{
+    this->username = username;
 }
 
-void Leaderboard::saveScoreToJSON() {
-    std::ofstream leaderboardFile;
-    leaderboardFile.open("leaderboard.json", std::ios::app);
-    leaderboardFile << "{\n";
-    leaderboardFile << "  \"username\": \"" << username << "\",\n";
-    leaderboardFile << "  \"score\": " << score << "\n";
-    leaderboardFile << "}\n";
-    leaderboardFile.close();
+void Leaderboard::saveToTxt() const
+{
+    std::ofstream file("leaderboard.txt", std::ios::app);
+    if (file.is_open())
+    {
+        file << username << " " << score << std::endl;
+        file.close();
+    }
+    else
+    {
+        std::cerr << "Error: Unable to open leaderboard file for writing." << std::endl;
+    }
+}
+
+void Leaderboard::displayLeaderboard()
+{
+    std::ifstream file("leaderboard.txt");
+    if (file.is_open())
+    {
+        std::string line;
+        int rank = 1;
+        std::cout << "Leaderboard:\n";
+        while (std::getline(file, line))
+        {
+            std::cout << rank << ". " << line << '\n';
+            ++rank;
+        }
+        file.close();
+    }
+    else
+    {
+        std::cerr << "Error: Unable to open leaderboard file for reading." << std::endl;
+    }
 }

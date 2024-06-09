@@ -1,7 +1,7 @@
 #include "ui.hpp"
 #include <iostream>
 
-UI::UI(): username(""){
+UI::UI(): username(""), finalScore(0){
     loadTextures();
     buttonTower1 = new Button(1420, 250, 400, 120, buttonTexture1, buttonHoverTexture1, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
@@ -234,18 +234,24 @@ void UI::drawOptions(){
     DrawText("MUSIC", 700, 250, 30, BLACK);
 }
 
-void UI::drawGameOver(){
+void UI::drawGameOver(int finalScore){
     ClearBackground(RAYWHITE);
     DrawText("GAME OVER", 700, 100, 50, BLACK);
     DrawText("YOU LOSE", 700, 200, 30, BLACK);
     DrawText("ENTER YOUR USERNAME:", 700, 300, 30, BLACK);
     
     drawInputTextBox();
-    DrawText("SCORE: ", 700, 400, 30, BLACK);
+    DrawText(TextFormat("SCORE: %d", finalScore), 700, 400, 30, BLACK);
 
     // Draw the buttons
     buttonBackGameOver->update(GetMousePosition());
     buttonBackGameOver->drawButton();
+    Leaderboard leaderboard;
+
+    if(buttonBackGameOver->isClicked(GetMousePosition())){
+        leaderboard.setUsername(username);
+        std::cout<<"Username entered: "<<username<<std::endl;
+    }
 }
 
 void UI::drawGameWin(){
@@ -272,8 +278,8 @@ void UI::drawInputTextBox() {
     if (IsKeyPressed(KEY_BACKSPACE) && username.size() > 0) {
         username.pop_back();
     }
-    if(IsKeyPressed(KEY_ENTER)){
-        std::cout<<"Username entered: "<<username<<std::endl;
-    }
+    // if(IsKeyPressed(KEY_ENTER)){
+    //     std::cout<<"Username entered: "<<username<<std::endl;
+    // }
 
 }
