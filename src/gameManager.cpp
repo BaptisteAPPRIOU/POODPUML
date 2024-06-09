@@ -8,7 +8,7 @@ GameManager::GameManager()
     : screenWidth(1920), screenHeight(1080), regionX(100), regionY(100), regionWidth(1200), regionHeight(800),
       cameraPosition(Vector3{13.0f, 60.0f, 60.0f}), cameraTarget(Vector3{12.0f, 0.0f, 0.0f}), cameraUp(Vector3{0.0f, 1.0f, 0.0f}),
       cameraFovy(50.0f), hoveringTower(nullptr), towers(), projectiles(), 
-      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false) ,isGameOver(false){
+      enemySpawnTimer(0.0f), enemiesToSpawn(0), currentWave(0), enemiesRemaining(0), waveRemaining(0), score(0), money(500), lives(3),  elapsedTime(0.0f), timerStarted(false) ,isGameOver(false), isGameWin(false){
 
     InitWindow(screenWidth, screenHeight, "Tower Defense Game");
     map.loadModelsTextures();
@@ -51,7 +51,7 @@ GameManager::~GameManager() {
 
 void GameManager::initializeWaves() {
     waves = {
-        {2, "basic"}
+        {3, "basic"}
         // {15, "basic"},
         // {20, "hard"}
     };
@@ -68,14 +68,16 @@ void GameManager::startNextWave() {
         std::cout << "Wave " << currentWave << " started with " << enemiesToSpawn << " " << enemyTypeToSpawn << " enemies." << std::endl;
     } else {
         std::cout << "All waves completed!" << std::endl;
-        isGameOver = true;
-        menu.isGameStarted = false;
-        menu.setGameState(GameState::GAME_OVER);
+        if(lives > 0){
+            isGameWin = true;
+            menu.isGameStarted = false;
+            menu.setGameState(GameState::GAME_WIN);
+        }
     }
 }
 
 void GameManager::update() {
-    if (isGameOver) return;
+    if (isGameOver || isGameWin) return;
     map.checkTileHover(camera);
 
     // Update enemy spawning

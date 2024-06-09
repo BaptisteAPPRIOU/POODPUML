@@ -68,7 +68,7 @@ void Menu::drawMenu(){
             ui->drawGameOver(gameManager->getScore());
             break;
         case GAME_WIN:
-            ui->drawGameWin();
+            ui->drawGameWin(gameManager->getScore());
             break;
         case QUIT:
             break;
@@ -121,7 +121,6 @@ void Menu::updateMenu() {
             break;
         case GAME_OVER:
             if (ui->buttonBackGameOver->isClicked(mousePoint)) {
-                std::cout<<"back to main menu"<<std::endl;
                 currentState = MAIN_MENU;
                 isGameStarted = false;
                 resetGameManager();
@@ -129,6 +128,13 @@ void Menu::updateMenu() {
             }
             break;
         case GAME_WIN:
+            if (ui->buttonBackGameWin->isClicked(mousePoint)) {
+                currentState = MAIN_MENU;
+                isGameStarted = false;
+                resetGameManager();
+                resetUI();
+            }
+
             break;
         case DIFFICULTY_MENU:
             if (ui->buttonBackDifficulty->isClicked(mousePoint)) {

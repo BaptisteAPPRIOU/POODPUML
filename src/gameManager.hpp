@@ -59,6 +59,7 @@ class GameManager : public Observer
         bool timerStarted;
     public:
         bool isGameOver;
+        bool isGameWin;
         bool closeGame = false;
         GameManager();
         ~GameManager();

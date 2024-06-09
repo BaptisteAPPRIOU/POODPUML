@@ -20,6 +20,7 @@ UI::UI(): username(""){
     buttonHard = new Button(700, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "HARD");
     buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture4, buttonHoverTexture4, "BACK");
     buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
+    buttonBackGameWin = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
 }
 
@@ -52,6 +53,7 @@ UI::~UI() {
     delete buttonBackDifficulty;
     delete buttonBackGameOver;
     delete buttonCloseGame;
+    delete buttonBackGameWin;
 }
 
 void UI::loadButtons() {
@@ -262,9 +264,24 @@ void UI::drawGameOver(int finalScore){
     }
 }
 
-void UI::drawGameWin(){
-    DrawText("GAME WIN", 700, 100, 50, BLACK);
-    DrawText("YOU WIN", 700, 200, 30, BLACK);
+void UI::drawGameWin(int finalScore){
+    ClearBackground(RAYWHITE);
+    DrawText("YOU WON", 700, 200, 30, BLACK);
+    DrawText("ENTER YOUR USERNAME AND PRESS ENTER:", 700, 300, 30, BLACK);
+    
+    drawInputTextBox();
+    DrawText(TextFormat("SCORE: %d", finalScore), 700, 400, 30, BLACK);
+
+    // Draw the buttons
+    buttonBackGameWin->update(GetMousePosition());
+    buttonBackGameWin->drawButton();
+
+    if(IsKeyPressed(KEY_ENTER)){
+        leaderboard.setScore(finalScore);
+        leaderboard.setUsername(username);
+        leaderboard.saveToTxt();
+        leaderboard.reorderLeaderboard();
+    }
 }
 
 void UI::drawInputTextBox() {

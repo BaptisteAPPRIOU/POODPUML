@@ -30,6 +30,10 @@ int main() {
                 menu.setGameState(GAME_OVER);
                 menu.isGameStarted = false;
             }
+            if (menu.gameManager->isGameWin) {
+                menu.setGameState(GAME_WIN);
+                menu.isGameStarted = false;
+            }
             if(menu.gameManager->closeGame) {
                 menu.setGameState(MAIN_MENU);
                 menu.isGameStarted = false;

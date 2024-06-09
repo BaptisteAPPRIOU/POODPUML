@@ -20,7 +20,7 @@ public:
     void drawCredits();
     void drawOptions();
     void drawGameOver(int finalScore);
-    void drawGameWin();
+    void drawGameWin(int finalScore);
 
     void drawGameButtons(int money);
     void updateButtons(int money);
@@ -50,6 +50,7 @@ public:
     Button* buttonHard;
     Button* buttonBackDifficulty;
     Button* buttonBackGameOver;
+    Button* buttonBackGameWin;
     Button* buttonCloseGame;
 
     Menu* menu;
