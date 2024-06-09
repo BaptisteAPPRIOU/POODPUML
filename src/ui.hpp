@@ -65,6 +65,7 @@ private:                                                                // Priva
     Texture2D backgroundTexture;
     Texture2D backgroundCreditsTexture;
     Texture2D backgroundLeaderboardTexture;
+    Texture2D backgroundDifficultyTexture;
     Texture2D basicTowerTexture;
     Texture2D basicTowerHoverTexture;
     Texture2D normalTowerTexture;
@@ -76,6 +77,7 @@ private:                                                                // Priva
     Image backgroundCredits;
     Image backgroundImage;
     Image backgroundLeaderboard;
+    Image backgroundDifficulty;
 
     bool buttonTower1Active;
     bool buttonTower2Active;

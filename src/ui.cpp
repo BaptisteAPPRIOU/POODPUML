@@ -25,9 +25,11 @@ UI::UI(): username(""){                                                         
     backgroundImage = LoadImage("assets/images/background.png");
     backgroundCredits = LoadImage("assets/images/backgroundCredits.png");
     backgroundLeaderboard = LoadImage("assets/images/backgroundLeaderboard.png");
+    backgroundDifficulty = LoadImage("assets/images/backgroundDifficulty.png");
     backgroundTexture = LoadTextureFromImage(backgroundImage);
     backgroundCreditsTexture = LoadTextureFromImage(backgroundCredits);
     backgroundLeaderboardTexture = LoadTextureFromImage(backgroundLeaderboard);
+    backgroundDifficultyTexture = LoadTextureFromImage(backgroundDifficulty);
 }
 
 UI::~UI() {                                                                                                     // Destructor for the UI class
@@ -220,6 +222,7 @@ void UI::drawMainMenu(){                                                        
 }
 
 void UI::drawDifficultyMenu(){                                                                                  // Function to draw the difficulty menu
+    DrawTexture(backgroundDifficultyTexture, 0, 0, WHITE);
     buttonEasy->update(GetMousePosition());
     buttonMedium->update(GetMousePosition());
     buttonHard->update(GetMousePosition());
