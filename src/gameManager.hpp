@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include <vector>
 #include <chrono>
+#include <string>
 #include "map.hpp"
 #include "enemy.hpp"
 #include "ui.hpp"
@@ -59,10 +60,11 @@ class GameManager : public Observer
 
         int mediumEnemyCount = 1;
         int hardEnemyCount = 1;
+        string difficulty = "";
     public:
         bool isGameOver;
         bool closeGame = false;
-        GameManager();
+        GameManager(string difficulty_chosen);
         ~GameManager();
         void update();
         void draw();
@@ -70,7 +72,8 @@ class GameManager : public Observer
         void onNotify(EventType eventType) override;
         void checkTowersForEnemies();
         bool checkProjectileCollision(Projectile* projectile);
-        int getScore() const;        
+        int getScore() const;
+        void setDifficulty(string difficulty_chosen);
 };
 
 #endif // GAME_MANAGER_HPP
