@@ -36,7 +36,9 @@ void Menu::setGameManager(GameManager* gameManager) {
 void Menu::resetGameManager(string difficulty) {
     CloseWindow();
     delete gameManager;
-    gameManager = new GameManager();
+    if (difficulty != "closed") {
+        gameManager = new GameManager(difficulty);
+    }
 }
 
 void Menu::resetUI() {
