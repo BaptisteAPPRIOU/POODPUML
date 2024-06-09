@@ -5,8 +5,8 @@
 using namespace std;
 
 BasicEnemy::BasicEnemy(Vector3 position) {                                                  // Constructor
-    enemy = LoadModel("assets/models/soldier1.obj");
-    textureEnemy = LoadTexture("assets/textures/texture_soldier1.png");
+    enemy = LoadModel("assets/models/basicEnemy.obj");
+    textureEnemy = LoadTexture("assets/textures/texture_basicEnemy.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
 
     enemyPosition = position;
