@@ -1,4 +1,5 @@
 #include "leaderboard.hpp"
+#include <filesystem> // Include the filesystem header for path manipulation
 
 Leaderboard::Leaderboard() : score(0) {}
 
@@ -16,7 +17,14 @@ void Leaderboard::setUsername(const std::string& username)
 
 void Leaderboard::saveToTxt() const
 {
-    std::ofstream file("leaderboard.txt", std::ios::app);
+    // Get the path to the src directory
+    std::string srcPath = "src/";
+
+    // Concatenate the path with the file name
+    std::string filePath = srcPath + "leaderboard.txt";
+
+    // Open the file using the full or relative path
+    std::ofstream file(filePath, std::ios::app);
     if (file.is_open())
     {
         file << username << " " << score << std::endl;
@@ -30,7 +38,14 @@ void Leaderboard::saveToTxt() const
 
 void Leaderboard::displayLeaderboard()
 {
-    std::ifstream file("leaderboard.txt");
+    // Get the path to the src directory
+    std::string srcPath = "src/";
+
+    // Concatenate the path with the file name
+    std::string filePath = srcPath + "leaderboard.txt";
+
+    // Open the file using the full or relative path
+    std::ifstream file(filePath);
     if (file.is_open())
     {
         std::string line;

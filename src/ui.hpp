@@ -32,7 +32,6 @@ public:
     float getSelectedTowerFireRate() const;
     int getSelectedTowerCost() const;
     void drawInputTextBox();
-    void setFinalScore(int score);
 
     Button* buttonTower1;
     Button* buttonTower2;
@@ -54,6 +53,7 @@ public:
     Button* buttonCloseGame;
 
     Menu* menu;
+    Leaderboard leaderboard;
 private:
     Texture2D buttonTexture1;
     Texture2D buttonHoverTexture1;

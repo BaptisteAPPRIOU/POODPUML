@@ -238,7 +238,7 @@ void UI::drawGameOver(int finalScore){
     ClearBackground(RAYWHITE);
     DrawText("GAME OVER", 700, 100, 50, BLACK);
     DrawText("YOU LOSE", 700, 200, 30, BLACK);
-    DrawText("ENTER YOUR USERNAME:", 700, 300, 30, BLACK);
+    DrawText("ENTER YOUR USERNAME AND PRESS ENTER:", 700, 300, 30, BLACK);
     
     drawInputTextBox();
     DrawText(TextFormat("SCORE: %d", finalScore), 700, 400, 30, BLACK);
@@ -246,11 +246,11 @@ void UI::drawGameOver(int finalScore){
     // Draw the buttons
     buttonBackGameOver->update(GetMousePosition());
     buttonBackGameOver->drawButton();
-    Leaderboard leaderboard;
 
-    if(buttonBackGameOver->isClicked(GetMousePosition())){
+    if(IsKeyPressed(KEY_ENTER)){
+        leaderboard.setScore(finalScore);
         leaderboard.setUsername(username);
-        std::cout<<"Username entered: "<<username<<std::endl;
+        leaderboard.saveToTxt();
     }
 }
 
@@ -278,8 +278,5 @@ void UI::drawInputTextBox() {
     if (IsKeyPressed(KEY_BACKSPACE) && username.size() > 0) {
         username.pop_back();
     }
-    // if(IsKeyPressed(KEY_ENTER)){
-    //     std::cout<<"Username entered: "<<username<<std::endl;
-    // }
-
+    std::cout << "Current username: " << username << std::endl;
 }
