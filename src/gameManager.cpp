@@ -196,7 +196,9 @@ void GameManager::draw() {                                                      
         DrawText(TextFormat("LIVES: %d", lives), 1100, 950, 30, BLACK);
         DrawText(TextFormat("ENEMIES: %d", enemiesRemaining), 550, 1000, 30, BLACK);
         DrawText(TextFormat("WAVES: %d", waveRemaining), 850, 1000, 30, BLACK);
-        DrawText(TextFormat("TIME: %.2f", elapsedTime), 1300, 200, 30, BLACK);
+        int minutes = static_cast<int>(elapsedTime) / 60;
+        int seconds = static_cast<int>(elapsedTime) % 60;
+        DrawText(TextFormat("TIME: %02d:%02d", minutes, seconds), 1400, 200, 30, BLACK);
 
         EndDrawing();
         update();

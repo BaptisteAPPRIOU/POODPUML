@@ -3,9 +3,9 @@
 
 UI::UI(): username(""){                                                                                         // Constructor for the UI class
     loadTextures();
-    buttonTower1 = new Button(1420, 250, 400, 120, buttonTexture1, buttonHoverTexture1, "BASIC TOWER");
-    buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
-    buttonTower3 = new Button(1420, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "SLOW TOWER");
+    buttonTower1 = new Button(1420, 250, 400, 120, basicTowerTexture, basicTowerHoverTexture, "BASIC TOWER");
+    buttonTower2 = new Button(1420, 420, 400, 120, normalTowerTexture, normalTowerHoverTexture, "NORMAL TOWER");
+    buttonTower3 = new Button(1420, 600, 400, 120, slowTowerTexture, slowTowerHoverTexture, "SLOW TOWER");
     buttonStart = new Button(1450, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
     buttonLeaderboard = new Button(1450, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
     buttonCredits = new Button(1450, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
@@ -21,6 +21,7 @@ UI::UI(): username(""){                                                         
     buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonBackGameWin = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
     buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
+
     backgroundImage = LoadImage("assets/images/background.png");
     backgroundTexture = LoadTextureFromImage(backgroundImage);
 }
@@ -32,6 +33,13 @@ UI::~UI() {                                                                     
     UnloadTexture(buttonHoverTexture2);
     UnloadTexture(buttonTexture3);
     UnloadTexture(buttonHoverTexture3);
+    UnloadTexture(basicTowerTexture);
+    UnloadTexture(basicTowerHoverTexture);
+    UnloadTexture(normalTowerTexture);
+    UnloadTexture(normalTowerHoverTexture);
+    UnloadTexture(slowTowerTexture);
+    UnloadTexture(slowTowerHoverTexture);
+
 
     delete buttonTower1;
     delete buttonTower2;
@@ -55,9 +63,9 @@ UI::~UI() {                                                                     
 
 void UI::loadButtons() {                                                                                        // Function to load the buttons
     loadTextures();
-    buttonTower1 = new Button(1420, 250, 400, 120, buttonTexture1, buttonHoverTexture1, "BASIC TOWER");
-    buttonTower2 = new Button(1420, 420, 400, 120, buttonTexture2, buttonHoverTexture2, "NORMAL TOWER");
-    buttonTower3 = new Button(1420, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "SLOW TOWER");
+    buttonTower1 = new Button(1420, 250, 400, 120, basicTowerTexture, basicTowerHoverTexture, "BASIC TOWER");
+    buttonTower2 = new Button(1420, 420, 400, 120, normalTowerTexture, normalTowerHoverTexture, "NORMAL TOWER");
+    buttonTower3 = new Button(1420, 600, 400, 120, slowTowerTexture, slowTowerHoverTexture, "SLOW TOWER");
     buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
 }
 
@@ -68,6 +76,12 @@ void UI::loadTextures() {                                                       
     buttonHoverTexture2 = LoadTexture("assets/images/buttonHover.png");
     buttonTexture3 = LoadTexture("assets/images/button.png");
     buttonHoverTexture3 = LoadTexture("assets/images/buttonHover.png");
+    basicTowerTexture = LoadTexture("assets/images/basicTowerButton.png");
+    basicTowerHoverTexture = LoadTexture("assets/images/basicTowerButtonHover.png");
+    normalTowerTexture = LoadTexture("assets/images/normalTowerButton.png");
+    normalTowerHoverTexture = LoadTexture("assets/images/normalTowerButtonHover.png");
+    slowTowerTexture = LoadTexture("assets/images/slowTowerButton.png");
+    slowTowerHoverTexture = LoadTexture("assets/images/slowTowerButtonHover.png");
 }
 
 void UI::drawGameButtons(int money) {                                                                           // Function to draw the game buttons
@@ -84,17 +98,17 @@ void UI::drawGameButtons(int money) {                                           
     buttonTower3->drawButton();
     buttonCloseGame->drawButton();
 
-    if(buttonTower1Active) DrawText("COST: 200", 1450, 315, 20, BLACK);
-    if(buttonTower2Active) DrawText("COST: 400", 1450, 485, 20, BLACK);
-    if(buttonTower3Active) DrawText("COST: 500", 1450, 665, 20, BLACK);
+    if(buttonTower1Active) DrawText("COST: 200", 1450, 325, 20, BLACK);
+    if(buttonTower2Active) DrawText("COST: 400", 1450, 495, 20, BLACK);
+    if(buttonTower3Active) DrawText("COST: 500", 1450, 675, 20, BLACK);
 
     DrawText("SCORE", 500, 950, 30, BLACK);
     DrawText("MONEY", 800, 950, 30, BLACK);
     DrawText("LIVES", 1100, 950, 30, BLACK);
 
-    if (!buttonTower1Active) DrawText("NOT ENOUGH MONEY", 1450, 320, 20, RED);
-    if (!buttonTower2Active) DrawText("NOT ENOUGH MONEY", 1450, 490, 20, RED);
-    if (!buttonTower3Active) DrawText("NOT ENOUGH MONEY", 1450, 670, 20, RED);
+    if (!buttonTower1Active) DrawText("NOT ENOUGH MONEY", 1450, 340, 20, RED);
+    if (!buttonTower2Active) DrawText("NOT ENOUGH MONEY", 1450, 510, 20, RED);
+    if (!buttonTower3Active) DrawText("NOT ENOUGH MONEY", 1450, 690, 20, RED);
 }
 
 void UI::updateButtons(int money) {                                                                             // Function to update the buttons based on the money

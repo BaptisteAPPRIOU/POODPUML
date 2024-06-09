@@ -6,7 +6,7 @@ using namespace std;
 
 MediumEnemy::MediumEnemy(Vector3 position, int index_chosen) {                                  // Constructor for the medium enemy
     enemy = LoadModel("assets/models/enemy.obj");
-    textureEnemy = LoadTexture("assets/textures/texture_enemy2.png");
+    textureEnemy = LoadTexture("assets/textures/texture_mediumEnemy.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
     index = 0;
     enemyPosition = position;

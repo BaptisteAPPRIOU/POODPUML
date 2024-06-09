@@ -6,7 +6,7 @@ using namespace std;
 
 HardEnemy::HardEnemy(Vector3 position, int index_chosen) {                                    // Constructor for the hard enemy
     enemy = LoadModel("assets/models/enemy.obj");
-    textureEnemy = LoadTexture("assets/textures/texture_enemy3.png");
+    textureEnemy = LoadTexture("assets/textures/texture_hardEnemy.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
     index = 0;
     enemyPosition = position;

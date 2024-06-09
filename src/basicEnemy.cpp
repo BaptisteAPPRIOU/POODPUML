@@ -5,7 +5,7 @@
 using namespace std;
 
 BasicEnemy::BasicEnemy(Vector3 position, int index_chosen) {                                                  // Constructor
-    enemy = LoadModel("assets/models/basicEnemy.obj");
+    enemy = LoadModel("assets/models/enemy.obj");
     textureEnemy = LoadTexture("assets/textures/texture_basicEnemy.png");
     enemy.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureEnemy;
     index = 0;
