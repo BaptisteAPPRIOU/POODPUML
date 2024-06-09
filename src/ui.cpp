@@ -24,8 +24,10 @@ UI::UI(): username(""){                                                         
 
     backgroundImage = LoadImage("assets/images/background.png");
     backgroundCredits = LoadImage("assets/images/backgroundCredits.png");
+    backgroundLeaderboard = LoadImage("assets/images/backgroundLeaderboard.png");
     backgroundTexture = LoadTextureFromImage(backgroundImage);
     backgroundCreditsTexture = LoadTextureFromImage(backgroundCredits);
+    backgroundLeaderboardTexture = LoadTextureFromImage(backgroundLeaderboard);
 }
 
 UI::~UI() {                                                                                                     // Destructor for the UI class
@@ -183,9 +185,9 @@ void UI::drawCredits(){                                                         
 }
 
 void UI::drawLeaderboard(){                                                                                     // Function to draw the leaderboard
+    DrawTexture(backgroundLeaderboardTexture, 0, 0, WHITE);
     buttonBackLeaderboard->update(GetMousePosition());
     buttonBackLeaderboard->drawButton();
-    DrawText("LEADERBOARD", 700, 100, 50, BLACK);
     
     Leaderboard leaderboard; 
 
