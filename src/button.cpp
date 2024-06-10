@@ -48,4 +48,3 @@ void Button::drawButton() {                                                     
 void Button::setText(const char* text) {                                                                    // Function to set the text of the button
     this->text = text;
 }
-

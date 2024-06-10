@@ -1,7 +1,7 @@
 #include "ui.hpp"
 #include <iostream>
 
-UI::UI(): username(""), sfxOn(true), musicOn(true){                                                                                         // Constructor for the UI class
+UI::UI(): sfxOn(true), musicOn(true), username(""){                                                                                         // Constructor for the UI class
     loadTextures();
     loadMusic();
     buttonTower1 = new Button(1420, 250, 400, 120, basicTowerTexture, basicTowerHoverTexture, "BASIC TOWER");
@@ -134,7 +134,6 @@ void UI::drawGameButtons(int money) {                                           
 void UI::updateButtons(int money) {                                                                             // Function to update the buttons based on the money
     Vector2 mousePoint = GetMousePosition();
     if (buttonTower1->isClicked(mousePoint)) {
-        PlaySound(buttonClick);
         selectedTowerType = "basic";
         selectedTowerCost = 200;
         placingTower = true;
@@ -142,7 +141,6 @@ void UI::updateButtons(int money) {                                             
         notify(EventType::TOWER_CREATION);
     }
     else if (buttonTower2->isClicked(mousePoint)) {
-        PlaySound(buttonClick);
         selectedTowerType = "normal";
         selectedTowerCost = 400;
         placingTower = true;
@@ -150,7 +148,6 @@ void UI::updateButtons(int money) {                                             
         notify(EventType::TOWER_CREATION);
     }
     else if (buttonTower3->isClicked(mousePoint)) {
-        PlaySound(buttonClick);
         selectedTowerType = "slow";
         selectedTowerCost = 500;
         placingTower = true;
@@ -344,7 +341,7 @@ void UI::drawInputTextBox() {                                                   
     std::cout << "Current username: " << username << std::endl;
 }
 
-void UI::loadMusic() {
+void UI::loadMusic() {                                                                                          // Function to load the music
     static bool audioDeviceInitialized = false;
     if (!audioDeviceInitialized) {
         InitAudioDevice();
@@ -352,11 +349,10 @@ void UI::loadMusic() {
     }
     backgroundMusic = LoadMusicStream("assets/sounds/backgroundMusic.mp3");
     buttonClick = LoadSound("assets/sounds/click.mp3");
-    PlayMusicStream(backgroundMusic); // Play the music stream when loaded
+    PlayMusicStream(backgroundMusic); 
 }
 
-
-void UI::updateMusic() {
+void UI::updateMusic() {                                                                                        // Function to update the music
     UpdateMusicStream(backgroundMusic);
 
     if (!musicOn) {

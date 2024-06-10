@@ -23,8 +23,8 @@ public:                                                                 // Publi
     void drawGameWin(int finalScore);
     void loadMusic();
     void updateMusic();
-    bool musicOn;
     bool sfxOn;
+    bool musicOn;
 
     void drawGameButtons(int money);
     void updateButtons(int money);
