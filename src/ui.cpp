@@ -21,7 +21,7 @@ UI::UI(): sfxOn(true), musicOn(true), username(""){                             
     buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
     buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
     buttonBackGameWin = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
-    buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture, buttonHoverTexture, "X");
+    buttonCloseGame = new Button(1850, 50, 50, 50, buttonTexture, buttonHoverTexture, "X");
     buttonSfx = new Button(700, 200, 400, 120, buttonTexture, buttonHoverTexture, "ON");
     buttonMusic = new Button(700, 350, 400, 120, buttonTexture, buttonHoverTexture, "ON");
 
@@ -234,18 +234,6 @@ void UI::drawMainMenu(){                                                        
     buttonCredits->drawButton();
     buttonOptions->drawButton();
     buttonQuit->drawButton();
-    Vector2 mousePoint = GetMousePosition();
-    if(buttonStart->isClicked(mousePoint) && sfxOn){
-        PlaySound(buttonClick);
-    } else if(buttonLeaderboard->isClicked(mousePoint)){
-        PlaySound(buttonClick);
-    } else if(buttonCredits->isClicked(mousePoint)){
-        PlaySound(buttonClick);
-    } else if(buttonOptions->isClicked(mousePoint)){
-        PlaySound(buttonClick);
-    } else if(buttonQuit->isClicked(mousePoint)){
-        PlaySound(buttonClick);
-    }
 }
 
 void UI::drawDifficultyMenu(){                                                                                  // Function to draw the difficulty menu

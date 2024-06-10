@@ -16,6 +16,9 @@ GameManager::GameManager(string difficulty_chosen)
     map.loadModelsTextures();
     ui.loadButtons();
 
+    statisticBackground = LoadImage("assets/images/stats.png");
+    textureStatisticBackground = LoadTextureFromImage(statisticBackground);
+
     setDifficulty(difficulty_chosen);
     camera.position = cameraPosition;
     camera.target = cameraTarget;
@@ -77,10 +80,10 @@ void GameManager::initializeWaves() {
     } else if (difficulty == "medium") {
         cout << "Medium waves and medium enemies" << endl;
         waves = {
-            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
-            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
-            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
-            {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},        
+            {4, "basic"},{4, "medium"},{4, "medium"},{4, "hard"},{4, "medium"},
+            // {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
+            // {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},
+            // {4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},{4, "medium"},        
         };
     } else if (difficulty == "hard") {
         cout << "Hard waves and hard enemies" << endl;
@@ -207,6 +210,7 @@ void GameManager::draw() {                                                      
         BeginDrawing();
         updateCamera();
         ClearBackground(WHITE);
+        DrawTexture(textureStatisticBackground, 1420, 780, WHITE);
 
         BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
         ClearBackground(LIGHTGRAY);
@@ -234,11 +238,11 @@ void GameManager::draw() {                                                      
         DrawRectangleLines(regionX, regionY, regionWidth, regionHeight, BLACK);
         ui.drawGameButtons(money);
 
-        DrawText(TextFormat("SCORE: %d", score), 500, 950, 30, BLACK);
-        DrawText(TextFormat("MONEY: %d", money), 800, 950, 30, BLACK);
-        DrawText(TextFormat("LIVES: %d", lives), 1100, 950, 30, BLACK);
-        DrawText(TextFormat("ENEMIES: %d", enemiesRemaining), 550, 1000, 30, BLACK);
-        DrawText(TextFormat("WAVES: %d", waveRemaining), 850, 1000, 30, BLACK);
+        DrawText(TextFormat("SCORE: %d", score), 1650, 200, 30, BLACK);
+        DrawText(TextFormat("MONEY: %d", money), 1450, 800, 30, BLACK);
+        DrawText(TextFormat("LIVES: %d", lives), 1450, 840, 30, BLACK);
+        DrawText(TextFormat("ENEMIES: %d", enemiesRemaining), 1450, 920, 30, BLACK);
+        DrawText(TextFormat("WAVES: %d", waveRemaining), 1450, 880, 30, BLACK);
         int minutes = static_cast<int>(elapsedTime) / 60;
         int seconds = static_cast<int>(elapsedTime) % 60;
         DrawText(TextFormat("TIME: %02d:%02d", minutes, seconds), 1400, 200, 30, BLACK);

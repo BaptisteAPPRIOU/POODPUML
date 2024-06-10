@@ -58,6 +58,8 @@ class GameManager : public Observer                                             
         int enemyCount = 0; // Add on claass diagram
         float elapsedTime; 
         bool timerStarted;
+        Image statisticBackground;
+        Texture2D textureStatisticBackground;
 
         string difficulty = "";
     public:
