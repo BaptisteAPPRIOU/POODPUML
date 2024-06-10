@@ -26,10 +26,14 @@ UI::UI(): username(""){                                                         
     backgroundCredits = LoadImage("assets/images/backgroundCredits.png");
     backgroundLeaderboard = LoadImage("assets/images/backgroundLeaderboard.png");
     backgroundDifficulty = LoadImage("assets/images/backgroundDifficulty.png");
+    backgroundGameOver = LoadImage("assets/images/backgroundGameOver.png");
+    backgroundGameWin = LoadImage("assets/images/backgroundGameWin.png");
     backgroundTexture = LoadTextureFromImage(backgroundImage);
     backgroundCreditsTexture = LoadTextureFromImage(backgroundCredits);
     backgroundLeaderboardTexture = LoadTextureFromImage(backgroundLeaderboard);
     backgroundDifficultyTexture = LoadTextureFromImage(backgroundDifficulty);
+    backgroundGameOverTexture = LoadTextureFromImage(backgroundGameOver);
+    backgroundGameWinTexture = LoadTextureFromImage(backgroundGameWin);
 }
 
 UI::~UI() {                                                                                                     // Destructor for the UI class
@@ -45,7 +49,18 @@ UI::~UI() {                                                                     
     UnloadTexture(normalTowerHoverTexture);
     UnloadTexture(slowTowerTexture);
     UnloadTexture(slowTowerHoverTexture);
-
+    UnloadTexture(backgroundTexture);
+    UnloadTexture(backgroundCreditsTexture);
+    UnloadTexture(backgroundLeaderboardTexture);
+    UnloadTexture(backgroundDifficultyTexture);
+    UnloadTexture(backgroundGameOverTexture);
+    UnloadTexture(backgroundGameWinTexture);
+    UnloadImage(backgroundImage);
+    UnloadImage(backgroundCredits);
+    UnloadImage(backgroundLeaderboard);
+    UnloadImage(backgroundDifficulty);
+    UnloadImage(backgroundGameOver);
+    UnloadImage(backgroundGameWin);
 
     delete buttonTower1;
     delete buttonTower2;
@@ -72,7 +87,7 @@ void UI::loadButtons() {                                                        
     buttonTower1 = new Button(1420, 250, 400, 120, basicTowerTexture, basicTowerHoverTexture, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, normalTowerTexture, normalTowerHoverTexture, "NORMAL TOWER");
     buttonTower3 = new Button(1420, 600, 400, 120, slowTowerTexture, slowTowerHoverTexture, "SLOW TOWER");
-    buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
+    buttonCloseGame = new Button(1850, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
 }
 
 void UI::loadTextures() {                                                                                       // Function to load the textures
@@ -242,13 +257,11 @@ void UI::drawOptions(){                                                         
 }
 
 void UI::drawGameOver(int finalScore){                                                                          // Function to draw the game over screen                 
-    ClearBackground(RAYWHITE);
-    DrawText("GAME OVER", 700, 100, 50, BLACK);
-    DrawText("YOU LOSE", 700, 200, 30, BLACK);
+    DrawTexture(backgroundGameOverTexture, 0, 0, WHITE);
     DrawText("ENTER YOUR USERNAME AND PRESS ENTER:", 700, 300, 30, BLACK);
     
     drawInputTextBox();
-    DrawText(TextFormat("SCORE: %d", finalScore), 700, 400, 30, BLACK);
+    DrawText(TextFormat("SCORE: %d", finalScore), 700, 500, 30, BLACK);
 
     buttonBackGameOver->update(GetMousePosition());
     buttonBackGameOver->drawButton();
@@ -262,12 +275,11 @@ void UI::drawGameOver(int finalScore){                                          
 }
 
 void UI::drawGameWin(int finalScore){                                                                           // Function to draw the game win screen                
-    ClearBackground(RAYWHITE);
-    DrawText("YOU WON", 700, 200, 30, BLACK);
+    DrawTexture(backgroundGameWinTexture, 0, 0, WHITE);
     DrawText("ENTER YOUR USERNAME AND PRESS ENTER:", 700, 300, 30, BLACK);
     
     drawInputTextBox();
-    DrawText(TextFormat("SCORE: %d", finalScore), 700, 400, 30, BLACK);
+    DrawText(TextFormat("SCORE: %d", finalScore), 700, 500, 30, BLACK);
 
     buttonBackGameWin->update(GetMousePosition());
     buttonBackGameWin->drawButton();
@@ -284,8 +296,8 @@ void UI::drawInputTextBox() {                                                   
     int textBoxWidth = 500;
     int textBoxHeight = 40;
     int textBoxX = (GetScreenWidth() - textBoxWidth) / 2;
-    int textBoxY = 500;
-    DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, LIGHTGRAY);
+    int textBoxY = 400;
+    DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, WHITE);
 
     DrawText(username.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);                                          // Draw the updated username input string
 

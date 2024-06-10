@@ -69,7 +69,7 @@ void GameManager::initializeWaves() {
     if (difficulty == "easy") {
         cout << "Easy waves and easy enemies" << endl;
         waves = {
-            {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},
+            {3, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},
             {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},
             {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},
             {2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},{2, "basic"},        
@@ -206,9 +206,10 @@ void GameManager::draw() {                                                      
 
         BeginDrawing();
         updateCamera();
-        ClearBackground(RAYWHITE);
+        ClearBackground(WHITE);
 
         BeginScissorMode(regionX, regionY, regionWidth, regionHeight);
+        ClearBackground(LIGHTGRAY);
         BeginMode3D(camera);
         for (Enemy* enemy : enemies) {                                                                              // Draw enemies
             enemy->move(path);
@@ -225,7 +226,7 @@ void GameManager::draw() {                                                      
             projectile->draw();
         }
         map.drawMap(path);
-        DrawGrid(100, 1.0f);
+        // DrawGrid(100, 1.0f);
         EndMode3D();
         EndScissorMode();
 
