@@ -28,12 +28,14 @@ UI::UI(): username(""){                                                         
     backgroundDifficulty = LoadImage("assets/images/backgroundDifficulty.png");
     backgroundGameOver = LoadImage("assets/images/backgroundGameOver.png");
     backgroundGameWin = LoadImage("assets/images/backgroundGameWin.png");
+    backgroundOptions = LoadImage("assets/images/backgroundOptions.png");
     backgroundTexture = LoadTextureFromImage(backgroundImage);
     backgroundCreditsTexture = LoadTextureFromImage(backgroundCredits);
     backgroundLeaderboardTexture = LoadTextureFromImage(backgroundLeaderboard);
     backgroundDifficultyTexture = LoadTextureFromImage(backgroundDifficulty);
     backgroundGameOverTexture = LoadTextureFromImage(backgroundGameOver);
     backgroundGameWinTexture = LoadTextureFromImage(backgroundGameWin);
+    backgroundOptionsTexture = LoadTextureFromImage(backgroundOptions);
 }
 
 UI::~UI() {                                                                                                     // Destructor for the UI class
@@ -122,10 +124,6 @@ void UI::drawGameButtons(int money) {                                           
     if(buttonTower1Active) DrawText("COST: 200", 1450, 325, 20, BLACK);
     if(buttonTower2Active) DrawText("COST: 400", 1450, 495, 20, BLACK);
     if(buttonTower3Active) DrawText("COST: 500", 1450, 675, 20, BLACK);
-
-    DrawText("SCORE", 500, 950, 30, BLACK);
-    DrawText("MONEY", 800, 950, 30, BLACK);
-    DrawText("LIVES", 1100, 950, 30, BLACK);
 
     if (!buttonTower1Active) DrawText("NOT ENOUGH MONEY", 1450, 340, 20, RED);
     if (!buttonTower2Active) DrawText("NOT ENOUGH MONEY", 1450, 510, 20, RED);
@@ -249,6 +247,7 @@ void UI::drawDifficultyMenu(){                                                  
 }
 
 void UI::drawOptions(){                                                                                         // Function to draw the options
+    DrawTexture(backgroundOptionsTexture, 0, 0, WHITE);
     buttonBackOptions->update(GetMousePosition());
     buttonBackOptions->drawButton();
     DrawText("OPTIONS", 700, 100, 50, BLACK);

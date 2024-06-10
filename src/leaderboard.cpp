@@ -1,6 +1,5 @@
 #include "leaderboard.hpp"
 #include <filesystem>
-#include <vector>
 #include <algorithm>
 #include <sstream>
 

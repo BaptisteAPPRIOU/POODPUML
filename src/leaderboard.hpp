@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 class Leaderboard                                                                   // Leaderboard class                            
 {
@@ -16,7 +17,6 @@ public:                                                                         
 
     void saveToTxt() const;
     void reorderLeaderboard();
-    static void displayLeaderboard();
     std::vector<std::pair<std::string, int>> loadFromTxt() const;
 
 private:                                                                            // Private members  
