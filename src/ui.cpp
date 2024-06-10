@@ -1,26 +1,29 @@
 #include "ui.hpp"
 #include <iostream>
 
-UI::UI(): username(""){                                                                                         // Constructor for the UI class
+UI::UI(): username(""), sfxOn(true), musicOn(true){                                                                                         // Constructor for the UI class
     loadTextures();
+    loadMusic();
     buttonTower1 = new Button(1420, 250, 400, 120, basicTowerTexture, basicTowerHoverTexture, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, normalTowerTexture, normalTowerHoverTexture, "NORMAL TOWER");
     buttonTower3 = new Button(1420, 600, 400, 120, slowTowerTexture, slowTowerHoverTexture, "SLOW TOWER");
-    buttonStart = new Button(1450, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "START");
-    buttonLeaderboard = new Button(1450, 350, 400, 120, buttonTexture2, buttonHoverTexture2, "LEADERBOARD");
-    buttonCredits = new Button(1450, 500, 400, 120, buttonTexture3, buttonHoverTexture3, "CREDITS");
-    buttonOptions = new Button(1450, 650, 400, 120, buttonTexture3, buttonHoverTexture3, "OPTIONS");
-    buttonQuit = new Button(1450, 800, 400, 120, buttonTexture1, buttonHoverTexture1, "QUIT");
-    buttonBackLeaderboard = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
-    buttonBackCredits = new Button(700, 850, 400, 120, buttonTexture2, buttonHoverTexture2, "BACK");
-    buttonBackOptions = new Button(700, 850, 400, 120, buttonTexture3, buttonHoverTexture3, "BACK");
-    buttonEasy = new Button(700, 200, 400, 120, buttonTexture1, buttonHoverTexture1, "EASY");
-    buttonMedium = new Button(700, 400, 400, 120, buttonTexture2, buttonHoverTexture2, "MEDIUM");
-    buttonHard = new Button(700, 600, 400, 120, buttonTexture3, buttonHoverTexture3, "HARD");
-    buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture3, buttonHoverTexture3, "BACK");
-    buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
-    buttonBackGameWin = new Button(700, 850, 400, 120, buttonTexture1, buttonHoverTexture1, "BACK");
-    buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
+    buttonStart = new Button(1450, 200, 400, 120, buttonTexture, buttonHoverTexture, "START");
+    buttonLeaderboard = new Button(1450, 350, 400, 120, buttonTexture, buttonHoverTexture, "LEADERBOARD");
+    buttonCredits = new Button(1450, 500, 400, 120, buttonTexture, buttonHoverTexture, "CREDITS");
+    buttonOptions = new Button(1450, 650, 400, 120, buttonTexture, buttonHoverTexture, "OPTIONS");
+    buttonQuit = new Button(1450, 800, 400, 120, buttonTexture, buttonHoverTexture, "QUIT");
+    buttonBackLeaderboard = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
+    buttonBackCredits = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
+    buttonBackOptions = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
+    buttonEasy = new Button(700, 200, 400, 120, buttonTexture, buttonHoverTexture, "EASY");
+    buttonMedium = new Button(700, 400, 400, 120, buttonTexture, buttonHoverTexture, "MEDIUM");
+    buttonHard = new Button(700, 600, 400, 120, buttonTexture, buttonHoverTexture, "HARD");
+    buttonBackDifficulty = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
+    buttonBackGameOver = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
+    buttonBackGameWin = new Button(700, 850, 400, 120, buttonTexture, buttonHoverTexture, "BACK");
+    buttonCloseGame = new Button(150, 50, 50, 50, buttonTexture, buttonHoverTexture, "X");
+    buttonSfx = new Button(700, 200, 400, 120, buttonTexture, buttonHoverTexture, "ON");
+    buttonMusic = new Button(700, 350, 400, 120, buttonTexture, buttonHoverTexture, "ON");
 
     backgroundImage = LoadImage("assets/images/background.png");
     backgroundCredits = LoadImage("assets/images/backgroundCredits.png");
@@ -36,15 +39,13 @@ UI::UI(): username(""){                                                         
     backgroundGameOverTexture = LoadTextureFromImage(backgroundGameOver);
     backgroundGameWinTexture = LoadTextureFromImage(backgroundGameWin);
     backgroundOptionsTexture = LoadTextureFromImage(backgroundOptions);
+
+    PlayMusicStream(backgroundMusic);
 }
 
 UI::~UI() {                                                                                                     // Destructor for the UI class
-    UnloadTexture(buttonTexture1);
-    UnloadTexture(buttonHoverTexture1);
-    UnloadTexture(buttonTexture2);
-    UnloadTexture(buttonHoverTexture2);
-    UnloadTexture(buttonTexture3);
-    UnloadTexture(buttonHoverTexture3);
+    UnloadTexture(buttonTexture);
+    UnloadTexture(buttonHoverTexture);
     UnloadTexture(basicTowerTexture);
     UnloadTexture(basicTowerHoverTexture);
     UnloadTexture(normalTowerTexture);
@@ -82,6 +83,10 @@ UI::~UI() {                                                                     
     delete buttonBackGameOver;
     delete buttonCloseGame;
     delete buttonBackGameWin;
+
+    UnloadMusicStream(backgroundMusic);
+    UnloadSound(buttonClick);
+    CloseAudioDevice();
 }
 
 void UI::loadButtons() {                                                                                        // Function to load the buttons
@@ -89,16 +94,12 @@ void UI::loadButtons() {                                                        
     buttonTower1 = new Button(1420, 250, 400, 120, basicTowerTexture, basicTowerHoverTexture, "BASIC TOWER");
     buttonTower2 = new Button(1420, 420, 400, 120, normalTowerTexture, normalTowerHoverTexture, "NORMAL TOWER");
     buttonTower3 = new Button(1420, 600, 400, 120, slowTowerTexture, slowTowerHoverTexture, "SLOW TOWER");
-    buttonCloseGame = new Button(1850, 50, 50, 50, buttonTexture2, buttonHoverTexture2, "X");
+    buttonCloseGame = new Button(1850, 50, 50, 50, buttonTexture, buttonHoverTexture, "X");
 }
 
 void UI::loadTextures() {                                                                                       // Function to load the textures
-    buttonTexture1 = LoadTexture("assets/images/button.png");
-    buttonHoverTexture1 = LoadTexture("assets/images/buttonHover.png");
-    buttonTexture2 = LoadTexture("assets/images/button.png");
-    buttonHoverTexture2 = LoadTexture("assets/images/buttonHover.png");
-    buttonTexture3 = LoadTexture("assets/images/button.png");
-    buttonHoverTexture3 = LoadTexture("assets/images/buttonHover.png");
+    buttonTexture = LoadTexture("assets/images/button.png");
+    buttonHoverTexture = LoadTexture("assets/images/buttonHover.png");
     basicTowerTexture = LoadTexture("assets/images/basicTowerButton.png");
     basicTowerHoverTexture = LoadTexture("assets/images/basicTowerButtonHover.png");
     normalTowerTexture = LoadTexture("assets/images/normalTowerButton.png");
@@ -133,6 +134,7 @@ void UI::drawGameButtons(int money) {                                           
 void UI::updateButtons(int money) {                                                                             // Function to update the buttons based on the money
     Vector2 mousePoint = GetMousePosition();
     if (buttonTower1->isClicked(mousePoint)) {
+        PlaySound(buttonClick);
         selectedTowerType = "basic";
         selectedTowerCost = 200;
         placingTower = true;
@@ -140,6 +142,7 @@ void UI::updateButtons(int money) {                                             
         notify(EventType::TOWER_CREATION);
     }
     else if (buttonTower2->isClicked(mousePoint)) {
+        PlaySound(buttonClick);
         selectedTowerType = "normal";
         selectedTowerCost = 400;
         placingTower = true;
@@ -147,6 +150,7 @@ void UI::updateButtons(int money) {                                             
         notify(EventType::TOWER_CREATION);
     }
     else if (buttonTower3->isClicked(mousePoint)) {
+        PlaySound(buttonClick);
         selectedTowerType = "slow";
         selectedTowerCost = 500;
         placingTower = true;
@@ -154,6 +158,7 @@ void UI::updateButtons(int money) {                                             
         notify(EventType::TOWER_CREATION);
     }
     if (buttonCloseGame->isClicked(mousePoint)) {
+        PlaySound(buttonClick);
         std::cout << "Close Game clicked" << std::endl;
         notify(EventType::GAME_CLOSE);
     }
@@ -232,6 +237,18 @@ void UI::drawMainMenu(){                                                        
     buttonCredits->drawButton();
     buttonOptions->drawButton();
     buttonQuit->drawButton();
+    Vector2 mousePoint = GetMousePosition();
+    if(buttonStart->isClicked(mousePoint) && sfxOn){
+        PlaySound(buttonClick);
+    } else if(buttonLeaderboard->isClicked(mousePoint)){
+        PlaySound(buttonClick);
+    } else if(buttonCredits->isClicked(mousePoint)){
+        PlaySound(buttonClick);
+    } else if(buttonOptions->isClicked(mousePoint)){
+        PlaySound(buttonClick);
+    } else if(buttonQuit->isClicked(mousePoint)){
+        PlaySound(buttonClick);
+    }
 }
 
 void UI::drawDifficultyMenu(){                                                                                  // Function to draw the difficulty menu
@@ -250,9 +267,26 @@ void UI::drawOptions(){                                                         
     DrawTexture(backgroundOptionsTexture, 0, 0, WHITE);
     buttonBackOptions->update(GetMousePosition());
     buttonBackOptions->drawButton();
-    DrawText("OPTIONS", 700, 100, 50, BLACK);
-    DrawText("SOUND", 700, 200, 30, BLACK);
-    DrawText("MUSIC", 700, 250, 30, BLACK);
+    buttonSfx->update(GetMousePosition());
+    buttonMusic->update(GetMousePosition());
+    buttonSfx->drawButton();
+    buttonMusic->drawButton();
+    DrawText("SFX", 550, 250, 30, BLACK);
+    DrawText("MUSIC", 550, 400, 30, BLACK);
+    Vector2 mousePoint = GetMousePosition();
+
+    if (buttonSfx->isClicked(mousePoint)) {
+        sfxOn = !sfxOn;
+        buttonSfx->setText(sfxOn ? "ON" : "OFF");
+        PlaySound(buttonClick);
+    }
+
+    if (buttonMusic->isClicked(mousePoint)) {
+        musicOn = !musicOn;
+        buttonMusic->setText(musicOn ? "ON" : "OFF");
+        updateMusic();
+        if (sfxOn) PlaySound(buttonClick);
+    }
 }
 
 void UI::drawGameOver(int finalScore){                                                                          // Function to draw the game over screen                 
@@ -308,4 +342,26 @@ void UI::drawInputTextBox() {                                                   
         username.pop_back();
     }
     std::cout << "Current username: " << username << std::endl;
+}
+
+void UI::loadMusic() {
+    static bool audioDeviceInitialized = false;
+    if (!audioDeviceInitialized) {
+        InitAudioDevice();
+        audioDeviceInitialized = true;
+    }
+    backgroundMusic = LoadMusicStream("assets/sounds/backgroundMusic.mp3");
+    buttonClick = LoadSound("assets/sounds/click.mp3");
+    PlayMusicStream(backgroundMusic); // Play the music stream when loaded
+}
+
+
+void UI::updateMusic() {
+    UpdateMusicStream(backgroundMusic);
+
+    if (!musicOn) {
+        PauseMusicStream(backgroundMusic);
+    } else {
+        ResumeMusicStream(backgroundMusic);
+    }
 }

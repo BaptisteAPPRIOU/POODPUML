@@ -21,6 +21,10 @@ public:                                                                 // Publi
     void drawOptions();
     void drawGameOver(int finalScore);
     void drawGameWin(int finalScore);
+    void loadMusic();
+    void updateMusic();
+    bool musicOn;
+    bool sfxOn;
 
     void drawGameButtons(int money);
     void updateButtons(int money);
@@ -51,17 +55,17 @@ public:                                                                 // Publi
     Button* buttonBackGameOver;
     Button* buttonBackGameWin;
     Button* buttonCloseGame;
+    Button* buttonSfx;
+    Button* buttonMusic;
+    Music backgroundMusic;
+    Sound buttonClick;
 
     Menu* menu;
     Leaderboard leaderboard;
 
 private:                                                                // Private members      
-    Texture2D buttonTexture1;
-    Texture2D buttonHoverTexture1;
-    Texture2D buttonTexture2;
-    Texture2D buttonHoverTexture2;
-    Texture2D buttonTexture3;
-    Texture2D buttonHoverTexture3;
+    Texture2D buttonTexture;
+    Texture2D buttonHoverTexture;
     Texture2D backgroundTexture;
     Texture2D backgroundCreditsTexture;
     Texture2D backgroundLeaderboardTexture;

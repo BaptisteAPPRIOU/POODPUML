@@ -16,6 +16,7 @@ public:                                                                         
     void drawButton();                                                                                   // Function to draw the button
     void update(Vector2 mousePoint);                                                                    
     bool isClicked(Vector2 mousePoint);
+    void setText(const char* text);
     ~Button();                                                                                          // Destructor
 };
 

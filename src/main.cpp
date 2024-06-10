@@ -15,6 +15,7 @@ int main() {
     ui.menu = &menu;                                                                // Set the menu of the UI
 
     while (!WindowShouldClose()) {
+        ui.updateMusic();
         if (!menu.isGameStarted) {                                                  // If the game is not started     
             menu.updateMenu();
             menu.drawMenu();

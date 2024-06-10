@@ -45,3 +45,7 @@ void Button::drawButton() {                                                     
     DrawText(buttonText, bounds.x + textSizeX, bounds.y + textSizeY, fontSize, BLACK);
 }
 
+void Button::setText(const char* text) {                                                                    // Function to set the text of the button
+    this->text = text;
+}
+
