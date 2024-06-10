@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/BaptisteAPPRIOU/POODPUML//assets/images/logo.png" alt="Tower Defense Game Logo" width= "200" height="200"/>
+  <img src="https://github.com/BaptisteAPPRIOU/POODPUML/assets/images/logo.png" alt="Tower Defense Game Logo" width= "200" height="200"/>
 </p>
 
 
