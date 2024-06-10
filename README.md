@@ -32,7 +32,6 @@ After each successful level, the player can choose an upgrade that will make the
 
 ## Installation
 
-1. Clone this repository:
 1. Clone this repository: https://github.com/BaptisteAPPRIOU/POODPUML.git
 2. Navigate to the game directory: cd POODPUML
 3. Run the game by executing main.cpp.
