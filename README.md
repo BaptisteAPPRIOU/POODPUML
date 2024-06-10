@@ -2,7 +2,6 @@
   <img src="https://github.com/BaptisteAPPRIOU/POODPUML/blob/main/assets/images/logo.png" alt="Tower Defense Game Logo" width= "200" height="200"/>
 </p>
 
-# POODPUML
 # Tower Defense Game
 Projet Tower defense game
 Requirements for the app: Installation of - raylib
