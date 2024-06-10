@@ -1,5 +1,3 @@
-# POODPUML
-Tower defense game in C++
 <p align="center">
   <img src="https://github.com/BaptisteAPPRIOU/POODPUML//assets/Images/.png" alt=""/>
 </p>
