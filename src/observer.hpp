@@ -7,7 +7,9 @@ using namespace std;
 enum class EventType {
     TOWER_CREATION,
     TILE_CLICKED,
-    ENEMY_IN_RANGE,
+    ENEMY_IN_RANGE_BT,
+    ENEMY_IN_RANGE_NT,
+    ENEMY_IN_RANGE_ST,
     TOWER_READY_TO_FIRE,
     ENEMY_OUT_OF_RANGE,
     GAME_CLOSE

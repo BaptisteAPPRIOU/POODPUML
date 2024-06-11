@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include <vector>
 #include <chrono>
+#include <string>
 #include "map.hpp"
 #include "enemy.hpp"
 #include "ui.hpp"
@@ -54,6 +55,7 @@ class GameManager : public Observer
         int score;
         int money;
         int lives;
+        int enemyCount = 0;
 
         float elapsedTime; 
         bool timerStarted;

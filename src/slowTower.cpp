@@ -33,8 +33,26 @@ void SlowTower::draw(Vector3 towerPosition) {
     );
 }
 
-void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void SlowTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {
+    for (Enemy* enemy : enemies) {
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+        float distance = Vector3Distance(enemyPosition, towerPosition);
+        if (distance <= range) {
+            enemyInRange = true;
+            timer += GetFrameTime();  // Increment the timer by the frame time
+
+            if (timer >= getFireRate()) {
+                Subject::notify(EventType::ENEMY_IN_RANGE_ST);  // Notify observers to fire
+                std::cout << "Firing projectile!" << std::endl;  // Debug print
+                timer = 0.0f;  // Reset the timer after firing
+            }
+            return; // Exit the loop if any enemy is in range
+        }
+    }
+    // If no enemy is in range
+    enemyInRange = false;
+    timer = 0.0f;  // Reset the timer if the enemy is out of range
+    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);  // Notify observers that the enemy is out of range
 }
 
 SlowTower::~SlowTower() {

@@ -35,8 +35,29 @@ void BasicTower::draw(Vector3 towerPosition) {                                  
     );
 }
 
-void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies, Vector3 enemyPosition) {         // Function to check if an enemy is in range
-    Tower::checkEnemyInRange(enemies, enemyPosition);
+void BasicTower::checkEnemyInRange(const std::vector<Enemy*>& enemies) {         // Function to check if an enemy is in range
+    for (Enemy* enemy : enemies) {
+        cout << "Checking enemy in range" << endl;
+        Vector3 enemyPosition = enemy->getEnemyPosition();
+        float distance = Vector3Distance(enemyPosition, towerPosition);
+        if (distance <= range) {
+            cout << "Enemy in range BASIC TOWER" << endl;
+            enemyInRange = true;
+            cout << enemyInRange << "Verification of condition" << endl;
+            timer += GetFrameTime();  
+
+            if (timer >= getFireRate()) {
+                Subject::notify(EventType::ENEMY_IN_RANGE_BT);  
+                // std::cout << "Firing projectile!" << std::endl;  
+                timer = 0.0f;  
+            }
+            return; 
+        }
+    }
+    // If no enemy is in range
+    enemyInRange = false;
+    timer = 0.0f;  
+    Subject::notify(EventType::ENEMY_OUT_OF_RANGE);  
 }
 
 BasicTower::~BasicTower() {                                                                             // Destructor
