@@ -29,8 +29,9 @@ After each successful level, the player can choose an upgrade that will make the
 ## Installation
 
 1. Clone this repository: https://github.com/BaptisteAPPRIOU/POODPUML.git
-2. Navigate to the game directory: cd POODPUML
-3. Run the game by executing main.cpp.
+2. Install the Raylib graphic library, following the tutorial https://www.youtube.com/watch?v=PaAcVk5jUd8
+3. Navigate to the game directory: cd POODPUML
+4. Run the game by executing main.cpp.
 
 
 ## Credits
