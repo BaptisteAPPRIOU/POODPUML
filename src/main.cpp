@@ -38,7 +38,7 @@ int main() {
             if(menu.gameManager->closeGame) {
                 menu.setGameState(MAIN_MENU);
                 menu.isGameStarted = false;
-                menu.resetGameManager("closed");
+                menu.resetGameManager("easy");
                 menu.resetUI();
             }
         }

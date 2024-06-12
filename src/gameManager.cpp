@@ -393,7 +393,8 @@ void GameManager::onNotify(EventType eventType) {                               
                 enemy->isChecked = false;
             }
             break;
-        } case EventType::GAME_CLOSE: {                                                                             // Check if the game is closed
+        }
+        case EventType::GAME_CLOSE: {                                                                             // Check if the game is closed
             std::cout << "Notification received: Game close" << std::endl;
             menu.setGameState(GameState::MAIN_MENU);
             closeGame = true;

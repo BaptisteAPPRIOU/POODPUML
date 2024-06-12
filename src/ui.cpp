@@ -154,7 +154,7 @@ void UI::updateButtons(int money) {                                             
         towerShopClicked = true;
         notify(EventType::TOWER_CREATION);
     }
-    if (buttonCloseGame->isClicked(mousePoint)) {
+    else if (buttonCloseGame->isClicked(mousePoint)) {
         PlaySound(buttonClick);
         std::cout << "Close Game clicked" << std::endl;
         notify(EventType::GAME_CLOSE);
